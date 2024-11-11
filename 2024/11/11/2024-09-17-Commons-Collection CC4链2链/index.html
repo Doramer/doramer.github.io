@@ -332,9 +332,9 @@ public int compare(final I obj1,">
 &#125;</code></pre>
 
 <p>继续查找谁的<code>readObject</code>调用了<code>compare</code>,后面查找到<code>PriorityQueue</code>类中<code>readObject</code>调用了<code>compare</code>方法</p>
-<p>![](\images\posts\Commons-Collection CC4链2链\1726548340115.jpg)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;Commons-Collection CC4链2链&#x2F;1726548340115.jpg)</p>
 <p>跟进<code>heapify</code>,再跟进<code>siftDown</code>,再跟进<code>siftDownUsingComparator</code>,在<code>siftDownUsingComparator</code>中调用的<code>compare</code>方法</p>
-<p>![](\images\posts\Commons-Collection CC4链2链\1726548417986.jpg)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;Commons-Collection CC4链2链&#x2F;1726548417986.jpg)</p>
 <p>链子就是:</p>
 <blockquote>
 <p>InstantiateTransformer.transform&lt;&#x3D;&#x3D;TransformingComparator.compare&lt;&#x3D;&#x3D;PriorityQueue.readObject</p>
@@ -406,7 +406,7 @@ public class CC4 &#123;
 </code></pre>
 
 <h3 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题:"></a>解决问题:</h3><p>未弹出计算器,<code>heapify</code>方法打断点调试,可以发现在<code>heapify</code>方法里面<code>size</code>为0,减一后变成了-1没有进入for循环,没有执行<code>siftDown</code>方法.</p>
-<p>![](\images\posts\Commons-Collection CC4链2链\1726549378671.jpg)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;Commons-Collection CC4链2链&#x2F;1726549378671.jpg)</p>
 <p>可以通过反射修改size的值</p>
 <h3 id="EXP1"><a href="#EXP1" class="headerlink" title="EXP1"></a>EXP1</h3><pre class="language-none"><code class="language-none">package org.example;
 
@@ -478,12 +478,12 @@ public class CC4 &#123;
 &#125;
 </code></pre>
 
-<p>![](\images\posts\Commons-Collection CC4链2链\1726549626486.jpg)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;Commons-Collection CC4链2链&#x2F;1726549626486.jpg)</p>
 <p>另外一种方法:<code>size</code>是<code>PriorityQueue</code>这个队列的长度</p>
-<p>![](\images\posts\Commons-Collection CC4链2链\1726550565576.jpg)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;Commons-Collection CC4链2链&#x2F;1726550565576.jpg)</p>
 <p>所以可以用<code>add</code>添加队列,但是add后也会调用到<code>compare</code>方法,导致在反序列化之前就在本地执行了</p>
 <p>跟进<code>add</code>&#x3D;&gt;<code>offer</code>&#x3D;&gt;<code>siftUp</code>&#x3D;&gt;<code>siftUpUsingComparator</code></p>
-<p>![](\images\posts\Commons-Collection CC4链2链\1726550853998.jpg)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;Commons-Collection CC4链2链&#x2F;1726550853998.jpg)</p>
 <p>所以在前面随便改一个值,<code>add</code>后又改回来就行</p>
 <pre class="language-none"><code class="language-none">ChainedTransformer chainedTransformer &#x3D; new ChainedTransformer(new ChainedTransformer&lt;&gt;());
         Class chainedClass &#x3D; chainedTransformer.getClass();
@@ -573,7 +573,7 @@ public class CC4 &#123;
     &#125;
 &#125;</code></pre>
 
-<p>![](\images\posts\Commons-Collection CC4链2链\1726551808546.jpg)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;Commons-Collection CC4链2链&#x2F;1726551808546.jpg)</p>
 <h1 id="CC2链"><a href="#CC2链" class="headerlink" title="CC2链"></a>CC2链</h1><h2 id="编写EXP-1"><a href="#编写EXP-1" class="headerlink" title="编写EXP"></a>编写EXP</h2><p>CC2和CC4差距不大,就是没有用<code>Transformer</code>数组,用<code>InvokerTransformer</code>直接连接,调用后面<code>templates</code> 对象的<code>newTransformer</code>方法	</p>
 <pre class="language-none"><code class="language-none">InvokerTransformer invokerTransformer &#x3D; new InvokerTransformer&lt;&gt;(&quot;newTransformer&quot;, new Class[]&#123;&#125;, new Object[]&#123;&#125;);</code></pre>
 
@@ -1031,7 +1031,7 @@ public class CC2 &#123;
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">50k</span>
+                        class="white-color">50.3k</span>
             
             
             

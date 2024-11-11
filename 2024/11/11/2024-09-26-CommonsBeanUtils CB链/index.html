@@ -290,7 +290,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    776
+                    784
                 </div>
                 
 
@@ -370,7 +370,7 @@
     tfactoryField.set(templates, new TransformerFactoryImpl());
     templates.newTransformer();</code></pre>
 
-<p>![](\images\posts\CommonsBeanUtils CB链\image-20240926182354328.png)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;CommonsBeanUtils CB链&#x2F;image-20240926182354328.png)</p>
 <p>在<code>TemplatesImpl</code>的<code>getOutputProperties</code>方法调用了<code>newTransformer</code>.而<code>newTransformer</code>符合<code>getProperty</code>调用的写法</p>
 <p>(加get,i将首字母大写).所以用<code>PropertyUtils.getProperty(templates,&quot;outputProperties&quot;);</code>直接去调用也可以直接执行命令</p>
 <pre class="language-none"><code class="language-none">   public static void main(String[] args) throws IllegalAccessException, IOException, NoSuchFieldException, TransformerConfigurationException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException &#123;
@@ -394,7 +394,7 @@
 
         PropertyUtils.getProperty(templates,&quot;outputProperties&quot;);</code></pre>
 
-<p>![](\images\posts\CommonsBeanUtils CB链\image-20240926213247711.png)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;CommonsBeanUtils CB链&#x2F;image-20240926213247711.png)</p>
 <p>继续查找调用<code>getProperty</code>.在<code>BeanComparator</code>中的<code>compare</code>方法调用了<code>getProperty</code>.这里找到<code>compare</code>是因为之前CC4链的<code>TransformingComparator</code>也调用了<code>compare</code>方法.是<code>PriorityQueue</code>的<code>readObject</code>调用的.后面的反射把值改回去就跟之前的CC2和CC4是一个意思.</p>
 <h1 id="EXP"><a href="#EXP" class="headerlink" title="EXP"></a>EXP</h1><pre class="language-Java" data-language="Java"><code class="language-Java">package org.example;
 
@@ -853,7 +853,7 @@ public class CB &#123;
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">50k</span>
+                        class="white-color">50.3k</span>
             
             
             

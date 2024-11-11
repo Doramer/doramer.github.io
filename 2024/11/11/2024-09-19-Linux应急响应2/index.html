@@ -333,30 +333,30 @@ last显示192.168.20.1也在登录,基本确定攻击者IP
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="解题"><a href="#解题" class="headerlink" title="解题"></a>解题</h1><h2 id="攻击者IP"><a href="#攻击者IP" class="headerlink" title="攻击者IP"></a>攻击者IP</h2><p><img src="/%5Cimages%5Cposts%5CLinux%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%942%5C1726665834303.jpg"></p>
+                <h1 id="解题"><a href="#解题" class="headerlink" title="解题"></a>解题</h1><h2 id="攻击者IP"><a href="#攻击者IP" class="headerlink" title="攻击者IP"></a>攻击者IP</h2><p><img src="/images/posts/Linux%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%942/1726665834303.jpg"></p>
 <p>查看网站日志,<code>192.168.20.1</code>一直扫</p>
-<p><img src="/%5Cimages%5Cposts%5CLinux%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%942%5C1726666180651.jpg"></p>
+<p><img src="/images/posts/Linux%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%942/1726666180651.jpg"></p>
 <p>last显示<code>192.168.20.1</code>也在登录,基本确定攻击者IP</p>
-<p><img src="/%5Cimages%5Cposts%5CLinux%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%942%5C1726666101310.jpg"></p>
+<p><img src="/images/posts/Linux%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%942/1726666101310.jpg"></p>
 <h2 id="修改的管理员密码"><a href="#修改的管理员密码" class="headerlink" title="修改的管理员密码"></a>修改的管理员密码</h2><p>登录数据库,第二页<code>x2_user</code>下发现账号密码.一眼MD5</p>
-<p><img src="/%5Cimages%5Cposts%5CLinux%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%942%5C1726667818768.jpg"></p>
+<p><img src="/images/posts/Linux%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%942/1726667818768.jpg"></p>
 <p>加密逻辑,没有加盐</p>
-<p><img src="/%5Cimages%5Cposts%5CLinux%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%942%5C1726667878036.jpg"></p>
-<p><img src="/%5Cimages%5Cposts%5CLinux%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%942%5C1726667948733.jpg"></p>
+<p><img src="/images/posts/Linux%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%942/1726667878036.jpg"></p>
+<p><img src="/images/posts/Linux%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%942/1726667948733.jpg"></p>
 <h2 id="第一次Webshell的连接URL"><a href="#第一次Webshell的连接URL" class="headerlink" title="第一次Webshell的连接URL"></a>第一次Webshell的连接URL</h2><p>登录后台&#x3D;&#x3D;&gt;后台管理&#x3D;&#x3D;&gt;内容&#x3D;&#x3D;&gt;标签管理&#x3D;&#x3D;&gt;注册协议查看到马</p>
-<p><img src="/%5Cimages%5Cposts%5CLinux%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%942%5C1726732764898.jpg"></p>
+<p><img src="/images/posts/Linux%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%942/1726732764898.jpg"></p>
 <p>点击注册<code>http://192.168.235.131/index.php?user-app-register</code>进行链接</p>
 <h2 id="Webshell连接密码"><a href="#Webshell连接密码" class="headerlink" title="Webshell连接密码"></a>Webshell连接密码</h2><p>webshell密码<code>Network2020</code></p>
 <h2 id="flag1"><a href="#flag1" class="headerlink" title="flag1"></a>flag1</h2><p>wireshark过滤<code>tcp.stream eq 20</code>,追踪TCP流,</p>
-<p><img src="/%5Cimages%5Cposts%5CLinux%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%942%5Cfe491d001616c6ffe7076e3fdceeef15.png"></p>
-<p><img src="/%5Cimages%5Cposts%5CLinux%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%942%5C1726734151764.png"></p>
+<p><img src="/images/posts/Linux%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%942/fe491d001616c6ffe7076e3fdceeef15.png"></p>
+<p><img src="/images/posts/Linux%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%942/1726734151764.png"></p>
 <h2 id="攻击者使用的后续上传的木马文件名称"><a href="#攻击者使用的后续上传的木马文件名称" class="headerlink" title="攻击者使用的后续上传的木马文件名称"></a>攻击者使用的后续上传的木马文件名称</h2><p><code>ip.src == 192.168.20.1 &amp;&amp; ip.dst == 192.168.20.144 &amp;&amp; http</code>筛选</p>
 <p><code>application/json, text/javascript, */*; q=0.01</code>特征,冰蝎的流量</p>
-<p><img src="/%5Cimages%5Cposts%5CLinux%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%942%5Cdfa59d6a8067c874c2f909b251b6b01c.png"></p>
+<p><img src="/images/posts/Linux%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%942/dfa59d6a8067c874c2f909b251b6b01c.png"></p>
 <h2 id="flag2"><a href="#flag2" class="headerlink" title="flag2"></a>flag2</h2><p>history里面能看到编辑了<code>mpnotify.php</code>和<code> alinotify.php</code>文件.flag3也看到了</p>
-<p><img src="/%5Cimages%5Cposts%5CLinux%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%942%5C1726735435593.jpg"></p>
+<p><img src="/images/posts/Linux%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%942/1726735435593.jpg"></p>
 <p><code>find / -name  alinotify.php</code>找文件.<code> cat /www/wwwroot/127.0.0.1/.api/alinotify.php</code>下</p>
-<p><img src="/%5Cimages%5Cposts%5CLinux%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%942%5Cabfd861bdba607ddd3c9e1dad765d827.png"></p>
+<p><img src="/images/posts/Linux%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%942/abfd861bdba607ddd3c9e1dad765d827.png"></p>
 <h2 id="flag3"><a href="#flag3" class="headerlink" title="flag3"></a>flag3</h2><p>之前的history上都看到了</p>
 <pre class="language-none"><code class="language-none">echo $flag3
 env | grep flag
@@ -749,7 +749,7 @@ cat &#x2F;etc&#x2F;profile |grep flag</code></pre>
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">50k</span>
+                        class="white-color">50.3k</span>
             
             
             

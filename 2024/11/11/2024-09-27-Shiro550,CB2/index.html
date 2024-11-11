@@ -328,24 +328,24 @@
 <p>根据名字.<code>rememberSerializedIdentity</code>是序列化<code>RememberMe</code>,<code>getRememberedSerializedIdentity</code>是将序列化的内容读出来</p>
 <p>判断是不是http请求,是的话就获取到<code>request</code>和<code>response</code>,在获取cookie,如果不为null,就返回base64解码结果</p>
 <p>查找调用<code>getRememberedSerializedIdentity</code>,找到了<code>AbstractRememberMeManager</code>下的<code>getRememberedPrincipals</code>方法</p>
-<p><img src="/%5Cimages%5Cposts%5CShiro550%5Cimage-20240926222115449.png"></p>
+<p><img src="/images/posts/Shiro550/image-20240926222115449.png"></p>
 <p>获取到了反序列化的内容保存到<code>bytes</code>中给了<code>convertBytesToPrincipals</code>方法.查看<code>convertBytesToPrincipals</code>方法</p>
-<p><img src="/%5Cimages%5Cposts%5CShiro550%5Cimage-20240926222628798.png"></p>
+<p><img src="/images/posts/Shiro550/image-20240926222628798.png"></p>
 <p><code>decrypt</code>解密,<code>deserialize</code>反序列化</p>
 <h2 id="解密"><a href="#解密" class="headerlink" title="解密"></a>解密</h2><p>跟进<code>decrypt</code>方法</p>
-<p><img src="/%5Cimages%5Cposts%5CShiro550%5Cimage-20240926222844496.png"></p>
+<p><img src="/images/posts/Shiro550/image-20240926222844496.png"></p>
 <p><code>getCipherService</code>获取密钥服务保存到<code>cipherService</code>,如果不为null,在进行<code>decrypt</code>解密在返回</p>
 <p>在看一下<code>decrypt</code>,是一个接口.一个参数是加密数组,一个是key.key是<code>getDecryptionCipherKey</code>方法获取的,跟进查看是返回一个常量<code>decryptionCipherKey</code>.然后就查找用法,在<code>AbstractRememberMeManager</code>下的<code>setDecryptionCipherKey</code>方法赋值</p>
-<p><img src="/%5Cimages%5Cposts%5CShiro550%5Cimage-20240926223515094.png"></p>
+<p><img src="/images/posts/Shiro550/image-20240926223515094.png"></p>
 <p>又查找谁调用了这个方法,又找到了同一类下的<code>setCipherKey</code></p>
-<p><img src="/%5Cimages%5Cposts%5CShiro550%5Cimage-20240926223713197.png"></p>
+<p><img src="/images/posts/Shiro550/image-20240926223713197.png"></p>
 <p>继续查找调用.<code>AbstractRememberMeManager</code>调用了<code>setCipherKey</code>,<code>setCipherKey</code>里面的参数<code>DEFAULT_CIPHER_KEY_BYTES</code>是一个定值</p>
 <pre class="language-none"><code class="language-none">kPH+bIxk5D2deZiIxcaaaA&#x3D;&#x3D;</code></pre>
 
-<p><img src="/%5Cimages%5Cposts%5CShiro550%5Cimage-20240926223859185.png"></p>
+<p><img src="/images/posts/Shiro550/image-20240926223859185.png"></p>
 <h2 id="反序列化"><a href="#反序列化" class="headerlink" title="反序列化"></a>反序列化</h2><p>回到之前,跟进<code>deserialize</code>在跟进里面的<code>deserialize</code>方法,最后Shiro包里面<code>deserialize</code>调用了<code>readObject</code>方法</p>
 <h1 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h1><p>登录的时候勾选Remember Me</p>
-<p><img src="/%5Cimages%5Cposts%5CShiro550%5Cimage-20240926235859371.png"></p>
+<p><img src="/images/posts/Shiro550/image-20240926235859371.png"></p>
 <p>加密脚本</p>
 <pre class="language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> email<span class="token punctuation">.</span>mime <span class="token keyword">import</span> base
 <span class="token keyword">from</span> pydoc <span class="token keyword">import</span> plain
@@ -496,7 +496,7 @@ public class CC3_2_6 &#123;
 </code></pre>
 
 <p>脚本加密后弹出计算器</p>
-<p><img src="/%5Cimages%5Cposts%5CShiro550%5Cimage-20240927103913220.png"></p>
+<p><img src="/images/posts/Shiro550/image-20240927103913220.png"></p>
 <h3 id="CB1"><a href="#CB1" class="headerlink" title="CB1"></a>CB1</h3><p>用之前的payload打如果报错</p>
 <pre class="language-none"><code class="language-none">Caused by: java.io.InvalidClassException: org.apache.commons.beanutils.BeanComparator; local class incompatible: stream classdesc serialVersionUID &#x3D; -2044202215314119608, local class serialVersionUID &#x3D; -3490850999041592962</code></pre>
 
@@ -506,9 +506,9 @@ public class CC3_2_6 &#123;
 <p>两个不同版本的类库可能又同一个类，而这两个类可能有一些方法和属性发生变化，序列化的时候可能因为不兼容导致隐患。因此，Java在反序列化的时候提供了一个机制，序列化时会根据固定算法计算出一个当前类的serialVersionUID 值，写入数据流中；反序列化时，如果发现对方的环境中这个类计算出的serialVersionUID 不同，则反序列化就会异常退出，避免后续的未知隐患。</p>
 </blockquote>
 <p>war包里面的commons-beanutils是1.8.3版本的</p>
-<p><img src="/%5Cimages%5Cposts%5CShiro550%5Cimage-20240927110452245.png"></p>
+<p><img src="/images/posts/Shiro550/image-20240927110452245.png"></p>
 <p>将我们本地的commons-beanutils也换成1.8.3就可以</p>
-<p><img src="/%5Cimages%5Cposts%5CShiro550%5Cimage-20240927110520218.png"></p>
+<p><img src="/images/posts/Shiro550/image-20240927110520218.png"></p>
 <pre class="language-Java" data-language="Java"><code class="language-Java">package org.example;
 
 import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
@@ -578,13 +578,13 @@ public class CB &#123;
     &#125;
 &#125;</code></pre>
 
-<p><img src="/%5Cimages%5Cposts%5CShiro550%5Cimage-20240927110611084.png"></p>
+<p><img src="/images/posts/Shiro550/image-20240927110611084.png"></p>
 <h3 id="CB2"><a href="#CB2" class="headerlink" title="CB2"></a>CB2</h3><p>如果报错没找到 org.apache.commons.collections.comparators.ComparableComparator 类</p>
 <p>原因是正常使用 Shiro 的时候不需要依赖于 commons-collections，但反序列化利用的时候需要依赖于commons-collections</p>
-<p>![](\images\posts\Shiro550\image-20240927113339256.png</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;Shiro550&#x2F;image-20240927113339256.png</p>
 <p>如果不传参就会默认调用<code>ComparableComparator</code>.ComparableComparator类存在于commons-collections包中.</p>
 <p>跟进<code>ComparableComparator</code></p>
-<p><img src="/%5Cimages%5Cposts%5CShiro550%5Cimage-20240927113716533.png" alt="image-20240927113716533"></p>
+<p><img src="/images/posts/Shiro550/image-20240927113716533.png" alt="image-20240927113716533"></p>
 <p>所以要替换<code>ComparableComparator</code>就要满足</p>
 <blockquote>
 <p>实现java.util.Comparator 接口</p>
@@ -592,7 +592,7 @@ public class CB &#123;
 <p>Java、shiro或commons-beanutils自带</p>
 </blockquote>
 <p>查找实现类,找到了java.lang.String的<code>CaseInsensitiveComparator</code></p>
-<p><img src="/%5Cimages%5Cposts%5CShiro550%5Cimage-20240927113940229.png"></p>
+<p><img src="/images/posts/Shiro550/image-20240927113940229.png"></p>
 <pre class="language-none"><code class="language-none">CASE_INSENSITIVE_ORDER &#x3D; new CaseInsensitiveComparator()</code></pre>
 
 <p>所以<code>BeanComparator</code>里面传入<code>String.CASE_INSENSITIVE_ORDER</code></p>
@@ -671,7 +671,7 @@ priorityQueue.add(&quot;2&quot;);</code></pre>
     <span class="token punctuation">&#125;</span>
 <span class="token punctuation">&#125;</span></code></pre>
 
-<p><img src="/%5Cimages%5Cposts%5CShiro550%5Cimage-20240927114247996.png"></p>
+<p><img src="/images/posts/Shiro550/image-20240927114247996.png"></p>
 <h3 id="CC11"><a href="#CC11" class="headerlink" title="CC11"></a>CC11</h3><pre class="language-java" data-language="java"><code class="language-java"><span class="token keyword">package</span> <span class="token namespace">org<span class="token punctuation">.</span>example</span><span class="token punctuation">;</span>
 
 <span class="token keyword">import</span> <span class="token import"><span class="token namespace">com<span class="token punctuation">.</span>sun<span class="token punctuation">.</span>org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>xalan<span class="token punctuation">.</span>internal<span class="token punctuation">.</span>xsltc<span class="token punctuation">.</span>trax<span class="token punctuation">.</span></span><span class="token class-name">TemplatesImpl</span></span><span class="token punctuation">;</span>
@@ -1135,7 +1135,7 @@ priorityQueue.add(&quot;2&quot;);</code></pre>
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">50k</span>
+                        class="white-color">50.3k</span>
             
             
             

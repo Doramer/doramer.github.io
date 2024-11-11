@@ -334,25 +334,25 @@
 5、查看2023年8月03日8时这一个小时内有多少IP访问，提交次数:</code></pre>
 
 <h1 id="解题"><a href="#解题" class="headerlink" title="解题"></a>解题</h1><h2 id="flag1"><a href="#flag1" class="headerlink" title="flag1"></a>flag1</h2><p>日志路径<code>/var/log/apache2/access.log.1</code></p>
-<p><img src="/%5Cimages%5Cposts%5C%E7%AC%AC%E4%BA%8C%E7%AB%A0%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90-apache%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%5Cimage-20240921201255805.png"></p>
+<p><img src="/images/posts/%E7%AC%AC%E4%BA%8C%E7%AB%A0%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90-apache%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90/image-20240921201255805.png"></p>
 <p>flag{192.168.200.2}</p>
 <h2 id="flag2"><a href="#flag2" class="headerlink" title="flag2"></a>flag2</h2><p>用的是谷歌浏览器</p>
 <pre class="language-none"><code class="language-none">Mozilla&#x2F;5.0 (Windows NT 10.0; Win64; x64) AppleWebKit&#x2F;537.36 (KHTML, like Gecko) Chrome&#x2F;87.0.4280.88 Safari&#x2F;537.36</code></pre>
 
-<p><img src="/%5Cimages%5Cposts%5C%E7%AC%AC%E4%BA%8C%E7%AB%A0%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90-apache%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%5Cimage-20240921201611974.png"></p>
+<p><img src="/images/posts/%E7%AC%AC%E4%BA%8C%E7%AB%A0%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90-apache%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90/image-20240921201611974.png"></p>
 <p>flag{2d6330f380f44ac20f3a02eed0958f66}</p>
 <h2 id="flag3"><a href="#flag3" class="headerlink" title="flag3"></a>flag3</h2><pre class="language-none"><code class="language-none">grep &quot;&#x2F;index.php&quot; access.log.1 |wc -l</code></pre>
 
-<p><img src="/%5Cimages%5Cposts%5C%E7%AC%AC%E4%BA%8C%E7%AB%A0%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90-apache%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%5Cimage-20240921203050278.png"></p>
+<p><img src="/images/posts/%E7%AC%AC%E4%BA%8C%E7%AB%A0%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90-apache%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90/image-20240921203050278.png"></p>
 <p>flag{27}</p>
 <h2 id="flag4"><a href="#flag4" class="headerlink" title="flag4"></a>flag4</h2><pre class="language-none"><code class="language-none">grep &quot;192.168.200.2 - -&quot; access.log.1 |wc -l</code></pre>
 
-<p><img src="/%5Cimages%5Cposts%5C%E7%AC%AC%E4%BA%8C%E7%AB%A0%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90-apache%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%5Cimage-20240921203554618.png"></p>
+<p><img src="/images/posts/%E7%AC%AC%E4%BA%8C%E7%AB%A0%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90-apache%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90/image-20240921203554618.png"></p>
 <p>flag{6555}</p>
 <h2 id="flag5"><a href="#flag5" class="headerlink" title="flag5"></a>flag5</h2><p>这里是IP的个数</p>
 <pre class="language-none"><code class="language-none">cat access.log.1 | grep &quot;03&#x2F;Aug&#x2F;2023:08:&quot; | awk &#39;&#123;print $1&#125;&#39; | sort -nr| uniq -c</code></pre>
 
-<p><img src="/%5Cimages%5Cposts%5C%E7%AC%AC%E4%BA%8C%E7%AB%A0%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90-apache%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%5Cimage-20240921203538067.png"></p>
+<p><img src="/images/posts/%E7%AC%AC%E4%BA%8C%E7%AB%A0%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90-apache%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90/image-20240921203538067.png"></p>
 <p>flag{5}</p>
 
                 
@@ -741,7 +741,7 @@
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">50k</span>
+                        class="white-color">50.3k</span>
             
             
             

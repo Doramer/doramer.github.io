@@ -326,7 +326,7 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><p><img src="/%5Cimages%5Cposts%5CRMI%5C1730545149754.jpg"></p>
+                <h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><p><img src="/images/posts/RMI/1730545149754.jpg"></p>
 <h2 id="创建远程服务"><a href="#创建远程服务" class="headerlink" title="创建远程服务"></a>创建远程服务</h2><p>创建远程服务这一块是不存在漏洞的。</p>
 <p>过程就是发布远程对象，<code>exportObject()</code> 指定到发布的 IP 与端口，端口的话是一个随机值。至始至终复杂的地方其实都是在赋值，创建类，进行各种各样的封装</p>
 <h2 id="创建注册中心和绑定"><a href="#创建注册中心和绑定" class="headerlink" title="创建注册中心和绑定"></a>创建注册中心和绑定</h2><p>创建注册中心与服务端是独立的，谁先谁后无所谓</p>
@@ -336,54 +336,54 @@
 <p>把Client端IP，端口put进去。实际绑的也是Stub</p>
 <h2 id="客户端请求注册中心-客户端"><a href="#客户端请求注册中心-客户端" class="headerlink" title="客户端请求注册中心-客户端"></a>客户端请求注册中心-客户端</h2><h3 id="获取注册中心"><a href="#获取注册中心" class="headerlink" title="获取注册中心"></a>获取注册中心</h3><p>不存在漏洞点</p>
 <p>新建了一个 Ref，然后把该封装的都封装到 Ref 里面进去</p>
-<p><img src="/%5Cimages%5Cposts%5CRMI%5Cimage-20241101210041711.png"></p>
+<p><img src="/images/posts/RMI/image-20241101210041711.png"></p>
 <p>这里没有用序列化进行传递，只传了参数然后Client端本地创建</p>
 <h3 id="查找远程对象"><a href="#查找远程对象" class="headerlink" title="查找远程对象"></a>查找远程对象</h3><p>存在漏洞点</p>
 <pre class="language-none"><code class="language-none">RemoteObj remoteObj &#x3D; (RemoteObj) registry.lookup(&quot;remoteObj&quot;);</code></pre>
 
-<p><img src="/%5Cimages%5Cposts%5CRMI%5Cimage-20241101213021393.png"></p>
+<p><img src="/images/posts/RMI/image-20241101213021393.png"></p>
 <p>这里直接将传入的字符串<code>remoteObj</code>作为序列化数据传进去。注册中心会通过反序列化读取，注册中心这里就会存在一个漏洞点</p>
 <p>下面调用了<code>invoke</code>方法，super 就是<code>UnicastRef</code> 这个类.<code>invoke</code>里面调用<code>executeCall</code>。<code>executeCall</code>是处理网络请求的方法，客户端的网络请求都是通过这个方法实现的。</p>
-<p><img src="/%5Cimages%5Cposts%5CRMI%5C1730475115042.jpg"></p>
+<p><img src="/images/posts/RMI/1730475115042.jpg"></p>
 <p>下面有个错误会进行反序列化</p>
-<p><img src="/%5Cimages%5Cposts%5CRMI%5Cimage-20241101233051996.png"></p>
+<p><img src="/images/posts/RMI/image-20241101233051996.png"></p>
 <p>in 就是数据流里面的东西。所以如果注册中心返回一个恶意的对象，客户端进行反序列化，这就会导致反序列化漏洞,而调用<code>invoke</code>就会导致该漏洞。</p>
-<p><img src="/%5Cimages%5Cposts%5CRMI%5Cimage-20241101235240189.png"></p>
+<p><img src="/images/posts/RMI/image-20241101235240189.png"></p>
 <p>下面也直接将返回值进行了反序列化，这个<code>var23</code>就是读取到的动态代理</p>
-<p><img src="/%5Cimages%5Cposts%5CRMI%5Cimage-20241101234943702.png"></p>
+<p><img src="/images/posts/RMI/image-20241101234943702.png"></p>
 <p>最后获取到的动态代理</p>
-<p><img src="/%5Cimages%5Cposts%5CRMI%5Cimage-20241101233639057.png"></p>
+<p><img src="/images/posts/RMI/image-20241101233639057.png"></p>
 <h2 id="客户端请求服务端-客户端"><a href="#客户端请求服务端-客户端" class="headerlink" title="客户端请求服务端-客户端"></a>客户端请求服务端-客户端</h2><pre class="language-none"><code class="language-none">remoteObj.sayHello(&quot;hello&quot;); </code></pre>
 
-<p><img src="/%5Cimages%5Cposts%5CRMI%5Cimage-20241102152846415.png"></p>
+<p><img src="/images/posts/RMI/image-20241102152846415.png"></p>
 <p>这里调用重载的<code>invoke</code>方法。跟进<code>invoke</code>方法里面的<code>marshalValue</code></p>
-<p><img src="/%5Cimages%5Cposts%5CRMI%5Cimage-20241102153057301.png"></p>
+<p><img src="/images/posts/RMI/image-20241102153057301.png"></p>
 <p>判断是不是基础类型，不是就序列化进去</p>
-<p><img src="/%5Cimages%5Cposts%5CRMI%5Cimage-20241102153234165.png"></p>
+<p><img src="/images/posts/RMI/image-20241102153234165.png"></p>
 <p>后面调用了<code>call.executeCall();</code>，先前客户端调用注册中心的时候这里就有这个危险方法，也就是说RMI进行网络处理请求就会执行到这个危险方法。</p>
 <p>后面的<code>unmarshalValue</code>方法里面会进行反序列化,把数据读回来</p>
-<p><img src="/%5Cimages%5Cposts%5CRMI%5Cimage-20241102153520878.png"></p>
-<p><img src="/%5Cimages%5Cposts%5CRMI%5Cimage-20241102153632760.png"></p>
+<p><img src="/images/posts/RMI/image-20241102153520878.png"></p>
+<p><img src="/images/posts/RMI/image-20241102153632760.png"></p>
 <p>所以这里服务端打客户端就有两个点。一个是 <code>call.executeCall()</code>，另一个点是 <code>unmarshalValueSee</code></p>
 <p><code>executeCall</code>处理的协议就是JRMP协议，攻击Stub</p>
 <p>在客户端上发生的代码， 总结就是</p>
-<p><img src="/%5Cimages%5Cposts%5CRMI%5Cimage-20241102162057028.png"></p>
+<p><img src="/images/posts/RMI/image-20241102162057028.png"></p>
 <h2 id="客户端请求注册中心-注册中心"><a href="#客户端请求注册中心-注册中心" class="headerlink" title="客户端请求注册中心-注册中心"></a>客户端请求注册中心-注册中心</h2><p>服务端操作Skel，封装数据到Tatget里面，这里在Targe打断点</p>
-<p><img src="/%5Cimages%5Cposts%5CRMI%5Cimage-20241102171052495.png"></p>
+<p><img src="/images/posts/RMI/image-20241102171052495.png"></p>
 <p>最后从<code>disp.dispatch(impl, call)</code>—&gt;<code>oldDispatch(obj, call, num)</code>–&gt;<code>skel.dispatch(obj, call, op, hash);</code>，<code>skel.dispatch</code>这里就是漏洞点，也是客户端打注册中心的攻击方式</p>
-<p><img src="/%5Cimages%5Cposts%5CRMI%5Cimage-20241102173149202.png"></p>
+<p><img src="/images/posts/RMI/image-20241102173149202.png"></p>
 <p>这里许多<code>case</code>，除了case0的list都能进行反序列化</p>
 <p>这里注册中心处理 Target，进行 Skel 的生成与处理。漏洞点是<code>skel.dispatch()</code>，可以结合CC链进行攻击。</p>
 <h2 id="客户端请求注册中心-服务端"><a href="#客户端请求注册中心-服务端" class="headerlink" title="客户端请求注册中心-服务端"></a>客户端请求注册中心-服务端</h2><p>跟之前一样，F9两次出现有动态代理的stub为止，进入</p>
 <p><code>disp.dispatch(impl, call)</code>–&gt;<code>unmarshalValue(types[i], in)</code></p>
 <p>这里和之前一样，存在反序列化</p>
-<p><img src="/%5Cimages%5Cposts%5CRMI%5Cimage-20241102180756135.png"></p>
+<p><img src="/images/posts/RMI/image-20241102180756135.png"></p>
 <p>这里就是客户端传过来的值</p>
-<p><img src="/%5Cimages%5Cposts%5CRMI%5Cimage-20241102180033276.png"></p>
+<p><img src="/images/posts/RMI/image-20241102180033276.png"></p>
 <h2 id="DGC"><a href="#DGC" class="headerlink" title="DGC"></a>DGC</h2><p>直接看漏洞点</p>
 <p>DGC服务端<code>DGCImpl_Skel</code>的<code>dispatch</code>和DGC客户端<code>DGCImpl_Stub</code>下的<code>dirty</code>都有反序列化点</p>
-<p><img src="/%5Cimages%5Cposts%5CRMI%5Cimage-20241102185421048.png"></p>
-<p><img src="/%5Cimages%5Cposts%5CRMI%5Cimage-20241102185457134.png"></p>
+<p><img src="/images/posts/RMI/image-20241102185421048.png"></p>
+<p><img src="/images/posts/RMI/image-20241102185457134.png"></p>
 <p>DGC是自动创建的一个过程，用于清理内存。攻击远程对象需要知道参数类型，攻击DGC就不需要</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://drun1baby.github.io/2022/07/19/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E4%B9%8BRMI%E4%B8%93%E9%A2%9801-RMI%E5%9F%BA%E7%A1%80/">https://drun1baby.github.io/2022/07/19/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E4%B9%8BRMI%E4%B8%93%E9%A2%9801-RMI%E5%9F%BA%E7%A1%80/</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1L3411a7ax?vd_source=3e2cfb0d1ade988f38af8725accb9ef7">https://www.bilibili.com/video/BV1L3411a7ax?vd_source=3e2cfb0d1ade988f38af8725accb9ef7</a></p>
@@ -774,7 +774,7 @@
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">50k</span>
+                        class="white-color">50.3k</span>
             
             
             

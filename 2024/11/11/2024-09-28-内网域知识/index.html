@@ -345,9 +345,9 @@
 
 
 <h2 id="本地管理员"><a href="#本地管理员" class="headerlink" title="本地管理员"></a>本地管理员</h2><p>本地最高管理员是administrator,其余用户就算隶属于administrator组也是普通管理员。也不能直接运行一些高权限操作,因为存在UAC认证。必须右键以管理员身份运行才能执行高权限命令。</p>
-<h2 id="UAC"><a href="#UAC" class="headerlink" title="UAC"></a>UAC</h2><p><img src="/%5Cimages%5Cposts%5C%E5%86%85%E7%BD%91%E5%9F%9F%E7%9F%A5%E8%AF%86%5Cimage-20240928192904804.png"></p>
+<h2 id="UAC"><a href="#UAC" class="headerlink" title="UAC"></a>UAC</h2><p><img src="/images/posts/%E5%86%85%E7%BD%91%E5%9F%9F%E7%9F%A5%E8%AF%86/image-20240928192904804.png"></p>
 <p>Win+R —msconfig–&gt;工具–&gt;启动可以设置UAC</p>
-<p><img src="/%5Cimages%5Cposts%5C%E5%86%85%E7%BD%91%E5%9F%9F%E7%9F%A5%E8%AF%86%5Cimage-20240928193225766.png"></p>
+<p><img src="/images/posts/%E5%86%85%E7%BD%91%E5%9F%9F%E7%9F%A5%E8%AF%86/image-20240928193225766.png"></p>
 <h2 id="域内用户组"><a href="#域内用户组" class="headerlink" title="域内用户组"></a>域内用户组</h2><h4 id="域管理员组-Domain-Admins"><a href="#域管理员组-Domain-Admins" class="headerlink" title="域管理员组(Domain Admins)"></a>域管理员组(Domain Admins)</h4><blockquote>
 <p>域管理员组(Domain Admins)指定的域管理员拥有完整的管理员权限。因为改组会被添加到自己所在域的Administrator组中，因此可以继承Administrator组的所有权限。同时该组默认会被添加到每台域成员计算机的本地Administrator组中，这样Domain admins组就获得了域中所有计算机的所有权</p>
 </blockquote>
@@ -364,7 +364,7 @@
 </blockquote>
 <p>所以如果渗透获取到的是机器用户(本地用户登录)，可以提权到SYSTEM权限来进行域内信息收集</p>
 <h2 id="本地认证"><a href="#本地认证" class="headerlink" title="本地认证"></a>本地认证</h2><p>winlogon.exe电脑开启 明文账号密码发送给Lsass.exe进程与 SAM文件对比</p>
-<p><img src="/%5Cimages%5Cposts%5C%E5%86%85%E7%BD%91%E5%9F%9F%E7%9F%A5%E8%AF%86%5Cimage-20240928223204032.png"></p>
+<p><img src="/images/posts/%E5%86%85%E7%BD%91%E5%9F%9F%E7%9F%A5%E8%AF%86/image-20240928223204032.png"></p>
 <h4 id="winlogon-exe"><a href="#winlogon-exe" class="headerlink" title="winlogon.exe"></a>winlogon.exe</h4><p>Windows Logon Process(winlogon.exe):是Windows NT用户登录程序，用于管理用户登录和推出。用户注销、重启、锁屏后，操作系统会让winlogon.exe显示登录界面</p>
 <h4 id="lsass-exe"><a href="#lsass-exe" class="headerlink" title="lsass.exe"></a>lsass.exe</h4><p>lsass.exe是一个系统进程，用于微软Windows系统的安全机制。它用于本地安全和登陆策略。这些策略包括密码策略、账户策略、用户权限、域策略等。同时还负责对用户进行身份验证，以确保只有授权的用户才能访问系统资源</p>
 <ol>
@@ -414,7 +414,7 @@
 <p><strong>伪造TGT就是黄金票据，伪造ST就是白银票据</strong></p>
 <p>黄金票据作用更大，白银票据伪造需要知晓对方机器的密码</p>
 <p>Kerberos协议安全问题：</p>
-<p><img src="/%5Cimages%5Cposts%5C%E5%86%85%E7%BD%91%E5%9F%9F%E7%9F%A5%E8%AF%86%5Cimage-20240929165856411.png"></p>
+<p><img src="/images/posts/%E5%86%85%E7%BD%91%E5%9F%9F%E7%9F%A5%E8%AF%86/image-20240929165856411.png"></p>
 
                 
             </div>
@@ -802,7 +802,7 @@
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">50k</span>
+                        class="white-color">50.3k</span>
             
             
             

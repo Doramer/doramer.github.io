@@ -302,7 +302,7 @@ public interface Transformer &amp;#123;
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.8k
+                    2.9k
                 </div>
                 
 
@@ -388,7 +388,7 @@ public class CC1Test &#123;
     &#125;
 &#125;</code></pre>
 
-<p>![](\images\posts\Commons-Collection CC1链\1726477865073.jpg)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;Commons-Collection CC1链&#x2F;1726477865073.jpg)</p>
 <p><strong>查找调用transform()的类的方法</strong></p>
 <p>找到TransformedMap类下的checkSetValue方法</p>
 <p>checkSetValue方法和构造函数</p>
@@ -431,9 +431,9 @@ protected Object checkSetValue(Object value) &#123;
     Map&lt;Object,Object&gt; decorate &#x3D; TransformedMap.decorate(map, null, invokerTransformer);   &#x2F;&#x2F;只需赋值valueTransformer</code></pre>
 
 <p><strong>查找调用checkSetValue()的方法</strong></p>
-<p>![](\images\posts\Commons-Collection CC1链\1726477998136.jpg)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;Commons-Collection CC1链&#x2F;1726477998136.jpg)</p>
 <p>Map中有setValue方法，MapEntry重写AbstractMapEntryDecorator的setValue方法,AbstractMapEntryDecorator,AbstractMapEntryDecorator引入Map.Entry接口，所以进行Map遍历，就可以调用setValue()</p>
-<p>![](\images\posts\Commons-Collection CC1链\1726478031756.jpg)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;Commons-Collection CC1链&#x2F;1726478031756.jpg)</p>
 <pre class="language-none"><code class="language-none">package org.example;
 
 import org.apache.commons.collections.functors.InvokerTransformer;
@@ -463,9 +463,9 @@ public class CC1Test &#123;
 &#125;</code></pre>
 
 <p><strong>查找调用setValue()的方法AnnotationInvocationHandlerreadObject()里面调用了该方法</strong></p>
-<p>![](\images\posts\Commons-Collection CC1链\1726478115067.jpg)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;Commons-Collection CC1链&#x2F;1726478115067.jpg)</p>
 <p>找到构造函数</p>
-<p>![](\images\posts\Commons-Collection CC1链\1726478143936.jpg)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;Commons-Collection CC1链&#x2F;1726478143936.jpg)</p>
 <p>memberValues可控，定义类默认为default，只能通过反射调用</p>
 <pre class="language-none"><code class="language-none">public class CC1Test &#123;
 
@@ -520,9 +520,9 @@ public class CC1Test &#123;
 &#x2F;&#x2F;        Method execMethod &#x3D; c.getMethod(&quot;exec&quot;, String.class);
 &#x2F;&#x2F;        execMethod.invoke(r, &quot;calc&quot;);</code></pre>
 
-<p>![](\images\posts\Commons-Collection CC1链\1726478200659.jpg)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;Commons-Collection CC1链&#x2F;1726478200659.jpg)</p>
 <p>使用ChainedTransformer</p>
-<p>![](\images\posts\Commons-Collection CC1链\1726478230064.jpg)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;Commons-Collection CC1链&#x2F;1726478230064.jpg)</p>
 <pre class="language-none"><code class="language-none">    public static void main(String[] args) throws NoSuchMethodException, IllegalAccessException, ClassNotFoundException, IOException, InvocationTargetException, InstantiationException &#123;
 
 &#x2F;&#x2F;        Runtime r &#x3D; Runtime.getRuntime();
@@ -541,7 +541,7 @@ public class CC1Test &#123;
         chainedTransformer.transform(Runtime.class);
     &#125;</code></pre>
 
-<p>![](\images\posts\Commons-Collection CC1链\1726478279301.jpg)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;Commons-Collection CC1链&#x2F;1726478279301.jpg)</p>
 <p><strong>setValue无法执行问题</strong></p>
 <pre class="language-none"><code class="language-none">    public static void main(String[] args) throws NoSuchMethodException, IllegalAccessException, ClassNotFoundException, IOException, InvocationTargetException, InstantiationException &#123;
 
@@ -588,18 +588,18 @@ public class CC1Test &#123;
     &#125;</code></pre>
 
 <p>两个if语句问题</p>
-<p>![](\images\posts\Commons-Collection CC1链\1726478322937.jpg)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;Commons-Collection CC1链&#x2F;1726478322937.jpg)</p>
 <p>断点调试为null值，未过if语句</p>
-<p>![](\images\posts\Commons-Collection CC1链\1726478345663.jpg)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;Commons-Collection CC1链&#x2F;1726478345663.jpg)</p>
 <p>获取一个注解类型的 AnnotationType 实例，并从中提取注解成员的类型</p>
-<p>![](\images\posts\Commons-Collection CC1链\1726478373808.jpg)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;Commons-Collection CC1链&#x2F;1726478373808.jpg)</p>
 <p>把Override换成有值的注解Target</p>
-<p>![](\images\posts\Commons-Collection CC1链\1726478421260.jpg)</p>
-<p>![](\images\posts\Commons-Collection CC1链\1726478525859.jpg)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;Commons-Collection CC1链&#x2F;1726478421260.jpg)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;Commons-Collection CC1链&#x2F;1726478525859.jpg)</p>
 <p><strong>setValue值无法控制</strong></p>
 <p>ConstantTransformer返回一个常量可以利用他来避免readObject中的修改。</p>
-<p>![](\images\posts\Commons-Collection CC1链\1726478566150.jpg)</p>
-<p>![](\images\posts\Commons-Collection CC1链\1726478587565.jpg)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;Commons-Collection CC1链&#x2F;1726478566150.jpg)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;Commons-Collection CC1链&#x2F;1726478587565.jpg)</p>
 <h2 id="EXP"><a href="#EXP" class="headerlink" title="EXP"></a>EXP</h2><pre class="language-none"><code class="language-none">package org.example;
 import org.apache.commons.collections.Transformer;
 import org.apache.commons.collections.functors.ChainedTransformer;
@@ -651,13 +651,13 @@ public class CC1Test &#123;
 &#125;
 </code></pre>
 
-<p>![](\images\posts\Commons-Collection CC1链\1726478660977.jpg)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;Commons-Collection CC1链&#x2F;1726478660977.jpg)</p>
 <h1 id="LazyMap"><a href="#LazyMap" class="headerlink" title="LazyMap"></a>LazyMap</h1><p>对比之前CC1链从此处开始不同</p>
-<p>![](\images\posts\Commons-Collection CC1链\1726478888068.jpg)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;Commons-Collection CC1链&#x2F;1726478888068.jpg)</p>
 <p>LazyMap.get()</p>
-<p>![](\images\posts\Commons-Collection CC1链\1726478955464.jpg)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;Commons-Collection CC1链&#x2F;1726478955464.jpg)</p>
 <p>这里的factory可控,factory传chainedTransformer对象,map</p>
-<p>![](\images\posts\Commons-Collection CC1链\1726478967711.jpg)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;Commons-Collection CC1链&#x2F;1726478967711.jpg)</p>
 <p>构造一下EXP</p>
 <pre class="language-none"><code class="language-none">
 Transformer[] transformers &#x3D; new Transformer[]&#123;
@@ -673,15 +673,15 @@ map.put(&quot;value&quot;,&quot;admin123&quot;);
 Map&lt;Object,Object&gt; layzMap &#x3D; LazyMap.decorate(map, chainedTransformer);
 layzMap.get(&quot;机器猫&quot;);</code></pre>
 
-<p>![](\images\posts\Commons-Collection CC1链\1726478981873.jpg)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;Commons-Collection CC1链&#x2F;1726478981873.jpg)</p>
 <p>AnnotationInvocationHandler.invoke()</p>
-<p>![](\images\posts\Commons-Collection CC1链\1726479036069.jpg)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;Commons-Collection CC1链&#x2F;1726479036069.jpg)</p>
 <p>get在invoke方法里面</p>
 <p>AnnotationInvocationHandler实现了InvocationHandler接口，可用动态代理</p>
-<p>![](\images\posts\Commons-Collection CC1链\1726479063414.jpg)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;Commons-Collection CC1链&#x2F;1726479063414.jpg)</p>
 <p>Proxy.newProxyInstance()里面如果传了AnnotationInvocationHandler对象，创建出来的代理对象不管调什么方法都会进invoke()方法。</p>
 <p>两个if方法</p>
-<p>![](\images\posts\Commons-Collection CC1链\1726479091186.jpg)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;Commons-Collection CC1链&#x2F;1726479091186.jpg)</p>
 <pre class="language-none"><code class="language-none">&#x2F;&#x2F;不能调用equals方法
 if (member.equals(&quot;equals&quot;) &amp;&amp; paramTypes.length &#x3D;&#x3D; 1 &amp;&amp;
     paramTypes[0] &#x3D;&#x3D; Object.class)
@@ -691,9 +691,9 @@ if (paramTypes.length !&#x3D; 0)
 	throw new AssertionError(&quot;Too many parameters for an annotation method&quot;);</code></pre>
 
 <p>此处刚好存在无参方法</p>
-<p>![](\images\posts\Commons-Collection CC1链\1726479104616.jpg)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;Commons-Collection CC1链&#x2F;1726479104616.jpg)</p>
 <p>memberValues也可控，传一个lazymap</p>
-<p>![](\images\posts\Commons-Collection CC1链\1726479117003.jpg)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;Commons-Collection CC1链&#x2F;1726479117003.jpg)</p>
 <h2 id="EXP-1"><a href="#EXP-1" class="headerlink" title="EXP"></a>EXP</h2><pre class="language-none"><code class="language-none">
 package org.example;
 import org.apache.commons.collections.Transformer;
@@ -749,7 +749,7 @@ public class CC1LazyMap &#123;
 
 </code></pre>
 
-<p>![](\images\posts\Commons-Collection CC1链\1726479155941.jpg)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;Commons-Collection CC1链&#x2F;1726479155941.jpg)</p>
 
                 
             </div>
@@ -1145,7 +1145,7 @@ public class CC1LazyMap &#123;
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">50k</span>
+                        class="white-color">50.3k</span>
             
             
             

@@ -333,7 +333,7 @@ SMBEXEC上线SMBEXEC工作原理：
                 <h1 id="PSEXEC上线操作"><a href="#PSEXEC上线操作" class="headerlink" title="PSEXEC上线操作"></a>PSEXEC上线操作</h1><p>如果是工作组情况，最好用PTH认证</p>
 <p>如果是域最好使用票据。</p>
 <p>建立连接可上线的情况</p>
-<p><img src="/%5Cimages%5Cposts%5C%E6%A8%AA%E5%90%91%E7%A7%BB%E5%8A%A8%5Cimage-20241004190010156.png"></p>
+<p><img src="/images/posts/%E6%A8%AA%E5%90%91%E7%A7%BB%E5%8A%A8/image-20241004190010156.png"></p>
 <pre class="language-none"><code class="language-none">jump psexec Win7.test.local [监听器名]</code></pre>
 
 <h1 id="SMBEXEC上线"><a href="#SMBEXEC上线" class="headerlink" title="SMBEXEC上线"></a>SMBEXEC上线</h1><p>SMBEXEC工作原理：</p>
@@ -485,7 +485,7 @@ ADPwdSpray.py [域控IP] [域名] [用户名字典] ntlmhash [哈希值] udp</co
 <p>AS-REP Roasting是一种对用户账号进行离线爆破的攻击方式,他是因为管理员的错误配置导致的，</p>
 <p>该攻击是AS-REP数据包导致的，因为管理员在域控上勾选了【不要求Kerberos】预身份验证</p>
 </blockquote>
-<p><img src="/%5Cimages%5Cposts%5C%E6%A8%AA%E5%90%91%E7%A7%BB%E5%8A%A8%5Cimage-20241005163240744.png"></p>
+<p><img src="/images/posts/%E6%A8%AA%E5%90%91%E7%A7%BB%E5%8A%A8/image-20241005163240744.png"></p>
 <p>正常的请求，我们输入正确的账号密码才有AS-REP数据包，打钩之后我们不需要提供密码，只需要提供账号，AS就会返回TGT还有加密的sessionkey，因此我们破解该字段内容就可以得到用户的密码</p>
 <p><strong>获取勾选预认证用户列表</strong></p>
 <p>1、域控上执行：</p>
@@ -526,7 +526,7 @@ john --wordlist&#x3D;.&#x2F;pass.txt 1.xt </code></pre>
 
 <p>我们直接生成的part值中和手册中的值不符合因为少了$23。需要自己手动改一下</p>
 <p>Hashcat命令格式：<a target="_blank" rel="noopener" href="https://hashcat.net/wiki/doku.php?id=example_hashes">https://hashcat.net/wiki/doku.php?id=example_hashes</a> </p>
-<p><img src="/%5Cimages%5Cposts%5C%E6%A8%AA%E5%90%91%E7%A7%BB%E5%8A%A8%5Cimage-20241005171633858.png"></p>
+<p><img src="/images/posts/%E6%A8%AA%E5%90%91%E7%A7%BB%E5%8A%A8/image-20241005171633858.png"></p>
 <h1 id="Kerberoasting攻击"><a href="#Kerberoasting攻击" class="headerlink" title="Kerberoasting攻击"></a>Kerberoasting攻击</h1><blockquote>
 <p>Kerberoasting 是域渗透中经常使用的一项技术，是Tim Medin 在 DerbyCon 2014 上发布的一种域口令攻击方法，Tim Medin 同时发布了配套的攻击工具 kerberoast。此后，不少研究人员对 Kerberoasting 进行了改进和扩展，在 GitHub 上开发发布了大量工具，使得 Kerberoasting 逐渐发展成为域攻击的常用方法之一。Kerberoast攻击是在TGS_REP的过程中用户将会收到由目标服务实例的NTLM hash加密生成的ST(service ticket)，如果获得这个ST票据，我们可以尝试穷举口令，模拟加密过程，进行破解。</p>
 </blockquote>
@@ -632,7 +632,7 @@ Hashcat –m 13100 hash.txt pass.txt --force</code></pre>
 <p><strong>利用条件:</strong></p>
 <p>1、必须知道KDC秘钥分发中心账户KRBTGT的hash值（重要）<br>2、域名（）</p>
 <p>3、域的SID值<br>域的SID值（在域中执行whoami &#x2F;all)</p>
-<p><img src="/%5Cimages%5Cposts%5C%E6%A8%AA%E5%90%91%E7%A7%BB%E5%8A%A8%5Cimage-20241006141536516.png"></p>
+<p><img src="/images/posts/%E6%A8%AA%E5%90%91%E7%A7%BB%E5%8A%A8/image-20241006141536516.png"></p>
 <p>4、需要伪造的用户（一般都是域管理员）administrator</p>
 <p><strong>KRBTGT-Hash值获取方式</strong></p>
 <p>获取KRBTGT的hash值，该值的有两种方式</p>
@@ -643,7 +643,7 @@ Hashcat –m 13100 hash.txt pass.txt --force</code></pre>
 <p>高权限用户</p>
 <pre class="language-none"><code class="language-none">mimikatz lsadump::dcsync &#x2F;domain:abc.com &#x2F;user:krbtgt</code></pre>
 
-<p><img src="/%5Cimages%5Cposts%5C%E6%A8%AA%E5%90%91%E7%A7%BB%E5%8A%A8%5Cimage-20241006142031694.png"></p>
+<p><img src="/images/posts/%E6%A8%AA%E5%90%91%E7%A7%BB%E5%8A%A8/image-20241006142031694.png"></p>
 <p>黄金票据制作方式</p>
 <p>1、impacket中的工具TICKETER(本工具是本地生的)</p>
 <pre class="language-none"><code class="language-none">ticketer -domain-sid [krbtgt的sid值] -nthash [krbtgt-hash] -domain 域名 伪造的用户
@@ -1309,7 +1309,7 @@ $SD.GetBinaryForm($SDBytes, 0);Get-DomainComputer [要攻击的用户]| Set-Doma
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">50k</span>
+                        class="white-color">50.3k</span>
             
             
             

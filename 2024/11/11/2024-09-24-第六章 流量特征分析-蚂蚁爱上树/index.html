@@ -293,14 +293,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    429
+                    477
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    2 分
                 </div>
                 
 
@@ -334,31 +334,31 @@
 
 <h1 id="解题"><a href="#解题" class="headerlink" title="解题"></a>解题</h1><h2 id="flag1"><a href="#flag1" class="headerlink" title="flag1"></a>flag1</h2><p><code>http</code>过滤http的流量</p>
 <p>一直访问了<code>action.php</code>,不过追踪后没发现攻击,在<code>onlineshop/product2.php</code>下看见shell代码</p>
-<p>![](\images\posts\第六章 流量特征分析-蚂蚁爱上树\image-20240924145858609.png)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;第六章 流量特征分析-蚂蚁爱上树&#x2F;image-20240924145858609.png)</p>
 <p>追踪流后发现是蚁剑连接的特征</p>
-<p>![](\images\posts\第六章 流量特征分析-蚂蚁爱上树\image-20240924145943396.png)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;第六章 流量特征分析-蚂蚁爱上树&#x2F;image-20240924145943396.png)</p>
 <p>搜索<code>product2.php</code>,解码base64编码内容</p>
-<p>![](\images\posts\第六章 流量特征分析-蚂蚁爱上树\image-20240924161514609.png)</p>
-<p>![](\images\posts\第六章 流量特征分析-蚂蚁爱上树\image-20240924161535500.png)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;第六章 流量特征分析-蚂蚁爱上树&#x2F;image-20240924161514609.png)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;第六章 流量特征分析-蚂蚁爱上树&#x2F;image-20240924161535500.png)</p>
 <p>flag{Password1}</p>
-<h2 id="flag2"><a href="#flag2" class="headerlink" title="flag2"></a>flag2</h2><p>![](\images\posts\第六章 流量特征分析-蚂蚁爱上树\image-20240924162613916.png)</p>
-<p>![](\images\posts\第六章 流量特征分析-蚂蚁爱上树\image-20240924162555571.png)</p>
+<h2 id="flag2"><a href="#flag2" class="headerlink" title="flag2"></a>flag2</h2><p>![](&#x2F;images&#x2F;posts&#x2F;第六章 流量特征分析-蚂蚁爱上树&#x2F;image-20240924162613916.png)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;第六章 流量特征分析-蚂蚁爱上树&#x2F;image-20240924162555571.png)</p>
 <p>会攻才会防<a target="_blank" rel="noopener" href="https://wiki.y1ng.org/0x2_%20%E5%A8%81%E8%83%81%E7%8B%A9%E7%8C%8E/2x8_%E5%87%AD%E8%AF%81%E8%8E%B7%E5%8F%96/T1003-win-%E4%BD%BF%E7%94%A8comsvc%E2%80%8B%E2%80%8Bs.dll%E8%BD%AC%E5%82%A8Lsass.exe%E5%86%85%E5%AD%98/">T1003-win-使用comsvcs.dll转储Lsass.exe内存</a></p>
-<p>![](\images\posts\第六章 流量特征分析-蚂蚁爱上树\image-20240924165459284.png)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;第六章 流量特征分析-蚂蚁爱上树&#x2F;image-20240924165459284.png)</p>
 <pre class="language-none"><code class="language-none">cd &#x2F;d &quot;C:\\phpStudy\\PHPTutorial\\WWW\\onlineshop&quot;&amp;rundll32.exe comsvcs.dll, MiniDump 852 C:\Temp\OnlineShopBackup.zip full&amp;echo [S]&amp;cd&amp;echo [E]</code></pre>
 
 <p>flag{852}</p>
 <h2 id="flag3"><a href="#flag3" class="headerlink" title="flag3"></a>flag3</h2><p>dmp文件通常较大</p>
-<p>![](\images\posts\第六章 流量特征分析-蚂蚁爱上树\image-20240924171005293.png)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;第六章 流量特征分析-蚂蚁爱上树&#x2F;image-20240924171005293.png)</p>
 <p><code>文件</code>-&gt;<code>导出对象</code>-&gt;<code>http</code></p>
-<p>![](\images\posts\第六章 流量特征分析-蚂蚁爱上树\image-20240924171148872.png)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;第六章 流量特征分析-蚂蚁爱上树&#x2F;image-20240924171148872.png)</p>
 <p>下载47MB的文件,这里dmp前缀多了几个字节,删除后再用<code>mimikatz</code>打开</p>
-<p>![](\images\posts\第六章 流量特征分析-蚂蚁爱上树\image-20240924171340812.png)</p>
-<p>![](\images\posts\第六章 流量特征分析-蚂蚁爱上树\image-20240924171532357.png)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;第六章 流量特征分析-蚂蚁爱上树&#x2F;image-20240924171340812.png)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;第六章 流量特征分析-蚂蚁爱上树&#x2F;image-20240924171532357.png)</p>
 <pre class="language-none"><code class="language-none">sekurlsa::minidump product2.dmp
 sekurlsa::logonpasswords</code></pre>
 
-<p>![](\images\posts\第六章 流量特征分析-蚂蚁爱上树\image-20240924171828203.png)</p>
+<p>![](&#x2F;images&#x2F;posts&#x2F;第六章 流量特征分析-蚂蚁爱上树&#x2F;image-20240924171828203.png)</p>
 <p><a target="_blank" rel="noopener" href="https://www.somd5.com/">MD5解密</a>解密</p>
 <p>flag{admin#123}</p>
 
@@ -748,7 +748,7 @@ sekurlsa::logonpasswords</code></pre>
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">50k</span>
+                        class="white-color">50.3k</span>
             
             
             

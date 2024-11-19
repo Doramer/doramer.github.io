@@ -236,7 +236,7 @@
         <div class="brand">
             <div class="title center-align">
                 
-                    subtitle
+                    Doramer
                 
             </div>
 
@@ -612,25 +612,22 @@ public int compare(final I obj1,
              <!-- 隐藏某个文章 -->
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/Commons-Collection%20CC1%E9%93%BE/">
+                    <a href="/Commons-Collection%20CC3%E9%93%BE/">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="Commons-Collection CC1链">
+                            <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="Commons-Collection CC3链">
                             
-                            <span class="card-title">Commons-Collection CC1链</span>
+                            <span class="card-title">Commons-Collection CC3链</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                链分析入口点是transformer接口
-public interface Transformer &#123;
-    public Object transform(Object input);
-&#125;
-
-查找实现类，找到Invo
+                                链分析：CC3是利用动态类加载执行任意代码。
+利用点是defineClass方法。defineClass调用newInstance 进行初始化执行任意代码
+一般defineClass都是 protected类型的，要调用defineClas
                             
                         </div>
                         <div class="publish-info">
@@ -666,22 +663,25 @@ public interface Transformer &#123;
              <!-- 隐藏某个文章 -->
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/Commons-Collection%20CC3%E9%93%BE/">
+                    <a href="/Commons-Collection%20CC1%E9%93%BE/">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="Commons-Collection CC3链">
+                            <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="Commons-Collection CC1链">
                             
-                            <span class="card-title">Commons-Collection CC3链</span>
+                            <span class="card-title">Commons-Collection CC1链</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                链分析：CC3是利用动态类加载执行任意代码。
-利用点是defineClass方法。defineClass调用newInstance 进行初始化执行任意代码
-一般defineClass都是 protected类型的，要调用defineClas
+                                链分析入口点是transformer接口
+public interface Transformer &#123;
+    public Object transform(Object input);
+&#125;
+
+查找实现类，找到Invo
                             
                         </div>
                         <div class="publish-info">
@@ -972,10 +972,6 @@ nmap -sP 192.168.235.0/24
 
 
 
-
-    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
-        <i class="fas fa-rss"></i>
-    </a>
 
 </div>
     </div>

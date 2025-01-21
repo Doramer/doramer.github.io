@@ -20,7 +20,7 @@
       
         <tags>
             
-            <tag> 靶场 </tag>
+            <tag> 靶场渗透 </tag>
             
         </tags>
       
@@ -721,31 +721,6 @@
         <tags>
             
             <tag> 应急响应 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>穗港澳蓉技能竞赛A模块2.3</title>
-      <link href="/%E7%A9%97%E6%B8%AF%E6%BE%B3%E8%93%89%E6%8A%80%E8%83%BD%E7%AB%9E%E8%B5%9BA%E6%A8%A1%E5%9D%972.3/"/>
-      <url>/%E7%A9%97%E6%B8%AF%E6%BE%B3%E8%93%89%E6%8A%80%E8%83%BD%E7%AB%9E%E8%B5%9BA%E6%A8%A1%E5%9D%972.3/</url>
-      
-        <content type="html"><![CDATA[<h1 id="要求"><a href="#要求" class="headerlink" title="要求"></a>要求</h1><p><img src="/images/posts/%E7%A9%97%E6%B8%AF%E6%BE%B3%E8%93%89%E6%8A%80%E8%83%BD%E7%AB%9E%E8%B5%9BA%E6%A8%A1%E5%9D%972.3/b56363dbdc3da13771bad6a58d318867.png"></p><h1 id="解题"><a href="#解题" class="headerlink" title="解题"></a>解题</h1><h2 id="问题一"><a href="#问题一" class="headerlink" title="问题一:"></a>问题一:</h2><p><strong>第一步:配置SSL证书</strong></p><p>用OpenSSL创建自签名密钥和证书对</p><pre class="language-none"><code class="language-none">sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout &#x2F;etc&#x2F;ssl&#x2F;private&#x2F;apache-selfsigned.key -out &#x2F;etc&#x2F;ssl&#x2F;certs&#x2F;apache-selfsigned.crt</code></pre><blockquote><ul><li><strong>openssl</strong>：这是用于创建和管理OpenSSL证书，密钥和其他文件的基本命令行工具。</li><li><strong>req</strong>：此子命令指定我们要使用X.509证书签名请求（CSR）管理。“X.509”是SSL和TLS为其密钥和证书管理所遵循的公钥基础结构标准。因为我们想要创建一个新的X.509证书，所以我们使用这个子命令。</li><li><strong>-x509</strong>：这通过告诉实用程序我们要创建自签名证书而不是生成证书签名请求来进一步修改上一个子命令。</li><li><strong>-nodes</strong>：这告诉OpenSSL跳过用密码保护我们的证书的选项。我们需要Apache在服务器启动时能够在没有用户干预的情况下读取文件。</li><li><strong>-days 365</strong>：此选项设置证书有效的时间长度。我们在这里设置了一年。</li><li><strong>-newkey rsa:2048</strong>：这指定我们要同时生成新证书和新密钥。我们没有创建在上一步中签署证书所需的密钥，因此我们需要将其与证书一起创建。<code>rsa:2048</code>部分告诉它制作一个2048位长的RSA密钥。</li><li><strong>-keyout</strong>：这一行告诉OpenSSL在哪里放置我们正在创建的生成的私钥文件。</li><li><strong>-out</strong>：这告诉OpenSSL在哪里放置我们正在创建的证书。</li></ul></blockquote><p><strong>第二步:配置Apache以使用SSL</strong></p><p><code>修改默认Apache SSL配置文件文件</code></p><pre class="language-none"><code class="language-none">vim &#x2F;etc&#x2F;apache2&#x2F;sites-enabled&#x2F;default-ssl.conf</code></pre><p><img src="/images/posts/%E7%A9%97%E6%B8%AF%E6%BE%B3%E8%93%89%E6%8A%80%E8%83%BD%E7%AB%9E%E8%B5%9BA%E6%A8%A1%E5%9D%972.3/1726748067198.jpg"></p><p>这两行改成证书的位置</p><pre class="language-none"><code class="language-none">SSLCertificateFile       &#x2F;etc&#x2F;ssl&#x2F;certs&#x2F;apache-selfsigned.crtSSLCertificateKeyFile  &#x2F;etc&#x2F;ssl&#x2F;private&#x2F;apache-selfsigned.key</code></pre><p><strong>第三步:修改HTTP主机文件以重定向到HTTPS</strong></p><pre class="language-none"><code class="language-none">vim &#x2F;etc&#x2F;apache2&#x2F;sites-enabled&#x2F;000-default.conf</code></pre><p>添加Redirect指令,<code>Redirect &quot;/&quot; &quot;https://192.168.235.130&quot;</code>,将所有流量指向站点的SSL</p><p><strong>启用Apache并生效更改</strong></p><pre class="language-none"><code class="language-none">a2enmod ssla2ensite default-ssla2enconf ssl-paramsapache2ctl configtestsystemctl restart apache2</code></pre><h2 id="问题二"><a href="#问题二" class="headerlink" title="问题二"></a>问题二</h2><pre class="language-none"><code class="language-none">vim &#x2F;etc&#x2F;apache2&#x2F;apache2.conf</code></pre><p>把<code>Options Indexes FollowSymLinks</code>换成<code>Options -Indexes +FollowSymLinks</code>或者直接删掉<code>Indexes </code></p><h2 id="问题三"><a href="#问题三" class="headerlink" title="问题三"></a>问题三</h2><pre class="language-none"><code class="language-none">vim &#x2F;etc&#x2F;apache2&#x2F;apache2.conf</code></pre><p>在底部添加</p><pre class="language-none"><code class="language-none">ServerTokens ProdServerSignature off</code></pre><h2 id="问题四"><a href="#问题四" class="headerlink" title="问题四"></a>问题四</h2><pre class="language-none"><code class="language-none">vim &#x2F;etc&#x2F;vsftpd.conf </code></pre><p><code>ssl_enable=YES</code>修改成YES</p><h2 id="问题五"><a href="#问题五" class="headerlink" title="问题五"></a>问题五</h2><pre class="language-none"><code class="language-none">vim &#x2F;etc&#x2F;vsftpd.conf</code></pre><p><code>anonymos_enable=NO</code>修改成NO</p><h2 id="问题六"><a href="#问题六" class="headerlink" title="问题六"></a>问题六</h2><pre class="language-none"><code class="language-none">vim &#x2F;etc&#x2F;ssh&#x2F;sshd_config</code></pre><p>把<code>PermitRootLogin no</code>yes改成no</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 运维 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 运维 </tag>
             
         </tags>
       

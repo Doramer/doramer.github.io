@@ -316,7 +316,7 @@ void ">
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.2k
+                    1.3k
                 </div>
                 
 
@@ -602,27 +602,27 @@ int main()
 	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span></code></pre>
 
-<h1 id="预处理器"><a href="#预处理器" class="headerlink" title="预处理器"></a>预处理器</h1><pre class="language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name function">Number</span><span class="token expression"><span class="token punctuation">(</span>X<span class="token punctuation">)</span> <span class="token function">printf</span><span class="token punctuation">(</span></span><span class="token string">"This is %d\n"</span><span class="token expression"><span class="token punctuation">,</span>X<span class="token punctuation">)</span></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name function">Re</span><span class="token expression"><span class="token punctuation">(</span>X<span class="token punctuation">)</span> X<span class="token operator">*</span>X</span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">root</span> <span class="token expression"><span class="token number">2</span></span></span>
+<h1 id="预处理器"><a href="#预处理器" class="headerlink" title="预处理器"></a>预处理器</h1><pre class="language-hhc" data-language="hhc"><code class="language-hhc">#define Number(X) printf(&quot;This is %d\n&quot;,X)
+#define Re(X) X*X
+#define root 2
 
-<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-	<span class="token keyword">int</span> a <span class="token operator">=</span> <span class="token function">Re</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-	<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d\n"</span><span class="token punctuation">,</span> a<span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//25</span>
+int main()
+&#123;
+	int a &#x3D; Re(5);
+	printf(&quot;%d\n&quot;, a);   &#x2F;&#x2F;25
 
-	<span class="token function">Number</span><span class="token punctuation">(</span><span class="token number">12</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//This is 12</span>
+	Number(12);  &#x2F;&#x2F;This is 12
 
-<span class="token comment">// #ifdef Number   //判断是否定义宏Number</span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">if</span> <span class="token expression">root <span class="token operator">==</span> <span class="token number">1</span></span></span>
-	<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"the root = 1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">elif</span> <span class="token expression">root <span class="token operator">==</span> <span class="token number">2</span></span></span>
-	<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"the root = 2"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//2</span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">elif</span></span>
-	<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"the not root"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span> <span class="token comment">// root</span></span>
-	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span>
+&#x2F;&#x2F; #ifdef Number   &#x2F;&#x2F;判断是否定义宏Number
+#if root &#x3D;&#x3D; 1
+	printf(&quot;the root &#x3D; 1&quot;);
+#elif root &#x3D;&#x3D; 2
+	printf(&quot;the root &#x3D; 2&quot;);   &#x2F;&#x2F;2
+#elif
+	printf(&quot;the not root&quot;);
+#endif &#x2F;&#x2F; root
+	return 0;
+&#125;
 </code></pre>
 
                 
@@ -788,13 +788,13 @@ int main()
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/%E6%B1%87%E7%BC%96%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/">
+                <a href="/SQL%E6%B3%A8%E5%85%A5WAF%E7%BB%95%E8%BF%87/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="汇编学习">
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="SQL注入WAF绕过">
                         
-                        <span class="card-title">汇编学习</span>
+                        <span class="card-title">SQL注入WAF绕过</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -805,7 +805,7 @@ int main()
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2024-10-28
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-10-31
                             </span>
                         <span class="publish-author">
                             
@@ -822,8 +822,8 @@ int main()
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E6%B1%87%E7%BC%96/">
-                        <span class="chip bg-color">汇编</span>
+                    <a href="/tags/C/">
+                        <span class="chip bg-color">C++</span>
                     </a>
                     
                 </div>
@@ -1019,7 +1019,7 @@ int main()
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">64.4k</span>
+                        class="white-color">67.6k</span>
             
             
             
